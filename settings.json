@@ -1,0 +1,117 @@
+{
+  "terminal.integrated.tabs.location": "left",
+  "explorer.confirmDelete": false,
+  "files.autoSave": "onFocusChange",
+  "editor.fontLigatures": false,
+  "zenMode.hideLineNumbers": false,
+  "zenMode.centerLayout": false,
+  "vsicons.dontShowNewVersionMessage": false,
+  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "editor.fontWeight": "normal",
+  "editor.minimap.autohide": true,
+  "explorer.confirmDragAndDrop": false,
+  "editor.unicodeHighlight.includeComments": true,
+  "workbench.colorCustomizations": {
+    "[Noctis Minimus]": {
+      "statusBar.background": "#046fc7",
+      "statusBar.foreground": "#ece8e8",
+      "editor.selectionBackground": "#ff84d634",
+      // "editor.selectionHighlightBorder": "#ffffffc2",
+     "editor.selectionHighlightBackground": "#ffffff2d"
+    },
+    "[Gruvbox Dark Hard]": {
+      "editorSuggestWidget.background": "#221a05",
+      "editorSuggestWidget.selectedBackground": "#ebb4332c",
+    },
+  },
+  "editor.tokenColorCustomizations": {
+    "[Noctis Minimus]": {
+      "comments": "#4db2ec",
+      // "comments": "#d6d6d6e5",
+      "numbers": "#5096ff",
+      "keywords": {
+        "fontStyle": "italic"
+      }
+    }
+  },
+  "editor.semanticTokenColorCustomizations": {
+    "[Noctis Minimus]": {
+      "enabled": true,
+      "rules": {
+        "class": "#e5c07b",
+        "parameter": {
+          "foreground": "#f09383d5",
+          "fontStyle": "italic"
+        },
+        "*.decorator": "#46a1ecd7",
+      }
+    },
+    "[Gruvbox Dark Hard]": {
+      "enabled": true,
+      "rules":{
+        "decorator": "#d79921",
+        "parameter": {
+          "foreground": "#ff0000",
+        },
+        "variable": "#d1c5a7"
+      }
+    },
+},
+
+
+  "explorer.sortOrder": "type",
+  "terminal.integrated.gpuAcceleration": "auto",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "off",
+  "vsicons.presets.jsonOfficial": true,
+  "editor.linkedEditing": true,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.layoutControl.enabled": false,
+  "glassit.alpha": 240,
+  "python.defaultInterpreterPath": "C:\\Users\\HP\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+  "liveServer.settings.donotVerifyTags": true,
+  "css.completion.completePropertyWithSemicolon": false,
+  "terminal.integrated.cursorBlinking": true,
+  "prettier.semi": false,
+  "emmet.excludeLanguages": [
+    "markdown",
+    "css"
+  ],
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "editor.fontSize": 15,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python",
+    "editor.formatOnType": true
+  },
+  "python.formatting.provider": "black",
+  "errorLens.enabledDiagnosticLevels": [
+    "warning",
+    "info",
+    "hint"
+  ],
+  "errorLens.enabled": true,
+  "comments.useRelativeTime": false,
+  "workbench.activityBar.visible": true,
+  "http.proxyAuthorization": null,
+  "terminal.integrated.fontSize": 12,
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.cursorStyle": "block",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "gruvboxMaterial.darkCursor": "orange",
+  "gruvboxMaterial.darkSelection": "orange",
+  "gruvboxMaterial.italicKeywords": true,
+  "gruvboxMaterial.darkContrast": "hard",
+  "files.insertFinalNewline": true,
+  "python.formatting.blackPath": "C\\Users\\HP\\AppData\\Local\\Programs\\Python\\Python310\\Scripts\\black",
+  "gruvboxMaterial.darkPalette": "original",
+  "gruvboxMaterial.darkWorkbench": "flat",
+  "editor.minimap.enabled": false,
+  "vim.smartRelativeLine": true,
+  "editor.cursorSurroundingLines": 7,
+  "vim.cursorStylePerMode.insert": "line",
+  "vim.useSystemClipboard": true,
+  "vim.useCtrlKeys": false,
+  "window.menuBarVisibility": "compact"
+}
