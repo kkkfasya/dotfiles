@@ -1,8 +1,10 @@
-call plug#begin('~/AppData/Local/nvim/plugged')
+call plug#begin()
 
+Plug 'morhetz/gruvbox'
 Plug 'windwp/nvim-autopairs'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/AutoComplPop'
+Plug 'ThePrimeagen/vim-be-good'
 
 call plug#end()
 
@@ -23,12 +25,20 @@ aunmenu PopUp.-1-
 :colorscheme gruvbox
 let g:gruvbox_contrast_dark='hard'
 
+set so=7
 set complete+=kspell
 set completeopt+=menuone,longest
 set completeopt+=noinsert
 let g:mucomplete#completion_delay = 1
 
 set number relativenumber
+autocmd InsertLeave * :set number relativenumber
+autocmd InsertEnter * :set number norelativenumber
+
+set smartcase
+au InsertEnter * set ignorecase
+au InsertLeave * set ignorecase
+
 set mouse=a
 set autoindent
 set expandtab
@@ -37,5 +47,5 @@ set shiftwidth=4
 set encoding=UTF-8
 set background=dark
 
-
+:au FocusLost * :w
 

@@ -5,13 +5,15 @@
 # If not running interactively, don't do anything
 
 ###
-alias ffd='cd "$(fdfind . $HOME | fzf)"'
+alias ffd='cd "$(fdfind -t d . $HOME | fzf)"'
 alias eb='nvim ~/.bashrc'
 alias sb='source ~/.bashrc'
 alias c='clear'
 alias ytdl='youtube-dl'
 alias eiv='nvim ~/.config/nvim/init.vim'
 alias clipb='xsel -i -b'
+alias vim='nvim'
+alias shut='shutdown now'
 # export FZF_DEFAULT_COMMAND="fdfind . $HOME"
 ###
 
