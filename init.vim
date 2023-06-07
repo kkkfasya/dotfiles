@@ -1,10 +1,11 @@
 call plug#begin()
 
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'morhetz/gruvbox'
-Plug 'windwp/nvim-autopairs'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/AutoComplPop'
 Plug 'ThePrimeagen/vim-be-good'
+"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
 
@@ -36,8 +37,8 @@ autocmd InsertLeave * :set number relativenumber
 autocmd InsertEnter * :set number norelativenumber
 
 set smartcase
-au InsertEnter * set ignorecase
-au InsertLeave * set ignorecase
+au InsertEnter * set noic 
+au InsertLeave * set noic
 
 set mouse=a
 set autoindent
@@ -46,6 +47,14 @@ set tabstop=4
 set shiftwidth=4
 set encoding=UTF-8
 set background=dark
+set noshowmode
 
-:au FocusLost * :w
+au FocusLost * :w
+
+lua << END
+
+require('lualine').setup()
+options = { theme = 'gruvbox' }
+
+END
 
