@@ -5,7 +5,6 @@ Plug 'morhetz/gruvbox'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/AutoComplPop'
 Plug 'ThePrimeagen/vim-be-good'
-"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
 
