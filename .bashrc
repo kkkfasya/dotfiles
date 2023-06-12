@@ -3,20 +3,28 @@
 # for examples
 # 90l
 # If not running interactively, don't do anything
-
 ###
 alias ffd='cd "$(fdfind -t d . $HOME | fzf)"'
+alias qd='cd "$(fdfind -t d . | fzf)"'
 alias eb='nvim ~/.bashrc'
 alias sb='source ~/.bashrc'
 alias c='clear'
 alias ytdl='youtube-dl'
 alias eiv='nvim ~/.config/nvim/init.vim'
 alias clipb='xsel -i -b'
-alias vim='nvim'
 alias shut='shutdown now'
+alias nvim='~/./nvim.appimage'
+alias vim='nvim'
+alias virtualenv='python3 -m virtualenv'
+alias ocd='cd "$OLDPWD"'
+alias getpwd='pwd | clipb'
+alias todo='brisqi'
 # export FZF_DEFAULT_COMMAND="fdfind . $HOME"
-###
 
+
+###
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig
+###
 
 case $- in
     *i*) ;;
@@ -72,7 +80,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[[01;32m\]\u@\h\[[00m\]:\[[01;34m\]\w\[[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -81,7 +89,7 @@ unset color_prompt force_color_prompt
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    PS1="\[]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\]$PS1"
     ;;
 *)
     ;;
@@ -131,3 +139,4 @@ if ! shopt -oq posix; then
   fi
 fi
 [ -r /home/fasya/.byobu/prompt ] && . /home/fasya/.byobu/prompt   #byobu-prompt#
+
