@@ -3,6 +3,7 @@
 # for examples
 # 90l
 # If not running interactively, don't do anything
+# exec fish
 ###
 alias ffd='cd "$(fdfind -t d . $HOME | fzf)"'
 alias qd='cd "$(fdfind -t d . | fzf)"'
@@ -17,12 +18,11 @@ alias nvim='~/./nvim.appimage'
 alias vim='nvim'
 alias virtualenv='python3 -m virtualenv'
 alias ocd='cd "$OLDPWD"'
-alias getpwd='pwd | clipb'
 alias todo='brisqi'
+alias ded='~/ded/./ded'
+alias lspconf='nvim /home/fasya/.config/nvim/lua/custom/configs/lspconfig.lua'
+alias fixme='~/./fixme'
 # export FZF_DEFAULT_COMMAND="fdfind . $HOME"
-
-
-###
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig
 ###
 
@@ -111,7 +111,7 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more aliases
-alias ll='ls -alF'
+alias ll='ls -alF -h'
 alias la='ls -A'
 alias l='ls -CF'
 
