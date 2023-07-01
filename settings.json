@@ -49,11 +49,11 @@
     "[Gruvbox Dark Hard]": {
       "enabled": true,
       "rules":{
-        "decorator": "#d79921",
         "parameter": {
-          "foreground": "#ff0000",
+          "foreground": "#d65e0e",
+          "fontStyle": "bold",
         },
-        "variable": "#d1c5a7"
+        "variable": "#fbf1c7da"
       }
     },
 },
@@ -80,7 +80,6 @@
     "css"
   ],
   "terminal.integrated.defaultProfile.windows": "Git Bash",
-  "editor.fontSize": 15,
   "[python]": {
     "editor.defaultFormatter": "ms-python.python",
     "editor.formatOnType": true
@@ -93,12 +92,10 @@
   ],
   "errorLens.enabled": true,
   "comments.useRelativeTime": false,
-  "workbench.activityBar.visible": true,
   "http.proxyAuthorization": null,
   "terminal.integrated.fontSize": 12,
   "workbench.iconTheme": "material-icon-theme",
   "editor.cursorStyle": "block",
-  "workbench.colorTheme": "Gruvbox Dark Hard",
   "gruvboxMaterial.darkCursor": "orange",
   "gruvboxMaterial.darkSelection": "orange",
   "gruvboxMaterial.italicKeywords": true,
@@ -112,6 +109,20 @@
   "editor.cursorSurroundingLines": 7,
   "vim.cursorStylePerMode.insert": "line",
   "vim.useSystemClipboard": true,
-  "vim.useCtrlKeys": false,
-  "window.menuBarVisibility": "compact"
+  "window.menuBarVisibility": "toggle",
+  "keyboard.dispatch": "keyCode",
+  "vim.highlightedyank.enable": true,
+  "editor.bracketPairColorization.enabled": false,
+  "editor.guides.bracketPairs": "active",
+  "code-runner.saveFileBeforeRun": true,
+  "code-runner.enableAppInsights": false,
+  "code-runner.clearPreviousOutput": true,
+  "workbench.colorCustomizations":{
+    "editorLineNumber.foreground": "#f3e2e2e3",
+  },
+  "breadcrumbs.enabled": false,
+  "javascript.format.semicolons": "insert",
+  "typescript.format.semicolons": "insert",
+  "workbench.colorTheme": "Gruvbox Dark Hard"
 }
+
