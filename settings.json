@@ -66,7 +66,7 @@
   "vsicons.presets.jsonOfficial": true,
   "editor.linkedEditing": true,
   "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.html-language-features"
   },
   "workbench.layoutControl.enabled": false,
   "glassit.alpha": 240,
@@ -94,8 +94,6 @@
   "comments.useRelativeTime": false,
   "http.proxyAuthorization": null,
   "terminal.integrated.fontSize": 12,
-  "workbench.iconTheme": "material-icon-theme",
-  "editor.cursorStyle": "block",
   "gruvboxMaterial.darkCursor": "orange",
   "gruvboxMaterial.darkSelection": "orange",
   "gruvboxMaterial.italicKeywords": true,
@@ -107,9 +105,7 @@
   "editor.minimap.enabled": false,
   "vim.smartRelativeLine": true,
   "editor.cursorSurroundingLines": 7,
-  "vim.cursorStylePerMode.insert": "line",
   "vim.useSystemClipboard": true,
-  "window.menuBarVisibility": "toggle",
   "keyboard.dispatch": "keyCode",
   "vim.highlightedyank.enable": true,
   "editor.bracketPairColorization.enabled": false,
@@ -120,9 +116,15 @@
   "workbench.colorCustomizations":{
     "editorLineNumber.foreground": "#f3e2e2e3",
   },
-  "breadcrumbs.enabled": false,
-  "javascript.format.semicolons": "insert",
-  "typescript.format.semicolons": "insert",
-  "workbench.colorTheme": "Gruvbox Dark Hard"
+  "telemetry.telemetryLevel": "off",
+  "window.menuBarVisibility": "toggle",
+  "editor.cursorBlinking": "solid",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "vim.cursorStylePerMode.insert": "line",
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "code-runner.runInTerminal": true,
+  "editor.smoothScrolling": true
 }
 
