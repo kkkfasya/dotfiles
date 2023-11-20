@@ -70,11 +70,9 @@
   },
   "workbench.layoutControl.enabled": false,
   "glassit.alpha": 240,
-  "python.defaultInterpreterPath": "C:\\Users\\HP\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
   "liveServer.settings.donotVerifyTags": true,
   "css.completion.completePropertyWithSemicolon": false,
   "terminal.integrated.cursorBlinking": true,
-  "prettier.semi": false,
   "emmet.excludeLanguages": [
     "markdown",
     "css"
@@ -88,9 +86,9 @@
   "errorLens.enabledDiagnosticLevels": [
     "warning",
     "info",
-    "hint"
+    "hint",
+    "error"
   ],
-  "errorLens.enabled": true,
   "comments.useRelativeTime": false,
   "http.proxyAuthorization": null,
   "terminal.integrated.fontSize": 12,
@@ -99,7 +97,6 @@
   "gruvboxMaterial.italicKeywords": true,
   "gruvboxMaterial.darkContrast": "hard",
   "files.insertFinalNewline": true,
-  "python.formatting.blackPath": "C\\Users\\HP\\AppData\\Local\\Programs\\Python\\Python310\\Scripts\\black",
   "gruvboxMaterial.darkPalette": "original",
   "gruvboxMaterial.darkWorkbench": "flat",
   "editor.minimap.enabled": false,
@@ -125,6 +122,15 @@
     "strings": "on"
   },
   "code-runner.runInTerminal": true,
-  "editor.smoothScrolling": true
+  "editor.smoothScrolling": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "quokka.compactMessageOutput": false,
+  "quokka.showOutputOnStart": false,
+  "prettier.tabWidth": 4,
+  "editor.suggestSelection": "recentlyUsed",
+  "javascript.suggestionActions.enabled": false,
+  "javascript.format.insertSpaceAfterSemicolonInForStatements": false,
+  "editor.acceptSuggestionOnCommitCharacter": false
 }
-
