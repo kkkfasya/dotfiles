@@ -12,6 +12,7 @@
   "explorer.confirmDragAndDrop": false,
   "editor.unicodeHighlight.includeComments": true,
   "workbench.colorCustomizations": {
+    "editorLineNumber.foreground": "#f3e2e2e3",
     "[Noctis Minimus]": {
       "statusBar.background": "#046fc7",
       "statusBar.foreground": "#ece8e8",
@@ -51,7 +52,7 @@
       "rules":{
         "parameter": {
           "foreground": "#d65e0e",
-          "fontStyle": "bold",
+          "fontStyle": "italic",
         },
         "variable": "#fbf1c7da"
       }
@@ -69,7 +70,7 @@
     "editor.defaultFormatter": "vscode.html-language-features"
   },
   "workbench.layoutControl.enabled": false,
-  "glassit.alpha": 240,
+  "glassit.alpha": 245,
   "liveServer.settings.donotVerifyTags": true,
   "css.completion.completePropertyWithSemicolon": false,
   "terminal.integrated.cursorBlinking": true,
@@ -92,14 +93,10 @@
   "comments.useRelativeTime": false,
   "http.proxyAuthorization": null,
   "terminal.integrated.fontSize": 12,
-  "gruvboxMaterial.darkCursor": "orange",
-  "gruvboxMaterial.darkSelection": "orange",
   "gruvboxMaterial.italicKeywords": true,
-  "gruvboxMaterial.darkContrast": "hard",
   "files.insertFinalNewline": true,
   "gruvboxMaterial.darkPalette": "original",
   "gruvboxMaterial.darkWorkbench": "flat",
-  "editor.minimap.enabled": false,
   "vim.smartRelativeLine": true,
   "editor.cursorSurroundingLines": 7,
   "vim.useSystemClipboard": true,
@@ -110,9 +107,6 @@
   "code-runner.saveFileBeforeRun": true,
   "code-runner.enableAppInsights": false,
   "code-runner.clearPreviousOutput": true,
-  "workbench.colorCustomizations":{
-    "editorLineNumber.foreground": "#f3e2e2e3",
-  },
   "telemetry.telemetryLevel": "off",
   "window.menuBarVisibility": "toggle",
   "editor.cursorBlinking": "solid",
@@ -132,5 +126,7 @@
   "editor.suggestSelection": "recentlyUsed",
   "javascript.suggestionActions.enabled": false,
   "javascript.format.insertSpaceAfterSemicolonInForStatements": false,
-  "editor.acceptSuggestionOnCommitCharacter": false
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "editor.minimap.enabled": false
 }
+
