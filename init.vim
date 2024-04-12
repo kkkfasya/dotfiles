@@ -5,6 +5,8 @@ Plug 'morhetz/gruvbox'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/AutoComplPop'
 Plug 'ThePrimeagen/vim-be-good'
+Plug 'xiyaowong/transparent.nvim'
+Plug 'fkys/timelapse.nvim' " my own plugin!!!
 
 call plug#end()
 
@@ -43,6 +45,7 @@ autocmd InsertEnter * :set number norelativenumber
 set smartcase
 au InsertEnter * set noic
 au InsertLeave * set noic
+au FocusLost * :w
 
 set mouse=a
 set tabstop=4
@@ -56,13 +59,9 @@ set noshowmode
 set title
 set noswapfile
 
-au FocusLost * :w
-
-
 lua << END
 
 require('lualine').setup()
 options = { theme = 'gruvbox' }
 
 END
-
