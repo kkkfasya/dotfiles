@@ -7,8 +7,13 @@ Plug 'vim-scripts/AutoComplPop'
 Plug 'ThePrimeagen/vim-be-good'
 Plug 'xiyaowong/transparent.nvim'
 Plug 'fkys/timelapse.nvim' " my own plugin!!!
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 call plug#end()
+
+let g:VM_maps = {}
+let g:VM_maps['Find Under'] = '<C-d>'
+let g:VM_maps['Find Subword Under'] = '<C-d>'
 
 nnoremap <silent> <C-Left> :vertical resize -3<CR>
 nnoremap <silent> <C-Right> :vertical resize +3<CR>
