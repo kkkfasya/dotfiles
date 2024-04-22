@@ -23,6 +23,7 @@
     "[Gruvbox Dark Hard]": {
       "editorSuggestWidget.background": "#221a05",
       "editorSuggestWidget.selectedBackground": "#ebb4332c",
+      "editorLineNumber.foreground": "#C6C6C6"
     },
   },
   "editor.tokenColorCustomizations": {
