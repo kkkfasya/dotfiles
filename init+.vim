@@ -1,7 +1,7 @@
+set expandtab sw=4 ts=4
+
 call plug#begin()
-
 Plug 'neovim/nvim-lspconfig'
-
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -12,13 +12,11 @@ Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 
 Plug 'nvim-lualine/lualine.nvim'
-" Plug 'morhetz/gruvbox'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'jiangmiao/auto-pairs'
-Plug 'ThePrimeagen/vim-be-good'
-Plug 'xiyaowong/transparent.nvim'
 Plug 'fkys/timelapse.nvim' " my own plugin!!!
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'akinsho/toggleterm.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.6' }
@@ -37,6 +35,11 @@ call plug#end()
 let g:VM_maps = {}
 let g:VM_maps['Find Under'] = '<C-d>'
 let g:VM_maps['Find Subword Under'] = '<C-d>'
+
+autocmd TermEnter term://*toggleterm#*
+      \ tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
 
 nnoremap <silent> <C-Left> :vertical resize -3<CR>
 nnoremap <silent> <C-Right> :vertical resize +3<CR>
@@ -74,13 +77,9 @@ au FocusLost * :w
 set undodir=~/.nvim_undodir
 set undofile
 
+set expandtab sw=4 ts=4
+
 set mouse=a
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
-set smarttab
-set autoindent
 set encoding=UTF-8
 set background=dark
 set noshowmode
@@ -124,6 +123,10 @@ require("lspconfig").lua_ls.setup{
   capabilities = capabilities
 }
 require("lspconfig").clangd.setup{
+  capabilities = capabilities
+}
+
+require("lspconfig").pyright.setup{
   capabilities = capabilities
 }
 
@@ -236,6 +239,53 @@ require("gruvbox").setup({
 })
 vim.cmd("colorscheme gruvbox")
 
+
+require("toggleterm").setup{
+  -- size can be a number or function which is passed the current terminal
+  size = 15,
+  highlights = {
+    -- highlights which map to a highlight group name and a table of it's values
+    -- NOTE: this is only a subset of values, any group placed here will be set for the terminal window split
+    Normal = {
+      link = 'Normal'
+    },
+    NormalFloat = {
+      link = 'Normal'
+    },
+  },
+  shade_terminals = true, -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
+  start_in_insert = true,
+  insert_mappings = true, -- whether or not the open mapping applies in insert mode
+  terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
+  persist_size = true,
+  persist_mode = true, -- if set to true (default) the previous terminal mode will be remembered
+  direction = 'horizontal',
+  close_on_exit = true, -- close the terminal window when the process exits
+  shell = vim.o.shell,
+  auto_scroll = true, -- automatically scroll to the bottom on terminal output
+  -- This field is only relevant if direction is set to 'float'
+  float_opts = {
+    -- The border key is *almost* the same as 'nvim_open_win'
+    -- see :h nvim_open_win for details on borders however
+    -- the 'curved' border is a custom border type
+    -- not natively supported but implemented in this plugin.
+    border = 'curved',
+    -- like `size`, width, height, row, and col can be a number or function which is passed the current terminal
+   --  width = <value>,
+   --  height = <value>,
+   --  row = <value>,
+   --  col = <value>,
+    winblend = 3,
+    zindex = 1,
+    title_pos = 'left',
+  },
+  winbar = {
+    enabled = false,
+    name_formatter = function(term) --  term: Terminal
+      return term.name
+    end
+  },
+}
 
 END
 
