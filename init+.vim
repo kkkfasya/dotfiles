@@ -1,4 +1,4 @@
-set expandtab sw=4 ts=4
+bufdo set expandtab sw=4 ts=4
 
 call plug#begin()
 Plug 'neovim/nvim-lspconfig'
@@ -7,6 +7,7 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'folke/trouble.nvim'
 
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
@@ -16,19 +17,22 @@ Plug 'ellisonleao/gruvbox.nvim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'fkys/timelapse.nvim' " my own plugin!!!
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
 Plug 'akinsho/toggleterm.nvim'
+Plug 'akinsho/bufferline.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.6' }
-" or                                , { 'branch': '0.1.x' }
+
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons'
-Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+Plug 'rmagatti/goto-preview'
 
 call plug#end()
 
@@ -41,8 +45,8 @@ autocmd TermEnter term://*toggleterm#*
 nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
 inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
 
-nnoremap <silent> <C-Left> :vertical resize -3<CR>
-nnoremap <silent> <C-Right> :vertical resize +3<CR>
+nnoremap <silent> <C-Left> :vertical resize +3<CR>
+nnoremap <silent> <C-Right> :vertical resize -3<CR>
 nnoremap <silent> <C-Up> :resize -3<CR>
 nnoremap <silent> <C-Down> :resize +3<CR>
 
@@ -54,10 +58,14 @@ inoremap ' ''<Esc>ha
 inoremap ` ``<Esc>ha
 inoremap */ /**/<Esc>hha
 
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
+
 set clipboard+=unnamedplus
 aunmenu PopUp.How-to\ disable\ mouse
 aunmenu PopUp.-1-
-
 " colorscheme gruvbox
 " let g:gruvbox_contrast_dark='hard'
 
@@ -72,10 +80,12 @@ autocmd InsertEnter * :set number norelativenumber
 
 "au InsertEnter * set noic
 "au InsertLeave * set noic
-au FocusLost * :w
-
+au FocusLost * silent! wall
+au BufLeave * silent! wall
+au BufWinEnter,WinEnter term://* startinsert
 set undodir=~/.nvim_undodir
 set undofile
+set autowriteall
 
 set expandtab sw=4 ts=4
 
@@ -93,24 +103,63 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- Others
-require("bufferline").setup{}
+
+require('bufferline').setup{}
 require('lualine').setup{
   options = { theme = 'gruvbox' }
 }
+require('goto-preview').setup{
+  post_open_hook = function(buf, win)
+    vim.keymap.set("n", "q", "<cmd>lua require('goto-preview').close_all_win()<CR>", {noremap=true})
+  end
+}
+
 
 -- Mappings
-local builtin = require('telescope.builtin')
+local telescope = require('telescope.builtin')
+local nvimtree = require("nvim-tree.api")
+
 vim.keymap.set('n', '<C-e>', ':NvimTreeOpen<CR>', {noremap = true})
-vim.keymap.set('n', '<C-p>', builtin.find_files, {})
--- vim.keymap.set('n', '<C-f>', builtin.live_grep, {})
+vim.keymap.set('n', '<C-p>', telescope.find_files, {})
+-- vim.keymap.set('n', '<C-f>', telescope.live_grep, {})
 vim.keymap.set('n', '<C-f>', function()
-	builtin.grep_string({ search = vim.fn.input("grep > ") })
+	telescope.grep_string({ search = vim.fn.input("grep > ") })
 end)
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
 vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, {})
-vim.keymap.set('n', 'gr', builtin.lsp_references, {})
+vim.keymap.set('n', 'gr', telescope.lsp_references, {})
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
+vim.keymap.set("n", "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", {noremap=true})
+
+local function nvimtree_on_attach(bufnr)
+     local function opts(desc)
+      return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    end
+    nvimtree.config.mappings.default_on_attach(bufnr)
+
+    vim.keymap.del('n', 'K', { buffer = bufnr })
+    vim.keymap.del('n', 'r', { buffer = bufnr })
+    vim.keymap.del('n', '<C-e>', { buffer = bufnr })
+    vim.keymap.del('n', 'o', { buffer = bufnr })
+
+    vim.keymap.set('n', 'K', nvimtree.node.show_info_popup, opts('Info'))
+    vim.keymap.set('n', 'r', nvimtree.fs.rename_full, opts('Rename'))
+    vim.keymap.set('n', 'o', nvimtree.tree.change_root_to_node, opts('CD'))
+
+end
+
+function _G.set_terminal_keymaps()
+  local opts = {buffer = 0}
+  vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+  vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+  vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+end
+
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
 
 -- LSP
@@ -118,6 +167,7 @@ require("mason").setup()
 require("mason-lspconfig").setup{
     ensure_installed = { "lua_ls", "clangd"},
 }
+
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 require("lspconfig").lua_ls.setup{
   capabilities = capabilities
@@ -131,6 +181,7 @@ require("lspconfig").pyright.setup{
 }
 
 require("nvim-tree").setup({
+  on_attach = nvimtree_on_attach,
   sort = {
     sorter = "case_sensitive",
   },
@@ -286,6 +337,7 @@ require("toggleterm").setup{
     end
   },
 }
+
 
 END
 
