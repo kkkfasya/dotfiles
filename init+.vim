@@ -2,6 +2,7 @@ bufdo set expandtab sw=4 ts=4
 
 call plug#begin()
 Plug 'neovim/nvim-lspconfig'
+Plug 'folke/todo-comments.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -36,14 +37,15 @@ Plug 'rmagatti/goto-preview'
 
 call plug#end()
 
+let mapleader = " "
 let g:VM_maps = {}
 let g:VM_maps['Find Under'] = '<C-d>'
 let g:VM_maps['Find Subword Under'] = '<C-d>'
 
 autocmd TermEnter term://*toggleterm#*
-      \ tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
-nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
-inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
+      \ tnoremap <silent><leader>t <Cmd>exe v:count1 . "ToggleTerm"<CR>
+nnoremap <silent><leader>t <Cmd>exe v:count1 . "ToggleTerm"<CR>
+nnoremap <silent><leader>t <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
 
 nnoremap <silent> <C-Left> :vertical resize +3<CR>
 nnoremap <silent> <C-Right> :vertical resize -3<CR>
@@ -56,7 +58,7 @@ inoremap [ []<Esc>ha
 inoremap " ""<Esc>ha
 inoremap ' ''<Esc>ha
 inoremap ` ``<Esc>ha
-inoremap */ /**/<Esc>hha
+inoremap */ **/<Esc>hha
 
 nmap <silent> <c-k> :wincmd k<CR>
 nmap <silent> <c-j> :wincmd j<CR>
@@ -101,10 +103,12 @@ let mapleader = " "
 lua << END
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+vim.g.mapleader = " "
 
 -- Others
 
 require('bufferline').setup{}
+require('todo-comments').setup{}
 require('lualine').setup{
   options = { theme = 'gruvbox' }
 }
@@ -119,10 +123,10 @@ require('goto-preview').setup{
 local telescope = require('telescope.builtin')
 local nvimtree = require("nvim-tree.api")
 
-vim.keymap.set('n', '<C-e>', ':NvimTreeOpen<CR>', {noremap = true})
-vim.keymap.set('n', '<C-p>', telescope.find_files, {})
+vim.keymap.set('n', '<leader>e', ':NvimTreeOpen<CR>', {noremap = true})
+vim.keymap.set('n', '<leader>p', telescope.find_files, {})
 -- vim.keymap.set('n', '<C-f>', telescope.live_grep, {})
-vim.keymap.set('n', '<C-f>', function()
+vim.keymap.set('n', '<leader>f', function()
 	telescope.grep_string({ search = vim.fn.input("grep > ") })
 end)
 
@@ -150,6 +154,7 @@ local function nvimtree_on_attach(bufnr)
 end
 
 function _G.set_terminal_keymaps()
+  vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
   local opts = {buffer = 0}
   vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
   vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
@@ -159,7 +164,6 @@ function _G.set_terminal_keymaps()
   vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
 end
 
-vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
 
 -- LSP
@@ -214,6 +218,15 @@ local cmp = require('cmp')
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ["<Tab>"] = cmp.mapping(function(fallback)
+		    if cmp.visible() then
+			    	cmp.select_next_item()
+        elseif luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
+        else
+            fallback()
+          end
+        end, {"i", "s"}),
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
@@ -340,4 +353,5 @@ require("toggleterm").setup{
 
 
 END
+
 
