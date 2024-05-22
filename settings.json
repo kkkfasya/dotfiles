@@ -12,7 +12,7 @@
   "explorer.confirmDragAndDrop": false,
   "editor.unicodeHighlight.includeComments": true,
   "workbench.colorCustomizations": {
-    "editorLineNumber.foreground": "#f3e2e2e3",
+    "editorLineNumber.foeground": "#f3e2e2e3",
     "[Noctis Minimus]": {
       "statusBar.background": "#046fc7",
       "statusBar.foreground": "#ece8e8",
@@ -71,7 +71,7 @@
     "editor.defaultFormatter": "vscode.html-language-features"
   },
   "workbench.layoutControl.enabled": false,
-  "glassit.alpha": 245,
+  "glassit.alpha": 240,
   "liveServer.settings.donotVerifyTags": true,
   "css.completion.completePropertyWithSemicolon": false,
   "terminal.integrated.cursorBlinking": true,
@@ -94,10 +94,14 @@
   "comments.useRelativeTime": false,
   "http.proxyAuthorization": null,
   "terminal.integrated.fontSize": 12,
+  "gruvboxMaterial.darkCursor": "orange",
+  "gruvboxMaterial.darkSelection": "orange",
   "gruvboxMaterial.italicKeywords": true,
+  "gruvboxMaterial.darkContrast": "hard",
   "files.insertFinalNewline": true,
   "gruvboxMaterial.darkPalette": "original",
   "gruvboxMaterial.darkWorkbench": "flat",
+  "editor.minimap.enabled": false,
   "vim.smartRelativeLine": true,
   "editor.cursorSurroundingLines": 7,
   "vim.useSystemClipboard": true,
@@ -111,23 +115,66 @@
   "telemetry.telemetryLevel": "off",
   "window.menuBarVisibility": "toggle",
   "editor.cursorBlinking": "solid",
-  "workbench.colorTheme": "Gruvbox Dark Hard",
   "vim.cursorStylePerMode.insert": "line",
   "editor.quickSuggestions": {
+    "comments": "on",
     "strings": "on"
   },
+  "vim.leader": "<space>",
+  "vim.normalModeKeyBindings": [
+  {
+    "before": ["<leader>","e"],
+    "commands": ["workbench.view.explorer"]
+  },
+  {
+    "before": ["<leader>","p"],
+    "commands": ["workbench.action.quickOpen"]
+  },
+    {
+      "before": ["g", "p"],
+      "commands": ["editor.action.peekDefinition"]
+    },
+    {
+      "before": ["g", "h"],
+      "commands": ["editor.action.showDefinitionPreviewHover"]
+    },
+    {
+      "before": ["g", "i"],
+      "commands": ["editor.action.goToImplementation"]
+    },
+    {
+      "before": ["g", "p", "i"],
+      "commands": ["editor.action.peekImplementation"]
+    },
+    {
+      "before": ["g", "q"],
+      "commands": ["editor.action.quickFix"]
+    },
+    {
+      "before": ["g", "r"],
+      "commands": ["editor.action.referenceSearch.trigger"]
+    },
+    {
+      "before": ["g", "t"],
+      "commands": ["editor.action.goToTypeDefinition"]
+    },
+    {
+      "before": ["g", "p", "t"],
+      "commands": ["editor.action.peekTypeDefinition"]
+    },
+  ],
+  "vim.highlightedyank.textColor":"#f09383d5",
+  "vim.highlightedyank.duration": 150,
+
   "code-runner.runInTerminal": true,
   "editor.smoothScrolling": true,
   "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "quokka.compactMessageOutput": false,
   "quokka.showOutputOnStart": false,
   "prettier.tabWidth": 4,
-  "editor.suggestSelection": "recentlyUsed",
-  "javascript.suggestionActions.enabled": false,
-  "javascript.format.insertSpaceAfterSemicolonInForStatements": false,
-  "editor.acceptSuggestionOnCommitCharacter": false,
-  "editor.minimap.enabled": false
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "editor.inlineSuggest.enabled": false,
+  "diffEditor.ignoreTrimWhitespace": false,
 }
-
