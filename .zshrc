@@ -1,11 +1,19 @@
-neofetch
+fastfetch
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+export FZF_TMUX=1
+export NVM_DIR="$HOME/.nvm"
+export PATH=/usr/local/openresty/bin:$PATH
+export PATH=$PATH:/usr/local/go/bin
 
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+alias ez='nvim ~/.zshrc'
+alias fm='nemo'
+alias tlauncher='java -jar /usr/local/bin/Tlauncher.jar'
 alias cal='ncal -C'
 alias ffd='cd "$(fdfind -t d . $HOME | fzf)"'
 alias qd='cd "$(fdfind -t d . | fzf)"'
@@ -21,9 +29,6 @@ alias nvim='~/./nvim.appimage'
 alias vim='nvim'
 alias virtualenv='python3 -m virtualenv'
 alias ocd='cd "$OLDPWD"'
-alias todo='brisqi'
-alias ded='~/ded/./ded'
-alias fixme='~/./fixme'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='trash -v'
@@ -33,7 +38,6 @@ alias ping='ping -c 10'
 alias less='less -R'
 alias multitail='multitail --no-repeat -c'
 alias freshclam='sudo freshclam'
-alias vis='nvim "+set si"'
 
 export BAT_THEME='gruvbox-dark'
 
@@ -94,7 +98,8 @@ ftext ()
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="bira"
+ZSH_THEME="gruvbox"
+SOLARIZED_THEME="dark"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -192,4 +197,11 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias ll='ls -alFh'
-VI_MODE_SET_CURSOR=true
+alias cat='batcat'
+
+options[autocd]=off
+setopt PROMPT_CR
+setopt PROMPT_SP
+export PROMPT_EOL_MARK=""
+
+export PATH=$PATH:/home/fasya/.spicetify
