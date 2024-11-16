@@ -18,7 +18,7 @@
       "statusBar.foreground": "#ece8e8",
       "editor.selectionBackground": "#ff84d634",
       // "editor.selectionHighlightBorder": "#ffffffc2",
-     "editor.selectionHighlightBackground": "#ffffff2d"
+      "editor.selectionHighlightBackground": "#ffffff2d"
     },
     "[Gruvbox Dark Hard]": {
       "editorSuggestWidget.background": "#221a05",
@@ -50,7 +50,7 @@
     },
     "[Gruvbox Dark Hard]": {
       "enabled": true,
-      "rules":{
+      "rules": {
         "parameter": {
           "foreground": "#d65e0e",
           "fontStyle": "italic",
@@ -58,9 +58,7 @@
         "variable": "#fbf1c7da"
       }
     },
-},
-
-
+  },
   "explorer.sortOrder": "type",
   "terminal.integrated.gpuAcceleration": "auto",
   "python.analysis.autoImportCompletions": true,
@@ -122,52 +120,103 @@
   },
   "vim.leader": "<space>",
   "vim.normalModeKeyBindings": [
-  {
-    "before": ["<leader>","e"],
-    "commands": ["workbench.view.explorer"]
-  },
-  {
-    "before": ["<leader>","p"],
-    "commands": ["workbench.action.quickOpen"]
-  },
     {
-      "before": ["g", "p"],
-      "commands": ["editor.action.peekDefinition"]
+      "before": [
+        "<leader>",
+        "e"
+      ],
+      "commands": [
+        "workbench.view.explorer"
+      ]
     },
     {
-      "before": ["g", "h"],
-      "commands": ["editor.action.showDefinitionPreviewHover"]
+      "before": [
+        "<leader>",
+        "p"
+      ],
+      "commands": [
+        "workbench.action.quickOpen"
+      ]
     },
     {
-      "before": ["g", "i"],
-      "commands": ["editor.action.goToImplementation"]
+      "before": [
+        "g",
+        "p"
+      ],
+      "commands": [
+        "editor.action.peekDefinition"
+      ]
     },
     {
-      "before": ["g", "p", "i"],
-      "commands": ["editor.action.peekImplementation"]
+      "before": [
+        "g",
+        "h"
+      ],
+      "commands": [
+        "editor.action.showDefinitionPreviewHover"
+      ]
     },
     {
-      "before": ["g", "q"],
-      "commands": ["editor.action.quickFix"]
+      "before": [
+        "g",
+        "i"
+      ],
+      "commands": [
+        "editor.action.goToImplementation"
+      ]
     },
     {
-      "before": ["g", "r"],
-      "commands": ["editor.action.referenceSearch.trigger"]
+      "before": [
+        "g",
+        "p",
+        "i"
+      ],
+      "commands": [
+        "editor.action.peekImplementation"
+      ]
     },
     {
-      "before": ["g", "t"],
-      "commands": ["editor.action.goToTypeDefinition"]
+      "before": [
+        "g",
+        "q"
+      ],
+      "commands": [
+        "editor.action.quickFix"
+      ]
     },
     {
-      "before": ["g", "p", "t"],
-      "commands": ["editor.action.peekTypeDefinition"]
+      "before": [
+        "g",
+        "r"
+      ],
+      "commands": [
+        "editor.action.referenceSearch.trigger"
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "t"
+      ],
+      "commands": [
+        "editor.action.goToTypeDefinition"
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "p",
+        "t"
+      ],
+      "commands": [
+        "editor.action.peekTypeDefinition"
+      ]
     },
   ],
-  "vim.highlightedyank.textColor":"#f09383d5",
+  "vim.highlightedyank.textColor": "#f09383d5",
   "vim.highlightedyank.duration": 150,
-
   "code-runner.runInTerminal": true,
-  "editor.smoothScrolling": true,
+  "editor.smoothScrolling": false,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -177,4 +226,8 @@
   "workbench.colorTheme": "Gruvbox Dark Hard",
   "editor.inlineSuggest.enabled": false,
   "diffEditor.ignoreTrimWhitespace": false,
+  "editor.wordWrap": "wordWrapColumn",
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
 }

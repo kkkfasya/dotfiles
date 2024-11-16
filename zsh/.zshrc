@@ -3,29 +3,37 @@ fastfetch
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-export FZF_TMUX=1
 export NVM_DIR="$HOME/.nvm"
 export PATH=/usr/local/openresty/bin:$PATH
 export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:~/.local/bin
+export PATH=$PATH:~/.cargo/bin
+export PIP_BREAK_SYSTEM_PACKAGES=1
+
+export FZF_DEFAULT_OPTS="--tmux center --info=inline --margin=1 --padding=1"
+export DESKTOP_ENTRY="~/.local/share/applications/"
+
+export BAT_THEME='gruvbox-dark'
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+alias ll='ls -alFh'
+alias icat='kitten icat'
+alias cat='bat'
 alias ez='nvim ~/.zshrc'
-alias fm='nemo'
-alias tlauncher='java -jar /usr/local/bin/Tlauncher.jar'
+alias fm='nautilus'
 alias cal='ncal -C'
-alias ffd='cd "$(fdfind -t d . $HOME | fzf)"'
-alias qd='cd "$(fdfind -t d . | fzf)"'
+alias ffd='cd "$(fd -t d . $HOME | fzf)"'
+alias qd='cd "$(fd -t d . | fzf)"'
 alias eb='nvim ~/.bashrc'
 alias sb='source ~/.bashrc'
 alias sz='source ~/.zshrc'
+alias ts='tmux source ~/.config/tmux/tmux.conf'
 alias c='clear'
 alias ytdl='youtube-dl'
 alias eiv='nvim ~/.config/nvim/init.vim'
 alias clipb='xsel -i -b'
-alias shut='shutdown now'
-alias nvim='~/./nvim.appimage'
 alias vim='nvim'
 alias virtualenv='python3 -m virtualenv'
 alias ocd='cd "$OLDPWD"'
@@ -37,60 +45,58 @@ alias ps='ps auxf'
 alias ping='ping -c 10'
 alias less='less -R'
 alias multitail='multitail --no-repeat -c'
-alias freshclam='sudo freshclam'
-
-export BAT_THEME='gruvbox-dark'
+alias copydir='pwd | tr -d "\n" | xsel -i -b'
 
 #############################################
-  ############### FUNCTION ###############
+############### FUNCTION ###############
 #############################################
 
 netinfo ()
 {
-	echo "--------------- Network Information ---------------"
-	/sbin/ifconfig | awk /'inet addr/ {print $2}'
-	echo ""
-	/sbin/ifconfig | awk /'Bcast/ {print $3}'
-	echo ""
-	/sbin/ifconfig | awk /'inet addr/ {print $4}'
+    echo "--------------- Network Information ---------------"
+    /sbin/ifconfig | awk /'inet addr/ {print $2}'
+    echo ""
+    /sbin/ifconfig | awk /'Bcast/ {print $3}'
+    echo ""
+    /sbin/ifconfig | awk /'inet addr/ {print $4}'
 
-	/sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
-	echo "---------------------------------------------------"
+    /sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
+    echo "---------------------------------------------------"
 }
 
 extract () {
-	for archive in "$@"; do
-		if [ -f "$archive" ] ; then
-			case $archive in
-				*.tar.bz2)   tar xvjf $archive    ;;
-				*.tar.gz)    tar xvzf $archive    ;;
-				*.bz2)       bunzip2 $archive     ;;
-				*.rar)       rar x $archive       ;;
-				*.gz)        gunzip $archive      ;;
-				*.tar)       tar xvf $archive     ;;
-				*.tbz2)      tar xvjf $archive    ;;
-				*.tgz)       tar xvzf $archive    ;;
-				*.zip)       unzip $archive       ;;
-				*.Z)         uncompress $archive  ;;
-				*.7z)        7z x $archive        ;;
-				*)           echo "don't know how to extract '$archive'..." ;;
-			esac
-		else
-			echo "'$archive' is not a valid file!"
-		fi
-	done
+    for archive in "$@"; do
+        if [ -f "$archive" ] ; then
+            case $archive in
+                *.tar.bz2)   tar xvjf $archive    ;;
+                *.tar.gz)    tar xvzf $archive    ;;
+                *.bz2)       bunzip2 $archive     ;;
+                *.rar)       rar x $archive       ;;
+                *.gz)        gunzip $archive      ;;
+                *.tar)       tar xvf $archive     ;;
+                *.tbz2)      tar xvjf $archive    ;;
+                *.tgz)       tar xvzf $archive    ;;
+                *.zip)       unzip $archive       ;;
+                *.Z)         uncompress $archive  ;;
+                *.7z)        7z x $archive        ;;
+                *)           echo "don't know how to extract '$archive'..." ;;
+            esac
+        else
+            echo "'$archive' is not a valid file!"
+        fi
+    done
 }
 
 ftext ()
 {
-	# -i case-insensitive
-	# -I ignore binary files
-	# -H causes filename to be printed
-	# -r recursive search
-	# -n causes line number to be printed
-	# optional: -F treat search term as a literal, not a regular expression
-	# optional: -l only print filenames and not the matching lines ex. grep -irl "$1" *
-	grep -iIHrn --color=always "$1" . | less -r
+    # -i case-insensitive
+    # -I ignore binary files
+    # -H causes filename to be printed
+    # -r recursive search
+    # -n causes line number to be printed
+    # optional: -F treat search term as a literal, not a regular expression
+    # optional: -l only print filenames and not the matching lines ex. grep -irl "$1" *
+    grep -iIHrn --color=always "$1" . | less -r
 }
 
 
@@ -98,7 +104,7 @@ ftext ()
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="gruvbox"
+ZSH_THEME="bira" # set by `omz`
 SOLARIZED_THEME="dark"
 
 # Set list of themes to pick from when loading at random
@@ -163,12 +169,13 @@ HIST_STAMPS="dd/mm/yyyy"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
+    copybuffer
     virtualenv
-    pip
-    command-not-found
+    zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
+bindkey '^[[Z' autosuggest-accept
 
 # User configuration
 
@@ -178,11 +185,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
+else
+    export EDITOR='nvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -196,12 +203,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias ll='ls -alFh'
-alias cat='batcat'
-
 options[autocd]=off
 setopt PROMPT_CR
 setopt PROMPT_SP
 export PROMPT_EOL_MARK=""
-
-export PATH=$PATH:/home/fasya/.spicetify

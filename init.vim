@@ -1,1 +1,0 @@
-/home/swagg/.config/nvim/init.vim
