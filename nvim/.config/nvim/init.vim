@@ -44,6 +44,7 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'ej-shafran/compile-mode.nvim'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'famiu/bufdelete.nvim'
 
 call plug#end()
 
@@ -126,6 +127,8 @@ vim.keymap.set("n", "gr", telescope.lsp_references, {})
 vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 vim.keymap.set("n", "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", { noremap = true })
 vim.keymap.set("n", "E", vim.diagnostic.open_float, {})
+vim.keymap.set("n", "ge", vim.diagnostic.goto_next)
+vim.keymap.set("n", "gE", vim.diagnostic.goto_prev)
 
 vim.keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>C", ":w | :Compile<CR>", { noremap = true, silent = true })
@@ -142,11 +145,13 @@ local function nvimtree_on_attach(bufnr)
 	vim.keymap.del("n", "<C-e>", { buffer = bufnr })
 	vim.keymap.del("n", "o", { buffer = bufnr })
 	vim.keymap.del("n", "d", { buffer = bufnr })
+	vim.keymap.del("n", "Y", { buffer = bufnr })
 
 	vim.keymap.set("n", "K", nvimtree.node.show_info_popup, opts("Info"))
 	vim.keymap.set("n", "r", nvimtree.fs.rename_full, opts("Rename"))
 	vim.keymap.set("n", "o", nvimtree.tree.change_root_to_node, opts("CD"))
 	vim.keymap.set("n", "d", nvimtree.fs.trash, opts("Trash file"))
+	vim.keymap.set("n", "Y", nvimtree.fs.copy.absolute_path, opts("Info"))
 end
 
 local function quickfix()
@@ -159,6 +164,7 @@ local function quickfix()
 end
 
 vim.keymap.set("n", "<leader>qf", quickfix, { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>qq", "<cmd>Bdelete<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Commands
@@ -281,7 +287,6 @@ require("nvim-treesitter.configs").setup({
 -- Colorscheme
 require("gruvbox").setup({
 	terminal_colors = true,
-	undercurl = true,
 	underline = false,
 	bold = false,
 	italic = {
@@ -294,6 +299,7 @@ require("gruvbox").setup({
 		["@lsp.type.function"] = { fg = "#ff9900" },
 		["@lsp.type.method"] = { fg = "#ff9900" },
 		["@lsp.type.macro"] = { fg = "#fabd2f" },
+		["@lsp.type.property"] = { fg = "#ebdbb2" },
 	},
 	dim_inactive = false,
 	transparent_mode = false,
@@ -343,5 +349,4 @@ require("goto-preview").setup({
 require("nvim-autopairs").setup({
 	enable_check_bracket_line = false,
 })
-
 END

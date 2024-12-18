@@ -18,6 +18,9 @@ export BAT_THEME='gruvbox-dark'
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+alias sudo='sudo '
+alias :q='exit'
+alias tmuxks='tmux kill-server'
 alias ll='ls -alFh'
 alias icat='kitten icat'
 alias cat='bat'
@@ -46,6 +49,7 @@ alias ping='ping -c 10'
 alias less='less -R'
 alias multitail='multitail --no-repeat -c'
 alias copydir='pwd | tr -d "\n" | xsel -i -b'
+alias cd..='cd ..'
 
 #############################################
 ############### FUNCTION ###############
@@ -172,6 +176,8 @@ plugins=(
     copybuffer
     virtualenv
     zsh-autosuggestions
+    poetry
+    web-search
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -206,4 +212,15 @@ fi
 options[autocd]=off
 setopt PROMPT_CR
 setopt PROMPT_SP
+
 export PROMPT_EOL_MARK=""
+autoload -U compinit; compinit
+
+export PATH=$PATH:/home/swagg/.spicetify
+
+# bun completions
+[ -s "/home/swagg/.bun/_bun" ] && source "/home/swagg/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

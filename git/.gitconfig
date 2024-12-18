@@ -1,0 +1,15 @@
+[init]
+	defaultBranch = master
+[user]
+	name = Kamal Fasya
+	email = kamalfasya01@gmail.com
+[core]
+	editor = nvim
+[credential]
+	helper = store
+[alias]
+	uncommit = reset --soft HEAD^
+    a = add
+    s = status
+    r = restore
+    rmc = rm --cached

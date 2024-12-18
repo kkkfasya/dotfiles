@@ -91,7 +91,6 @@
   ],
   "comments.useRelativeTime": false,
   "http.proxyAuthorization": null,
-  "terminal.integrated.fontSize": 12,
   "gruvboxMaterial.darkCursor": "orange",
   "gruvboxMaterial.darkSelection": "orange",
   "gruvboxMaterial.italicKeywords": true,
@@ -127,6 +126,15 @@
       ],
       "commands": [
         "workbench.view.explorer"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "p"
+      ],
+      "commands": [
+        "workbench.action.quickOpenNavigateNextInFilePicker"
       ]
     },
     {
@@ -212,6 +220,15 @@
         "editor.action.peekTypeDefinition"
       ]
     },
+    {
+      "before": [
+        "<leader>",
+        "f"
+      ],
+      "commands": [
+        "workbench.action.findInFiles"
+      ]
+    }
   ],
   "vim.highlightedyank.textColor": "#f09383d5",
   "vim.highlightedyank.duration": 150,
@@ -223,11 +240,28 @@
   "quokka.compactMessageOutput": false,
   "quokka.showOutputOnStart": false,
   "prettier.tabWidth": 4,
-  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "workbench.colorTheme": "Gruvbox Dark Medium",
   "editor.inlineSuggest.enabled": false,
   "diffEditor.ignoreTrimWhitespace": false,
-  "editor.wordWrap": "wordWrapColumn",
+  "editor.wordWrap": "bounded",
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
   },
+  "editor.fontSize": 15.4,
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "svelte.enable-ts-plugin": true,
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "todo-tree.general.tags": [
+    "BUG",
+    "HACK",
+    "FIXME",
+    "TODO",
+    "XXX",
+    "[ ]",
+    "[x]",
+    "NOTE"
+  ],
+  "workbench.iconTheme": "material-icon-theme"
 }
