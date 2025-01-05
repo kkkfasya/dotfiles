@@ -64,12 +64,10 @@
   "python.analysis.autoImportCompletions": true,
   "python.analysis.typeCheckingMode": "off",
   "vsicons.presets.jsonOfficial": true,
-  "editor.linkedEditing": true,
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
   },
   "workbench.layoutControl.enabled": false,
-  "glassit.alpha": 240,
   "liveServer.settings.donotVerifyTags": true,
   "css.completion.completePropertyWithSemicolon": false,
   "terminal.integrated.cursorBlinking": true,
@@ -91,19 +89,10 @@
   ],
   "comments.useRelativeTime": false,
   "http.proxyAuthorization": null,
-  "gruvboxMaterial.darkCursor": "orange",
-  "gruvboxMaterial.darkSelection": "orange",
-  "gruvboxMaterial.italicKeywords": true,
-  "gruvboxMaterial.darkContrast": "hard",
   "files.insertFinalNewline": true,
-  "gruvboxMaterial.darkPalette": "original",
-  "gruvboxMaterial.darkWorkbench": "flat",
   "editor.minimap.enabled": false,
-  "vim.smartRelativeLine": true,
   "editor.cursorSurroundingLines": 7,
-  "vim.useSystemClipboard": true,
   "keyboard.dispatch": "keyCode",
-  "vim.highlightedyank.enable": true,
   "editor.bracketPairColorization.enabled": false,
   "editor.guides.bracketPairs": "active",
   "code-runner.saveFileBeforeRun": true,
@@ -111,135 +100,15 @@
   "code-runner.clearPreviousOutput": true,
   "telemetry.telemetryLevel": "off",
   "window.menuBarVisibility": "toggle",
-  "editor.cursorBlinking": "solid",
-  "vim.cursorStylePerMode.insert": "line",
   "editor.quickSuggestions": {
     "comments": "on",
     "strings": "on"
   },
-  "vim.leader": "<space>",
-  "vim.normalModeKeyBindings": [
-    {
-      "before": [
-        "<leader>",
-        "e"
-      ],
-      "commands": [
-        "workbench.view.explorer"
-      ]
-    },
-    {
-      "before": [
-        "<leader>",
-        "p"
-      ],
-      "commands": [
-        "workbench.action.quickOpenNavigateNextInFilePicker"
-      ]
-    },
-    {
-      "before": [
-        "<leader>",
-        "p"
-      ],
-      "commands": [
-        "workbench.action.quickOpen"
-      ]
-    },
-    {
-      "before": [
-        "g",
-        "p"
-      ],
-      "commands": [
-        "editor.action.peekDefinition"
-      ]
-    },
-    {
-      "before": [
-        "g",
-        "h"
-      ],
-      "commands": [
-        "editor.action.showDefinitionPreviewHover"
-      ]
-    },
-    {
-      "before": [
-        "g",
-        "i"
-      ],
-      "commands": [
-        "editor.action.goToImplementation"
-      ]
-    },
-    {
-      "before": [
-        "g",
-        "p",
-        "i"
-      ],
-      "commands": [
-        "editor.action.peekImplementation"
-      ]
-    },
-    {
-      "before": [
-        "g",
-        "q"
-      ],
-      "commands": [
-        "editor.action.quickFix"
-      ]
-    },
-    {
-      "before": [
-        "g",
-        "r"
-      ],
-      "commands": [
-        "editor.action.referenceSearch.trigger"
-      ]
-    },
-    {
-      "before": [
-        "g",
-        "t"
-      ],
-      "commands": [
-        "editor.action.goToTypeDefinition"
-      ]
-    },
-    {
-      "before": [
-        "g",
-        "p",
-        "t"
-      ],
-      "commands": [
-        "editor.action.peekTypeDefinition"
-      ]
-    },
-    {
-      "before": [
-        "<leader>",
-        "f"
-      ],
-      "commands": [
-        "workbench.action.findInFiles"
-      ]
-    }
-  ],
-  "vim.highlightedyank.textColor": "#f09383d5",
-  "vim.highlightedyank.duration": 150,
-  "code-runner.runInTerminal": true,
-  "editor.smoothScrolling": false,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "quokka.compactMessageOutput": false,
   "quokka.showOutputOnStart": false,
-  "prettier.tabWidth": 4,
   "workbench.colorTheme": "Gruvbox Dark Medium",
   "editor.inlineSuggest.enabled": false,
   "diffEditor.ignoreTrimWhitespace": false,
@@ -251,7 +120,6 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "svelte.enable-ts-plugin": true,
   "editor.acceptSuggestionOnCommitCharacter": false,
   "todo-tree.general.tags": [
     "BUG",
@@ -263,5 +131,12 @@
     "[x]",
     "NOTE"
   ],
-  "workbench.iconTheme": "material-icon-theme"
+  "workbench.iconTheme": "material-icon-theme",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "vscode-neovim.neovimInitVimPaths.linux": "/home/swagg/dotfiles/vscodenvim.vim",
+  "editor.cursorBlinking": "solid",
+  "svelte.enable-ts-plugin": true,
+  "html.autoClosingTags": false,
 }

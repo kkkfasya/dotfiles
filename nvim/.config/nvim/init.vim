@@ -16,13 +16,14 @@ Plug 'leafo/moonscript-vim' " NOTE: remove
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 
-Plug 'aktersnurra/no-clown-fiesta.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'windwp/nvim-autopairs'
 Plug 'kkkfasya/timelapse.nvim' " my own plugin!!!
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
 Plug 'projekt0n/github-nvim-theme'
+Plug 'aktersnurra/no-clown-fiesta.nvim'
 Plug 'https://github.com/junegunn/seoul256.vim'
 
 Plug 'akinsho/bufferline.nvim'
@@ -58,9 +59,10 @@ augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank({higroup="IncSearch", timeout=100})
 augroup END
-
+inoremap /* /**/<Esc>hha
 
 let g:VM_default_mappings = 0
+
 nnoremap <silent> <C-Left> :vertical resize +3<CR>
 nnoremap <silent> <C-Right> :vertical resize -3<CR>
 
@@ -97,8 +99,6 @@ set signcolumn=yes
 set splitbelow
 
 lua << END
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.local/share/nvim/plugged"
-
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
@@ -106,7 +106,6 @@ vim.g.compile_mode = { baleia_setup = true }
 
 -- Mappings
 local telescope = require("telescope.builtin")
-local nvimtree = require("nvim-tree.api")
 
 vim.keymap.set("n", "<C-Up>", ":resize +3<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-Down>", ":resize -3<CR>", { noremap = true, silent = true })
@@ -125,7 +124,7 @@ vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
 vim.keymap.set("n", "gr", telescope.lsp_references, {})
 vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-vim.keymap.set("n", "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", { noremap = true })
+vim.keymap.set("n", "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", { noremap = true})
 vim.keymap.set("n", "E", vim.diagnostic.open_float, {})
 vim.keymap.set("n", "ge", vim.diagnostic.goto_next)
 vim.keymap.set("n", "gE", vim.diagnostic.goto_prev)
@@ -135,11 +134,11 @@ vim.keymap.set("n", "<leader>C", ":w | :Compile<CR>", { noremap = true, silent =
 vim.keymap.set("n", "<leader>cc", ":w | :Recompile<CR>", { noremap = true, silent = true })
 
 local function nvimtree_on_attach(bufnr)
+    local nvimtree = require("nvim-tree.api")
 	local function opts(desc)
 		return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
 	end
 	nvimtree.config.mappings.default_on_attach(bufnr)
-
 	vim.keymap.del("n", "K", { buffer = bufnr })
 	vim.keymap.del("n", "r", { buffer = bufnr })
 	vim.keymap.del("n", "<C-e>", { buffer = bufnr })
@@ -304,6 +303,7 @@ require("gruvbox").setup({
 	dim_inactive = false,
 	transparent_mode = false,
 })
+
 vim.cmd("colorscheme gruvbox")
 vim.cmd("hi! link SignColumn Normal")
 
@@ -336,7 +336,7 @@ require("nvim-tree").setup({
 		width = 30,
 	},
 	filters = {
-		dotfiles = true,
+        custom = {"^\\.git"}
 	},
 })
 
@@ -349,4 +349,7 @@ require("goto-preview").setup({
 require("nvim-autopairs").setup({
 	enable_check_bracket_line = false,
 })
+
+
 END
+

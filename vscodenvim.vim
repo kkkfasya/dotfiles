@@ -1,3 +1,8 @@
+" FIX: ctrl + shift + v not working
+
+" TODO: [add] E for error msg popup
+
+
 let mapleader = " "
 
 set clipboard+=unnamedplus
@@ -36,6 +41,10 @@ inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 nnoremap <Leader>p <Cmd>lua require('vscode').action('workbench.action.quickOpen')<CR>
 nnoremap <Leader>f <Cmd>lua require('vscode').action('workbench.view.search')<CR>
 nnoremap <Leader>e <Cmd>lua require('vscode').action('workbench.view.explorer')<CR>
+nnoremap <Leader>bb <Cmd>lua require('vscode').action( 'workbench.action.navigateLast')<CR>
+nnoremap E <Cmd>lua require('vscode').action('workbench.action.problems.focus')<CR>
+nnoremap gp <Cmd>lua require('vscode').action( 'editor.action.peekDefinition')<CR>
+
 
 lua << END
 END
