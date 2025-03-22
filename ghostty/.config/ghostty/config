@@ -1,13 +1,18 @@
 font-family = "Hack Nerd Font"
-font-size = 13
+font-size = 11
 title = " "
+cursor-style = block
+window-decoration = client
+gtk-titlebar = false
+
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 2
 clipboard-read = allow
 clipboard-write = allow
 confirm-close-surface = false
+
 keybind = ctrl+v=paste_from_clipboard
-gtk-titlebar = false
+# keybind = ctrl+l=paste_from_clipboard clea
 
 keybind = alt+one=unbind
 keybind = alt+two=unbind
@@ -21,3 +26,4 @@ keybind = alt+nine=unbind
 keybind = ctrl+shift+v=unbind
 keybind = ctrl+shift+i=unbind
 
+#initial-command = "kabmat -o General"

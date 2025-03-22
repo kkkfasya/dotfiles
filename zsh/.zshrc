@@ -1,10 +1,7 @@
 fastfetch
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-# Path to your oh-my-zsh installation.
+
 export ZSH="$HOME/.oh-my-zsh"
 export NVM_DIR="$HOME/.nvm"
-export PATH=/usr/local/openresty/bin:$PATH
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/.cargo/bin
@@ -18,15 +15,23 @@ export BAT_THEME='gruvbox-dark'
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+
+alias pkg='nvim ~/.config/notnix/config.lua'
+
 alias sudo='sudo '
+alias gce='git checkout $(git branch | fzf)'
+alias spkg='sudo dnf search '
 alias :q='exit'
+alias wcc='warp-cli connect'
+alias wdc='warp-cli disconnect'
 alias tmuxks='tmux kill-server'
+alias tmuxa='tmux a '
 alias ll='ls -alFh'
 alias icat='kitten icat'
 alias cat='bat'
 alias ez='nvim ~/.zshrc'
 alias fm='nautilus'
-alias cal='ncal -C'
+# alias cal='ncal -C'
 alias ffd='cd "$(fd -t d . $HOME | fzf)"'
 alias qd='cd "$(fd -t d . | fzf)"'
 alias eb='nvim ~/.bashrc'
@@ -40,15 +45,14 @@ alias clipb='xsel -i -b'
 alias vim='nvim'
 alias virtualenv='python3 -m virtualenv'
 alias ocd='cd "$OLDPWD"'
-alias cp='cp -i'
-alias mv='mv -i'
+alias cp='cp -i -v'
+alias mv='mv -i -v'
 alias rm='trash -v'
-alias mkdir='mkdir -p'
-alias ps='ps auxf'
+alias mkdir='mkdir -p -v'
 alias ping='ping -c 10'
 alias less='less -R'
 alias multitail='multitail --no-repeat -c'
-alias copydir='pwd | tr -d "\n" | xsel -i -b'
+alias cpd='pwd | tr -d "\n" | xsel -i -b'
 alias cd..='cd ..'
 
 #############################################
@@ -96,19 +100,6 @@ extract () {
         fi
     done
 }
-
-ftext ()
-{
-    # -i case-insensitive
-    # -I ignore binary files
-    # -H causes filename to be printed
-    # -r recursive search
-    # -n causes line number to be printed
-    # optional: -F treat search term as a literal, not a regular expression
-    # optional: -l only print filenames and not the matching lines ex. grep -irl "$1" *
-    grep -iIHrn --color=always "$1" . | less -r
-}
-
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -182,8 +173,6 @@ plugins=(
     copybuffer
     virtualenv
     zsh-autosuggestions
-    poetry
-    web-search
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -198,7 +187,7 @@ bindkey '^[[Z' autosuggest-accept
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='vim'
+    export EDITOR='vi'
 else
     export EDITOR='nvim'
 fi
@@ -218,11 +207,10 @@ fi
 options[autocd]=off
 setopt PROMPT_CR
 setopt PROMPT_SP
+setopt extended_glob
 
 export PROMPT_EOL_MARK=""
 autoload -U compinit; compinit
-
-export PATH=$PATH:/home/swagg/.spicetify
 
 # bun completions
 [ -s "/home/swagg/.bun/_bun" ] && source "/home/swagg/.bun/_bun"
@@ -230,3 +218,12 @@ export PATH=$PATH:/home/swagg/.spicetify
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/home/swagg/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+

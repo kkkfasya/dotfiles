@@ -7,11 +7,11 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'stevearc/conform.nvim'
+
 Plug 'folke/trouble.nvim'
 Plug 'numToStr/Comment.nvim'
 Plug 'AlexeySachkov/llvm-vim'
-
-Plug 'leafo/moonscript-vim' " NOTE: remove
 
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
@@ -55,6 +55,8 @@ let g:VM_maps['Find Under'] = '<C-d>'
 let g:VM_maps['Find Subword Under'] = '<C-d>'
 let g:seoul256_background = 234
 
+autocmd FileType php set iskeyword+=$
+
 augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank({higroup="IncSearch", timeout=100})
@@ -97,6 +99,7 @@ set title
 set noswapfile
 set signcolumn=yes
 set splitbelow
+set hidden
 
 lua << END
 vim.g.loaded_netrw = 1
@@ -124,7 +127,7 @@ vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
 vim.keymap.set("n", "gr", telescope.lsp_references, {})
 vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-vim.keymap.set("n", "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", { noremap = true})
+vim.keymap.set("n", "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", { noremap = true })
 vim.keymap.set("n", "E", vim.diagnostic.open_float, {})
 vim.keymap.set("n", "ge", vim.diagnostic.goto_next)
 vim.keymap.set("n", "gE", vim.diagnostic.goto_prev)
@@ -132,9 +135,10 @@ vim.keymap.set("n", "gE", vim.diagnostic.goto_prev)
 vim.keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>C", ":w | :Compile<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>cc", ":w | :Recompile<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "F", ":Format<CR>", { noremap = true, silent = true })
 
 local function nvimtree_on_attach(bufnr)
-    local nvimtree = require("nvim-tree.api")
+	local nvimtree = require("nvim-tree.api")
 	local function opts(desc)
 		return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
 	end
@@ -176,14 +180,28 @@ vim.api.nvim_create_user_command("DiagnosticsToggle", function()
 	end
 end, {})
 
+vim.api.nvim_create_user_command("ListSymbols", function()
+	vim.cmd(":lua require'telescope.builtin'.treesitter{}")
+end, {})
+
+vim.api.nvim_create_user_command("Format", function(args)
+	local range = nil
+	if args.count ~= -1 then
+		local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+		range = {
+			start = { args.line1, 0 },
+			["end"] = { args.line2, end_line:len() },
+		}
+	end
+	require("conform").format({ async = true, lsp_format = "fallback", range = range })
+end, { range = true })
+
 -- LSP
-vim.diagnostic.config({
-	update_in_insert = false,
-})
+vim.diagnostic.disable()
 
 require("mason").setup()
 require("mason-lspconfig").setup({
-	ensure_installed = { "lua_ls", "clangd" },
+	ensure_installed = { "lua_ls", "clangd", "ts_ls", "pyright",},
 })
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -202,6 +220,25 @@ require("lspconfig").pyright.setup({
 
 require("lspconfig").ts_ls.setup({
 	capabilities = capabilities,
+})
+
+-- require("lspconfig").phpactor.setup({
+-- 	capabilities = capabilities,
+--     init_options = {
+--         ["language_server_phpstan.enabled"] = true,
+--         ["language_server_psalm.enabled"] = true,
+--     },
+--     root_dir = function(_)
+--         return vim.loop.cwd()
+--     end,
+-- })
+
+require("lspconfig").intelephense.setup({
+	check_on_save = false,
+	capabilities = capabilities,
+    root_dir = function(_)
+    return vim.loop.cwd()
+    end,
 })
 
 require("lspconfig").rust_analyzer.setup({
@@ -272,14 +309,28 @@ cmp.setup.cmdline(":", {
 	matching = { disallow_symbol_nonprefix_matching = false },
 })
 
--- TS
+-- TreeSitter (TS)
 require("nvim-treesitter.configs").setup({
-	ensure_installed = { "c", "lua" },
+	ensure_installed = { "c", "lua", "python", "javascript", "typescript"},
 	sync_install = false,
 	auto_install = false,
 	highlight = {
 		enable = true,
 		additional_vim_regex_highlighting = false,
+	},
+    indent = {
+        enable = true,
+    },
+})
+
+-- Formatter
+require("conform").setup({
+	formatters_by_ft = {
+		lua = { "stylua" },
+		python = { "black" },
+		rust = { "rustfmt", lsp_format = "fallback" },
+		javascript = { "prettier" },
+        sql = { "sql-formatter"},
 	},
 })
 
@@ -310,19 +361,39 @@ vim.cmd("hi! link SignColumn Normal")
 -- Others
 require("ibl").setup({})
 require("bufferline").setup({})
-require("todo-comments").setup({})
+require("todo-comments").setup({
+    highlight = { multiline = false }
+})
 require("trouble").setup({})
 require("lualine").setup({
 	options = { theme = "gruvbox" },
 })
+require("telescope").setup({
+    defaults = {
+      layout_config = {
+            height = 0.5,
+            preview_cutoff = 200,
+            prompt_position = "bottom",
+            width = 0.5,
+          },
+    },
+    
+
+	pickers = {
+		find_files = {
+            no_ignore_parent = true,
+            no_ignore = true,
+			hidden = true,
+			file_ignore_patterns = { "node_modules", ".git", ".venv" },
+		},
+	},
+})
 
 require("Comment").setup({
 	opleader = {
-		---Line-comment keymap
 		line = "<C-_>",
 	},
 	toggler = {
-		---Line-comment toggle keymap
 		line = "<C-_>",
 	},
 })
@@ -336,7 +407,8 @@ require("nvim-tree").setup({
 		width = 30,
 	},
 	filters = {
-        custom = {"^\\.git"}
+		custom = { "^\\.git" },
+		exclude = { ".gitignore" },
 	},
 })
 
@@ -352,4 +424,5 @@ require("nvim-autopairs").setup({
 
 
 END
+
 

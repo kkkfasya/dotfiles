@@ -59,7 +59,6 @@
       }
     },
   },
-  "explorer.sortOrder": "type",
   "terminal.integrated.gpuAcceleration": "auto",
   "python.analysis.autoImportCompletions": true,
   "python.analysis.typeCheckingMode": "off",
@@ -69,7 +68,6 @@
   },
   "workbench.layoutControl.enabled": false,
   "liveServer.settings.donotVerifyTags": true,
-  "css.completion.completePropertyWithSemicolon": false,
   "terminal.integrated.cursorBlinking": true,
   "emmet.excludeLanguages": [
     "markdown",
@@ -116,7 +114,6 @@
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
   },
-  "editor.fontSize": 15.4,
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -131,7 +128,6 @@
     "[x]",
     "NOTE"
   ],
-  "workbench.iconTheme": "material-icon-theme",
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
   },
@@ -139,4 +135,15 @@
   "editor.cursorBlinking": "solid",
   "svelte.enable-ts-plugin": true,
   "html.autoClosingTags": false,
+  "explorer.confirmPasteNative": false,
+  "tailwindCSS.includeLanguages": {
+    "html": "html",
+    "javascript": "javascript",
+    "css": "css"
+  },
+  "workbench.editor.labelFormat": "short",
+  "explorer.compactFolders": false,
+  "workbench.tree.indent": 12,
+  "git.openRepositoryInParentFolders": "never",
+  "search.quickOpen.history.filterSortOrder": "recency",
 }

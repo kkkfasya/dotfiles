@@ -1,6 +1,7 @@
 " FIX: ctrl + shift + v not working
 
 " TODO: [add] E for error msg popup
+" TODO: [add] F for formatting
 
 
 let mapleader = " "
@@ -42,9 +43,10 @@ nnoremap <Leader>p <Cmd>lua require('vscode').action('workbench.action.quickOpen
 nnoremap <Leader>f <Cmd>lua require('vscode').action('workbench.view.search')<CR>
 nnoremap <Leader>e <Cmd>lua require('vscode').action('workbench.view.explorer')<CR>
 nnoremap <Leader>bb <Cmd>lua require('vscode').action( 'workbench.action.navigateLast')<CR>
+
 nnoremap E <Cmd>lua require('vscode').action('workbench.action.problems.focus')<CR>
 nnoremap gp <Cmd>lua require('vscode').action( 'editor.action.peekDefinition')<CR>
-
+nnoremap F <Cmd>lua require('vscode').action( 'editor.action.formatDocument')<CR>
 
 lua << END
 END
