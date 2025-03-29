@@ -53,6 +53,7 @@ alias ping='ping -c 10'
 alias less='less -R'
 alias multitail='multitail --no-repeat -c'
 alias cpd='pwd | tr -d "\n" | xsel -i -b'
+alias copydir='pwd | tr -d "\n" | xsel -i -b'
 alias cd..='cd ..'
 
 #############################################

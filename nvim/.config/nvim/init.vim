@@ -2,19 +2,16 @@ call plug#begin()
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'folke/todo-comments.nvim'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
 Plug 'stevearc/conform.nvim'
+
+Plug 'Saghen/blink.cmp'
+Plug 'rafamadriz/friendly-snippets' 
 
 Plug 'folke/trouble.nvim'
 Plug 'numToStr/Comment.nvim'
 Plug 'AlexeySachkov/llvm-vim'
 
 Plug 'L3MON4D3/LuaSnip'
-Plug 'saadparwaiz1/cmp_luasnip'
 
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'ellisonleao/gruvbox.nvim'
@@ -201,26 +198,24 @@ vim.diagnostic.disable()
 
 require("mason").setup()
 require("mason-lspconfig").setup({
-	ensure_installed = { "lua_ls", "clangd", "ts_ls", "pyright",},
+	ensure_installed = { "lua_ls", "clangd", "ts_ls", "pyright" },
 })
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- local capabilities = require('blink.cmp').get_lsp_capabilities()
 
-require("lspconfig").lua_ls.setup({
-	capabilities = capabilities,
-})
+local lspconfig_defaults = require("lspconfig").util.default_config
 
-require("lspconfig").clangd.setup({
-	capabilities = capabilities,
-})
+lspconfig_defaults.capabilities =
+	vim.tbl_deep_extend("force", lspconfig_defaults.capabilities, require("blink.cmp").get_lsp_capabilities())
 
-require("lspconfig").pyright.setup({
-	capabilities = capabilities,
-})
+require("lspconfig").lua_ls.setup({})
 
-require("lspconfig").ts_ls.setup({
-	capabilities = capabilities,
-})
+require("lspconfig").clangd.setup({})
+
+require("lspconfig").pyright.setup({})
+
+require("lspconfig").ts_ls.setup({})
 
 -- require("lspconfig").phpactor.setup({
 -- 	capabilities = capabilities,
@@ -236,9 +231,9 @@ require("lspconfig").ts_ls.setup({
 require("lspconfig").intelephense.setup({
 	check_on_save = false,
 	capabilities = capabilities,
-    root_dir = function(_)
-    return vim.loop.cwd()
-    end,
+	root_dir = function(_)
+		return vim.loop.cwd()
+	end,
 })
 
 require("lspconfig").rust_analyzer.setup({
@@ -246,81 +241,79 @@ require("lspconfig").rust_analyzer.setup({
 	capabilities = capabilities,
 })
 
--- AutoComplete
-local cmp = require("cmp")
-cmp.setup({
-	snippet = {
-		expand = function(args)
-			require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
-		end,
+-- AutoComplete | CMP
+require("blink.cmp").setup({
+	cmdline = { enabled = true },
+	fuzzy = { implementation = "prefer_rust" },
+
+	completion = {
+		keyword = { range = "full" },
+		accept = { auto_brackets = { enabled = true } },
+		list = { selection = { preselect = true, auto_insert = true } },
+
+		menu = {
+			auto_show = true,
+			draw = {
+				columns = {
+					{ "label", "label_description", gap = 1 },
+					{ "kind_icon", "kind" },
+				},
+				treesitter = { "lsp" },
+			},
+		},
+
+		documentation = { auto_show = true, auto_show_delay_ms = 100 },
+
+		-- Display a preview of the selected item on the current line
+		ghost_text = { enabled = true },
 	},
-	window = {
-		completion = cmp.config.window.bordered(),
-		documentation = cmp.config.window.bordered(),
-	},
-	mapping = cmp.mapping.preset.insert({
-		["<C-b>"] = cmp.mapping.scroll_docs(-4),
-		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<C-e>"] = cmp.mapping.abort(),
-		["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-		["<Tab>"] = cmp.mapping(function(fallback)
-			local col = vim.fn.col(".") - 1
 
-			if cmp.visible() then
-				cmp.select_next_item(select_opts)
-			elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
-				fallback()
-			else
-				cmp.complete()
-			end
-		end, { "i", "s" }),
-	}),
-	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
-		{ name = "luasnip" }, -- For luasnip users.
-	}, {
-		{ name = "buffer" },
-	}),
-})
-
-cmp.setup.filetype("gitcommit", {
-	sources = cmp.config.sources({
-		{ name = "git" }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
-	}, {
-		{ name = "buffer" },
-	}),
-})
-
-cmp.setup.cmdline({ "/", "?" }, {
-	mapping = cmp.mapping.preset.cmdline(),
 	sources = {
-		{ name = "buffer" },
+		default = { "lsp", "path", "snippets", "buffer" },
 	},
-})
 
-cmp.setup.cmdline(":", {
-	mapping = cmp.mapping.preset.cmdline(),
-	sources = cmp.config.sources({
-		{ name = "path" },
-	}, {
-		{ name = "cmdline" },
-	}),
-	matching = { disallow_symbol_nonprefix_matching = false },
+	-- Use a preset for snippets, check the snippets documentation for more information
+	snippets = { preset = "luasnip" },
+
+	-- Experimental signature help support
+	signature = { enabled = true },
+
+	keymap = {
+		["<CR>"] = { "accept", "fallback" },
+		["<Tab>"] = { "select_next", "fallback" },
+		["<S-Tab>"] = { "snippet_backward", "fallback" },
+		["<Up>"] = { "select_prev", "fallback" },
+		["<Down>"] = { "select_next", "fallback" },
+		["<C-p>"] = { "select_prev", "fallback_to_mappings" },
+		["<C-n>"] = { "select_next", "fallback_to_mappings" },
+		["<C-b>"] = { "scroll_documentation_up", "fallback" },
+		["<C-f>"] = { "scroll_documentation_down", "fallback" },
+
+		["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+	},
+
+	cmdline = {
+		keymap = {
+			["<Tab>"] = { "select_next", "fallback" },
+			["<Down>"] = { "select_next", "fallback" },
+			["<Up>"] = { "select_prev", "fallback" },
+		},
+		completion = { menu = { auto_show = true } },
+	},
 })
 
 -- TreeSitter (TS)
 require("nvim-treesitter.configs").setup({
-	ensure_installed = { "c", "lua", "python", "javascript", "typescript"},
+	ensure_installed = { "c", "lua", "python", "javascript", "typescript" },
 	sync_install = false,
 	auto_install = false,
 	highlight = {
 		enable = true,
 		additional_vim_regex_highlighting = false,
 	},
-    indent = {
-        enable = true,
-    },
+	indent = {
+		enable = true,
+	},
 })
 
 -- Formatter
@@ -330,7 +323,7 @@ require("conform").setup({
 		python = { "black" },
 		rust = { "rustfmt", lsp_format = "fallback" },
 		javascript = { "prettier" },
-        sql = { "sql-formatter"},
+		sql = { "sql-formatter" },
 	},
 })
 
@@ -362,27 +355,26 @@ vim.cmd("hi! link SignColumn Normal")
 require("ibl").setup({})
 require("bufferline").setup({})
 require("todo-comments").setup({
-    highlight = { multiline = false }
+	highlight = { multiline = false },
 })
 require("trouble").setup({})
 require("lualine").setup({
 	options = { theme = "gruvbox" },
 })
 require("telescope").setup({
-    defaults = {
-      layout_config = {
-            height = 0.5,
-            preview_cutoff = 200,
-            prompt_position = "bottom",
-            width = 0.5,
-          },
-    },
-    
+	defaults = {
+		layout_config = {
+			height = 0.5,
+			preview_cutoff = 200,
+			prompt_position = "bottom",
+			width = 0.5,
+		},
+	},
 
 	pickers = {
 		find_files = {
-            no_ignore_parent = true,
-            no_ignore = true,
+			no_ignore_parent = true,
+			no_ignore = true,
 			hidden = true,
 			file_ignore_patterns = { "node_modules", ".git", ".venv" },
 		},
@@ -422,7 +414,5 @@ require("nvim-autopairs").setup({
 	enable_check_bracket_line = false,
 })
 
-
 END
-
 

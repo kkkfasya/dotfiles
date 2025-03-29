@@ -107,7 +107,7 @@
   },
   "quokka.compactMessageOutput": false,
   "quokka.showOutputOnStart": false,
-  "workbench.colorTheme": "Gruvbox Dark Medium",
+  "workbench.colorTheme": "Noctis Minimus",
   "editor.inlineSuggest.enabled": false,
   "diffEditor.ignoreTrimWhitespace": false,
   "editor.wordWrap": "bounded",
@@ -146,4 +146,5 @@
   "workbench.tree.indent": 12,
   "git.openRepositoryInParentFolders": "never",
   "search.quickOpen.history.filterSortOrder": "recency",
+  "window.titleBarStyle": "native",
 }

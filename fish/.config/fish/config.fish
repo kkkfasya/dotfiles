@@ -3,22 +3,19 @@ fastfetch
 
 
 # ENV VARIABLE
+set -gx PATH $HOME/usr/local/go/bin $PATH
+set -gx PATH $HOME/.local/bin $PATH
+set -gx PATH $HOME/.cargo/bin $PATH
+set -gx PATH $BUN_INSTALL/bin $PATH
+set -gx PATH "$HOME/.local/share/pnpm" $PATH
+
+set -gx PIP_BREAK_SYSTEM_PACKAGES 1
 set -gx BUN_INSTALL "$HOME/.bun"
 set -gx ZSH "$HOME/.oh-my-zsh"
 set -gx NVM_DIR "$HOME/.nvm"
-set -gx PATH $PATH:/usr/local/go/bin
-set -gx PATH $PATH:~/.local/bin
-set -gx PATH $PATH:~/.cargo/bin
-set -gx PATH $BUN_INSTALL/bin:$PATH
-
-set -gx PIP_BREAK_SYSTEM_PACKAGES 1
-
-
 set -gx FZF_DEFAULT_OPTS "--tmux center --info=inline --margin=1 --padding=1"
 set -gx DESKTOP_ENTRY "~/.local/share/applications/"
-
 set -gx BAT_THEME gruvbox-dark
-set -gx PNPM_HOME "$HOME/.local/share/pnpm"
 
 # Remove all dup path, yes i know it's preferred to use fish_add_path but fuck it
 set -gx PATH (printf "%s\n" $PATH | sort -u)
@@ -48,7 +45,7 @@ alias ll='ls -alFh'
 alias icat='kitten icat'
 alias cat='bat'
 alias ez='nvim ~/.zshrc'
-alias ef='nvim ~/.zshrc'
+alias ef='nvim ~/.config/fish/config.fish'
 alias fm='nautilus'
 # alias cal='ncal -C'
 alias ffd='cd "$(fd -t d . $HOME | fzf)"'
@@ -72,19 +69,20 @@ alias ping='ping -c 10'
 alias less='less -R'
 alias multitail='multitail --no-repeat -c'
 alias cpd='pwd | tr -d "\n" | xsel -i -b'
+alias copydir='pwd | tr -d "\n" | xsel -i -b'
 alias cd..='cd ..'
 
 
 # FUNCTIONS
 
 function bonsai -a text --description "Display bonsai, with my preference"
-     cbonsai -S -t 0.125 -m $text
- end
+    cbonsai -S -t 0.125 -m $text
+end
 
 
 function @qrcode --description 'Generate a QR code; use -p or --png for PNG output']
-    argparse 'p/png' -- $argv 
-    or return 
+    argparse p/png -- $argv
+    or return
 
     # Check if an argument (the data to encode) was provided
     if test (count $argv) -eq 0
