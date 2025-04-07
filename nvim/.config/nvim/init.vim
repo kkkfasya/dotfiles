@@ -22,6 +22,7 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'projekt0n/github-nvim-theme'
 Plug 'aktersnurra/no-clown-fiesta.nvim'
 Plug 'https://github.com/junegunn/seoul256.vim'
+Plug 'lewis6991/gitsigns.nvim'
 
 Plug 'akinsho/bufferline.nvim'
 
@@ -294,7 +295,7 @@ require("blink.cmp").setup({
 
 	cmdline = {
 		keymap = {
-			["<Tab>"] = { "select_next", "fallback" },
+			["<Tab>"] = { "show", "accept" },
 			["<Down>"] = { "select_next", "fallback" },
 			["<Up>"] = { "select_prev", "fallback" },
 		},
@@ -350,6 +351,67 @@ require("gruvbox").setup({
 
 vim.cmd("colorscheme gruvbox")
 vim.cmd("hi! link SignColumn Normal")
+
+
+-- Git
+require('gitsigns').setup{
+  on_attach = function(bufnr)
+    local gitsigns = require('gitsigns')
+
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
+
+    -- Navigation
+    map('n', ']g', function()
+      if vim.wo.diff then
+        vim.cmd.normal({']g', bang = true})
+      else
+        gitsigns.nav_hunk('next')
+      end
+    end)
+
+    map('n', '[g', function()
+      if vim.wo.diff then
+        vim.cmd.normal({'[g', bang = true})
+      else
+        gitsigns.nav_hunk('prev')
+      end
+    end)
+
+    -- Actions
+
+    map('v', 'gs', function()
+      gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+    end)
+
+    map('v', 'gr', function()
+      gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+    end)
+
+    map('n', '<leader>gS', gitsigns.stage_buffer)
+    map('n', '<leader>gR', gitsigns.reset_buffer)
+    map('n', '<leader>gh', gitsigns.preview_hunk)
+
+    map('n', '<leader>gb', function()
+      gitsigns.blame_line({ full = true })
+    end)
+
+    map('n', '<leader>gd', gitsigns.diffthis)
+
+    map('n', '<leader>hD', function()
+      gitsigns.diffthis('~')
+    end)
+
+    -- Toggles
+    map('n', '<leader>td', gitsigns.toggle_deleted)
+    map('n', '<leader>tw', gitsigns.toggle_word_diff)
+  end
+}
+
+
 
 -- Others
 require("ibl").setup({})

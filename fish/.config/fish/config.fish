@@ -6,13 +6,13 @@ fastfetch
 set -gx PATH $HOME/usr/local/go/bin $PATH
 set -gx PATH $HOME/.local/bin $PATH
 set -gx PATH $HOME/.cargo/bin $PATH
-set -gx PATH $BUN_INSTALL/bin $PATH
-set -gx PATH "$HOME/.local/share/pnpm" $PATH
+set -gx PATH $HOME/.bun/bin $PATH
+set -gx PATH $HOME/.local/share/pnpm $PATH
 
-set -gx PIP_BREAK_SYSTEM_PACKAGES 1
-set -gx BUN_INSTALL "$HOME/.bun"
-set -gx ZSH "$HOME/.oh-my-zsh"
-set -gx NVM_DIR "$HOME/.nvm"
+set -gx BUN_INSTALL $HOME/.bun
+set -gx ZSH $HOME/.oh-my-zsh
+set -gx NVM_DIR $HOME/.nvm
+
 set -gx FZF_DEFAULT_OPTS "--tmux center --info=inline --margin=1 --padding=1"
 set -gx DESKTOP_ENTRY "~/.local/share/applications/"
 set -gx BAT_THEME gruvbox-dark
@@ -32,6 +32,8 @@ set -U fish_prompt_pwd_dir_length 0
 
 # ALIAS
 alias pkg='nvim ~/.config/notnix/config.lua'
+alias t='tmux attach || tmux'
+alias l='ls -alFh'
 
 alias sudo='sudo '
 alias gce='git checkout $(git branch | fzf)'
@@ -40,7 +42,6 @@ alias :q='exit'
 alias wcc='warp-cli connect'
 alias wdc='warp-cli disconnect'
 alias tmuxks='tmux kill-server'
-alias tmuxa='tmux a '
 alias ll='ls -alFh'
 alias icat='kitten icat'
 alias cat='bat'
@@ -53,6 +54,7 @@ alias qd='cd "$(fd -t d . | fzf)"'
 alias eb='nvim ~/.bashrc'
 alias sb='source ~/.bashrc'
 alias sz='source ~/.zshrc'
+alias sf='source ~/.config/fish/config.fish'
 alias ts='tmux source ~/.config/tmux/tmux.conf'
 alias c='clear'
 alias ytdl='youtube-dl'
@@ -60,7 +62,7 @@ alias eiv='nvim ~/.config/nvim/init.vim'
 alias clipb='xsel -i -b'
 alias vim='nvim'
 alias virtualenv='python3 -m virtualenv'
-alias ocd='cd "$OLDPWD"'
+alias ocd='cd "$dirprev[-1]"'
 alias cp='cp -i -v'
 alias mv='mv -i -v'
 alias rm='trash -v'
@@ -71,6 +73,9 @@ alias multitail='multitail --no-repeat -c'
 alias cpd='pwd | tr -d "\n" | xsel -i -b'
 alias copydir='pwd | tr -d "\n" | xsel -i -b'
 alias cd..='cd ..'
+
+
+# KEYBINDING || MAPPING
 
 
 # FUNCTIONS
@@ -103,7 +108,6 @@ function @qrcode --description 'Generate a QR code; use -p or --png for PNG outp
 end
 
 function @url_short --description 'Shorten a URL'
-
     if test (count $argv) -eq 0
         echo "Error: Please provide a URL to shorten."
         return 1
