@@ -6,24 +6,23 @@ Plug 'stevearc/conform.nvim'
 
 Plug 'Saghen/blink.cmp'
 Plug 'rafamadriz/friendly-snippets' 
+Plug 'L3MON4D3/LuaSnip'
 
 Plug 'folke/trouble.nvim'
 Plug 'numToStr/Comment.nvim'
 Plug 'AlexeySachkov/llvm-vim'
 
-Plug 'L3MON4D3/LuaSnip'
 
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'ellisonleao/gruvbox.nvim'
+Plug 'talha-akram/noctis.nvim'
+Plug 'projekt0n/github-nvim-theme'
+Plug 'aktersnurra/no-clown-fiesta.nvim'
+
 Plug 'windwp/nvim-autopairs'
 Plug 'kkkfasya/timelapse.nvim' " my own plugin!!!
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-
-Plug 'projekt0n/github-nvim-theme'
-Plug 'aktersnurra/no-clown-fiesta.nvim'
-Plug 'https://github.com/junegunn/seoul256.vim'
 Plug 'lewis6991/gitsigns.nvim'
-
 Plug 'akinsho/bufferline.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
@@ -51,7 +50,6 @@ call plug#end()
 let g:VM_maps = {}
 let g:VM_maps['Find Under'] = '<C-d>'
 let g:VM_maps['Find Subword Under'] = '<C-d>'
-let g:seoul256_background = 234
 
 autocmd FileType php set iskeyword+=$
 
@@ -59,6 +57,7 @@ augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank({higroup="IncSearch", timeout=100})
 augroup END
+
 inoremap /* /**/<Esc>hha
 
 let g:VM_default_mappings = 0
@@ -154,6 +153,61 @@ local function nvimtree_on_attach(bufnr)
 	vim.keymap.set("n", "d", nvimtree.fs.trash, opts("Trash file"))
 	vim.keymap.set("n", "Y", nvimtree.fs.copy.absolute_path, opts("Info"))
 end
+
+function gitsigns_on_attach(bufnr)
+    local gitsigns = require('gitsigns')
+
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
+
+    -- Navigation
+    map('n', ']g', function()
+      if vim.wo.diff then
+        vim.cmd.normal({']g', bang = true})
+      else
+        gitsigns.nav_hunk('next')
+      end
+    end)
+
+    map('n', '[g', function()
+      if vim.wo.diff then
+        vim.cmd.normal({'[g', bang = true})
+      else
+        gitsigns.nav_hunk('prev')
+      end
+    end)
+
+    -- Actions
+
+    map('v', 'gs', function()
+      gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+    end)
+
+    map('v', 'gr', function()
+      gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+    end)
+
+    map('n', '<leader>gS', gitsigns.stage_buffer)
+    map('n', '<leader>gR', gitsigns.reset_buffer)
+    map('n', '<leader>gh', gitsigns.preview_hunk)
+
+    map('n', '<leader>gb', function()
+      gitsigns.blame_line({ full = true })
+    end)
+
+    map('n', '<leader>gd', gitsigns.diffthis)
+
+    map('n', '<leader>hD', function()
+      gitsigns.diffthis('~')
+    end)
+
+    -- Toggles
+    map('n', '<leader>td', gitsigns.toggle_deleted)
+    map('n', '<leader>tw', gitsigns.toggle_word_diff)
+  end
 
 local function quickfix()
 	vim.lsp.buf.code_action({
@@ -280,7 +334,7 @@ require("blink.cmp").setup({
 	signature = { enabled = true },
 
 	keymap = {
-		["<CR>"] = { "accept", "fallback" },
+		["<CR>"] = { "accept", "fallback"},
 		["<Tab>"] = { "select_next", "fallback" },
 		["<S-Tab>"] = { "snippet_backward", "fallback" },
 		["<Up>"] = { "select_prev", "fallback" },
@@ -355,63 +409,8 @@ vim.cmd("hi! link SignColumn Normal")
 
 -- Git
 require('gitsigns').setup{
-  on_attach = function(bufnr)
-    local gitsigns = require('gitsigns')
-
-    local function map(mode, l, r, opts)
-      opts = opts or {}
-      opts.buffer = bufnr
-      vim.keymap.set(mode, l, r, opts)
-    end
-
-    -- Navigation
-    map('n', ']g', function()
-      if vim.wo.diff then
-        vim.cmd.normal({']g', bang = true})
-      else
-        gitsigns.nav_hunk('next')
-      end
-    end)
-
-    map('n', '[g', function()
-      if vim.wo.diff then
-        vim.cmd.normal({'[g', bang = true})
-      else
-        gitsigns.nav_hunk('prev')
-      end
-    end)
-
-    -- Actions
-
-    map('v', 'gs', function()
-      gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-    end)
-
-    map('v', 'gr', function()
-      gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-    end)
-
-    map('n', '<leader>gS', gitsigns.stage_buffer)
-    map('n', '<leader>gR', gitsigns.reset_buffer)
-    map('n', '<leader>gh', gitsigns.preview_hunk)
-
-    map('n', '<leader>gb', function()
-      gitsigns.blame_line({ full = true })
-    end)
-
-    map('n', '<leader>gd', gitsigns.diffthis)
-
-    map('n', '<leader>hD', function()
-      gitsigns.diffthis('~')
-    end)
-
-    -- Toggles
-    map('n', '<leader>td', gitsigns.toggle_deleted)
-    map('n', '<leader>tw', gitsigns.toggle_word_diff)
-  end
+  on_attach = gitsigns_on_attach,
 }
-
-
 
 -- Others
 require("ibl").setup({})

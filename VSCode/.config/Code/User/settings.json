@@ -110,7 +110,6 @@
   "workbench.colorTheme": "Noctis Minimus",
   "editor.inlineSuggest.enabled": false,
   "diffEditor.ignoreTrimWhitespace": false,
-  "editor.wordWrap": "bounded",
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
   },
@@ -147,4 +146,9 @@
   "git.openRepositoryInParentFolders": "never",
   "search.quickOpen.history.filterSortOrder": "recency",
   "window.titleBarStyle": "native",
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 120,
+  "[sql]": {
+    "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
+  },
 }

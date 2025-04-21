@@ -1,10 +1,11 @@
 " FIX: ctrl + shift + v not working
 
-" TODO: [add] E for error msg popup
-" TODO: [add] F for formatting
-
-
 let mapleader = " "
+
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank({higroup="CurSearch", timeout=100})
+augroup END
 
 set clipboard+=unnamedplus
 aunmenu PopUp.How-to\ disable\ mouse

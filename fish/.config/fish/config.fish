@@ -8,6 +8,8 @@ set -gx PATH $HOME/.local/bin $PATH
 set -gx PATH $HOME/.cargo/bin $PATH
 set -gx PATH $HOME/.bun/bin $PATH
 set -gx PATH $HOME/.local/share/pnpm $PATH
+set -gx PATH $HOME/.local/bin/flutter-dev/bin $PATH
+set -gx PATH $HOME/.local/bin/phpenv/bin $PATH
 
 set -gx BUN_INSTALL $HOME/.bun
 set -gx ZSH $HOME/.oh-my-zsh
@@ -31,9 +33,12 @@ set -U fish_prompt_pwd_dir_length 0
 
 
 # ALIAS
+# alias code="code --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=auto"
 alias pkg='nvim ~/.config/notnix/config.lua'
 alias t='tmux attach || tmux'
+alias tmuxks='tmux kill-server'
 alias l='ls -alFh'
+alias cpudebug='sudo auto-cpufreq --debug'
 
 alias sudo='sudo '
 alias gce='git checkout $(git branch | fzf)'
@@ -41,7 +46,6 @@ alias spkg='sudo dnf search '
 alias :q='exit'
 alias wcc='warp-cli connect'
 alias wdc='warp-cli disconnect'
-alias tmuxks='tmux kill-server'
 alias ll='ls -alFh'
 alias icat='kitten icat'
 alias cat='bat'
@@ -76,14 +80,37 @@ alias cd..='cd ..'
 
 
 # KEYBINDING || MAPPING
-
+bind --key btab true
+bind \e\[Z forward-bigword
+bind \cF complete-and-search
 
 # FUNCTIONS
-
 function bonsai -a text --description "Display bonsai, with my preference"
     cbonsai -S -t 0.125 -m $text
 end
 
+function tnew -a session_name --description "new Tmux session with name"
+    tmux new -s "$session_name"
+end
+
+function ta -a session_name --description "attach to named session"
+    tmux a -t "$session_name"
+end
+
+function tk -a session_name --description "kill named session"
+    tmux kill-session -t "$session_name"
+end
+
+function fish_fmt -a file_name --description "Fish formatter"
+    fish_indent -w $file_name
+end
+
+function @compress -a filename folder --description "Compress with zstd"
+    tar -v \
+        --use-compress-program "zstd --threads=12 -13" \
+        --create \
+        --file $filename $folder
+end
 
 function @qrcode --description 'Generate a QR code; use -p or --png for PNG output']
     argparse p/png -- $argv
@@ -132,3 +159,10 @@ set -g fish_greeting
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
+
+# pnpm
+set -gx PNPM_HOME "/home/swagg/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+    set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end

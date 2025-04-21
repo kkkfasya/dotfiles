@@ -1,4 +1,7 @@
 alias c='clear'
+alias t='tmux attach || tmux'
+alias ffd='cd "$(fd -t d . $HOME | fzf)"'
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
@@ -11,11 +14,6 @@ if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
 fi
 
 export PATH
-
-# ~/.bashrc
-if [[ $- == *i* && -x /usr/bin/fish ]]; then
-    exec /usr/bin/fish
-fi
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
@@ -30,3 +28,7 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 . "$HOME/.cargo/env"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$VM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
