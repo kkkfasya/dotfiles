@@ -224,12 +224,7 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Commands
 vim.api.nvim_create_user_command("DiagnosticsToggle", function()
-	local current_value = vim.diagnostic.is_disabled()
-	if current_value then
-		vim.diagnostic.enable()
-	else
-		vim.diagnostic.disable()
-	end
+    vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, {})
 
 vim.api.nvim_create_user_command("ListSymbols", function()
@@ -249,7 +244,7 @@ vim.api.nvim_create_user_command("Format", function(args)
 end, { range = true })
 
 -- LSP
-vim.diagnostic.disable()
+vim.diagnostic.enable(false)
 
 require("mason").setup()
 require("mason-lspconfig").setup({
@@ -261,8 +256,7 @@ require("mason-lspconfig").setup({
 
 local lspconfig_defaults = require("lspconfig").util.default_config
 
-lspconfig_defaults.capabilities =
-	vim.tbl_deep_extend("force", lspconfig_defaults.capabilities, require("blink.cmp").get_lsp_capabilities())
+lspconfig_defaults.capabilities = vim.tbl_deep_extend("force", lspconfig_defaults.capabilities, require("blink.cmp").get_lsp_capabilities())
 
 require("lspconfig").lua_ls.setup({})
 
@@ -285,7 +279,6 @@ require("lspconfig").ts_ls.setup({})
 
 require("lspconfig").intelephense.setup({
 	check_on_save = false,
-	capabilities = capabilities,
 	root_dir = function(_)
 		return vim.loop.cwd()
 	end,
@@ -293,7 +286,6 @@ require("lspconfig").intelephense.setup({
 
 require("lspconfig").rust_analyzer.setup({
 	check_on_save = false,
-	capabilities = capabilities,
 })
 
 -- AutoComplete | CMP
@@ -359,7 +351,7 @@ require("blink.cmp").setup({
 
 -- TreeSitter (TS)
 require("nvim-treesitter.configs").setup({
-	ensure_installed = { "c", "lua", "python", "javascript", "typescript" },
+	ensure_installed = { "c", "lua", "python", "javascript", "typescript", "php", "html", "css" },
 	sync_install = false,
 	auto_install = false,
 	highlight = {

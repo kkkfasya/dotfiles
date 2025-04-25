@@ -1,7 +1,6 @@
 fastfetch
 # ~/scripts/./days.sh
 
-
 # ENV VARIABLE
 set -gx PATH $HOME/usr/local/go/bin $PATH
 set -gx PATH $HOME/.local/bin $PATH
@@ -22,7 +21,6 @@ set -gx BAT_THEME gruvbox-dark
 # Remove all dup path, yes i know it's preferred to use fish_add_path but fuck it
 set -gx PATH (printf "%s\n" $PATH | sort -u)
 
-
 if test $SSH_CONNECTION
     set -gx EDITOR vi
 else
@@ -31,17 +29,16 @@ end
 
 set -U fish_prompt_pwd_dir_length 0
 
-
 # ALIAS
 # alias code="code --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=auto"
 alias pkg='nvim ~/.config/notnix/config.lua'
 alias t='tmux attach || tmux'
-alias tmuxks='tmux kill-server'
+alias tks='tmux kill-server'
 alias l='ls -alFh'
 alias cpudebug='sudo auto-cpufreq --debug'
 
 alias sudo='sudo '
-alias gce='git checkout $(git branch | fzf)'
+alias gls='git ls-files'
 alias spkg='sudo dnf search '
 alias :q='exit'
 alias wcc='warp-cli connect'
@@ -78,11 +75,18 @@ alias cpd='pwd | tr -d "\n" | xsel -i -b'
 alias copydir='pwd | tr -d "\n" | xsel -i -b'
 alias cd..='cd ..'
 
-
 # KEYBINDING || MAPPING
 bind --key btab true
+
 bind \e\[Z forward-bigword
 bind \cF complete-and-search
+
+#this is for kitty, apparently ghostty handle shortcut input differently
+bind shift-tab forward-bigword
+bind ctrl-f complete-and-search
+
+#this is for tmux
+bind --key btab forward-bigword
 
 # FUNCTIONS
 function bonsai -a text --description "Display bonsai, with my preference"
@@ -110,6 +114,28 @@ function @compress -a filename folder --description "Compress with zstd"
         --use-compress-program "zstd --threads=12 -13" \
         --create \
         --file $filename $folder
+end
+
+function @decompress -a filename folder --description "Decompress with zstd"
+    tar --use-compress-program=unzstd -xvf $filename
+end
+
+function bind_bang
+    switch (commandline --current-token)[-1]
+    case "!"
+        # Without the `--`, the functionality can break when completing
+        # flags used in the history (since, in certain edge cases
+        # `commandline` will assume that *it* should try to interpret
+        # the flag)
+        commandline --current-token -- $history[1]
+        commandline --function repaint
+    case "*"
+        commandline --insert !
+    end
+end
+
+function fish_user_key_bindings
+    bind ! bind_bang
 end
 
 function @qrcode --description 'Generate a QR code; use -p or --png for PNG output']
@@ -152,17 +178,10 @@ function @url_short --description 'Shorten a URL'
 end
 
 
-
 # MISC
 set -g fish_greeting
+set fish_cursor_default block
 
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
-
-# pnpm
-set -gx PNPM_HOME "/home/swagg/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-    set -gx PATH "$PNPM_HOME" $PATH
-end
-# pnpm end
