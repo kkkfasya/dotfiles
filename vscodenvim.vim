@@ -1,5 +1,11 @@
 " FIX: ctrl + shift + v not working
 
+call plug#begin()
+
+Plug 'vscode-neovim/vscode-multi-cursor.nvim'
+
+call plug#end()
+
 let mapleader = " "
 
 augroup highlight_yank
@@ -50,4 +56,10 @@ nnoremap gp <Cmd>lua require('vscode').action( 'editor.action.peekDefinition')<C
 nnoremap F <Cmd>lua require('vscode').action( 'editor.action.formatDocument')<CR>
 
 lua << END
+
+require('vscode-multi-cursor').setup()
+vim.keymap.set({ "n", "x", "i" }, "<C-d>", function()
+require("vscode-multi-cursor").addSelectionToNextFindMatch()
+end)
+
 END

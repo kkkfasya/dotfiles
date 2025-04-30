@@ -107,7 +107,6 @@
   },
   "quokka.compactMessageOutput": false,
   "quokka.showOutputOnStart": false,
-  "workbench.colorTheme": "Noctis Minimus",
   "editor.inlineSuggest.enabled": false,
   "diffEditor.ignoreTrimWhitespace": false,
   "[css]": {
@@ -130,7 +129,7 @@
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
   },
-  "vscode-neovim.neovimInitVimPaths.linux": "/home/swagg/dotfiles/vscodenvim.vim",
+  "vscode-neovim.neovimInitVimPaths.linux": "/home/ovhell/dotfiles/vscodenvim.vim",
   "editor.cursorBlinking": "solid",
   "svelte.enable-ts-plugin": true,
   "html.autoClosingTags": false,
@@ -151,4 +150,8 @@
   "[sql]": {
     "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
   },
+  "workbench.colorTheme": "Dracula Theme",
+  "editor.fontSize": 15,
+  "workbench.iconTheme": "material-icon-theme",
+  "git.autofetch": true,
 }

@@ -43,29 +43,20 @@
         "command": "-code-runner.run"
     },
     {
-        "key": "ctrl+d",
+        "key": "ctrl+shift+d",
         "command": "editor.action.addSelectionToNextFindMatch",
         "when": "editorFocus"
     },
     {
+        "args": "<C-d>",
+        "command": "vscode-neovim.send",
         "key": "ctrl+d",
-        "command": "-editor.action.addSelectionToNextFindMatch",
-        "when": "editorFocus"
+        "when": "editorFocus && neovim.init"
     },
     {
         "key": "ctrl+shift+d",
         "command": "-workbench.view.debug",
         "when": "viewContainer.workbench.view.debug.enabled"
-    },
-    {
-        "key": "ctrl+shift+d",
-        "command": "extension.vim_ctrl+d",
-        "when": "editorTextFocus && vim.active && vim.use<C-d> && !inDebugRepl"
-    },
-    {
-        "key": "ctrl+d",
-        "command": "-extension.vim_ctrl+d",
-        "when": "editorTextFocus && vim.active && vim.use<C-d> && !inDebugRepl"
     },
     {
         "key": "ctrl+f",
@@ -101,7 +92,7 @@
         "key": "ctrl+shift+f",
         "command": "workbench.action.findInFiles"
     },
-   {
+    {
         // Focus the active editor group (text editor) when the terminal is focused
         "key": "ctrl+;",
         "command": "workbench.action.focusActiveEditorGroup",
@@ -262,5 +253,5 @@
         "key": "ctrl+r ctrl+w",
         "command": "-vscode-neovim.send-cmdline",
         "when": "neovim.init && neovim.mode == 'cmdline'"
-    }
+    },
 ]

@@ -1,14 +1,17 @@
-fastfetch
 # ~/scripts/./days.sh
 
 # ENV VARIABLE
-set -gx PATH $HOME/usr/local/go/bin $PATH
+set -gx PATH $HOME/usr/local/go/bin $PATH # GOROOT i assume?
 set -gx PATH $HOME/.local/bin $PATH
 set -gx PATH $HOME/.cargo/bin $PATH
 set -gx PATH $HOME/.bun/bin $PATH
 set -gx PATH $HOME/.local/share/pnpm $PATH
 set -gx PATH $HOME/.local/bin/flutter-dev/bin $PATH
 set -gx PATH $HOME/.local/bin/phpenv/bin $PATH
+
+set -gx GOPATH $HOME/.local/go
+set -gx GOBIN $GOPATH/bin
+set -gx PATH $GOBIN $PATH
 
 set -gx BUN_INSTALL $HOME/.bun
 set -gx ZSH $HOME/.oh-my-zsh
@@ -45,7 +48,6 @@ alias wcc='warp-cli connect'
 alias wdc='warp-cli disconnect'
 alias ll='ls -alFh'
 alias icat='kitten icat'
-alias cat='bat'
 alias ez='nvim ~/.zshrc'
 alias ef='nvim ~/.config/fish/config.fish'
 alias fm='nautilus'
@@ -183,5 +185,7 @@ set -g fish_greeting
 set fish_cursor_default block
 
 if status is-interactive
+    fastfetch
+    zoxide init fish | source
     # Commands to run in interactive sessions can go here
 end

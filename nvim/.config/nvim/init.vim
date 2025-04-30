@@ -1,4 +1,5 @@
 call plug#begin()
+Plug 'vscode-neovim/vscode-multi-cursor.nvim' " had to be this way otherwise wont be installed on other conf idk why
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'folke/todo-comments.nvim'
@@ -12,12 +13,13 @@ Plug 'folke/trouble.nvim'
 Plug 'numToStr/Comment.nvim'
 Plug 'AlexeySachkov/llvm-vim'
 
-
 Plug 'nvim-lualine/lualine.nvim'
+
+" a bit too much theme eh
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'talha-akram/noctis.nvim'
 Plug 'projekt0n/github-nvim-theme'
-Plug 'aktersnurra/no-clown-fiesta.nvim'
+Plug 'binhtran432k/dracula.nvim'
 
 Plug 'windwp/nvim-autopairs'
 Plug 'kkkfasya/timelapse.nvim' " my own plugin!!!
@@ -50,6 +52,7 @@ call plug#end()
 let g:VM_maps = {}
 let g:VM_maps['Find Under'] = '<C-d>'
 let g:VM_maps['Find Subword Under'] = '<C-d>'
+let g:VM_maps["I Return"] = "<S-CR>"
 
 autocmd FileType php set iskeyword+=$
 
@@ -182,7 +185,7 @@ function gitsigns_on_attach(bufnr)
 
     -- Actions
 
-    map('v', 'gs', function()
+    map('v', 'ga', function()
       gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
     end)
 
@@ -192,13 +195,13 @@ function gitsigns_on_attach(bufnr)
 
     map('n', '<leader>gS', gitsigns.stage_buffer)
     map('n', '<leader>gR', gitsigns.reset_buffer)
-    map('n', '<leader>gh', gitsigns.preview_hunk)
+    map('n', '<leader>gph', gitsigns.preview_hunk)
 
     map('n', '<leader>gb', function()
       gitsigns.blame_line({ full = true })
     end)
 
-    map('n', '<leader>gd', gitsigns.diffthis)
+    -- map('n', '<leader>gd', gitsigns.diffthis)
 
     map('n', '<leader>hD', function()
       gitsigns.diffthis('~')
@@ -240,7 +243,7 @@ vim.api.nvim_create_user_command("Format", function(args)
 			["end"] = { args.line2, end_line:len() },
 		}
 	end
-	require("conform").format({ async = true, lsp_format = "fallback", range = range })
+	require("conform").format({ async = true, lsp_format = "never", range = range })
 end, { range = true })
 
 -- LSP
@@ -248,7 +251,7 @@ vim.diagnostic.enable(false)
 
 require("mason").setup()
 require("mason-lspconfig").setup({
-	ensure_installed = { "lua_ls", "clangd", "ts_ls", "pyright" },
+	ensure_installed = { "lua_ls", "clangd", "ts_ls", "pyright", "gopls"},
 })
 
 -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -260,8 +263,11 @@ lspconfig_defaults.capabilities = vim.tbl_deep_extend("force", lspconfig_default
 
 require("lspconfig").lua_ls.setup({})
 
+require("lspconfig").gopls.setup({})
+
 require("lspconfig").clangd.setup({})
 
+-- maybe change pyright to ruff
 require("lspconfig").pyright.setup({})
 
 require("lspconfig").ts_ls.setup({})
@@ -351,7 +357,7 @@ require("blink.cmp").setup({
 
 -- TreeSitter (TS)
 require("nvim-treesitter.configs").setup({
-	ensure_installed = { "c", "lua", "python", "javascript", "typescript", "php", "html", "css" },
+	ensure_installed = { "c", "lua", "python", "javascript", "typescript", "php", "html", "css", "go"},
 	sync_install = false,
 	auto_install = false,
 	highlight = {
@@ -368,7 +374,8 @@ require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
 		python = { "black" },
-		rust = { "rustfmt", lsp_format = "fallback" },
+        rust = { "rustfmt" },
+		go = { "goimports", "gofmt" },
 		javascript = { "prettier" },
 		sql = { "sql-formatter" },
 	},
