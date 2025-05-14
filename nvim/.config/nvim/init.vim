@@ -4,10 +4,11 @@ Plug 'vscode-neovim/vscode-multi-cursor.nvim' " had to be this way otherwise won
 Plug 'neovim/nvim-lspconfig'
 Plug 'folke/todo-comments.nvim'
 Plug 'stevearc/conform.nvim'
+Plug 'folke/snacks.nvim'
 
 Plug 'Saghen/blink.cmp'
 Plug 'rafamadriz/friendly-snippets' 
-Plug 'L3MON4D3/LuaSnip'
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
 
 Plug 'folke/trouble.nvim'
 Plug 'numToStr/Comment.nvim'
@@ -18,7 +19,6 @@ Plug 'nvim-lualine/lualine.nvim'
 " a bit too much theme eh
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'talha-akram/noctis.nvim'
-Plug 'projekt0n/github-nvim-theme'
 Plug 'binhtran432k/dracula.nvim'
 
 Plug 'windwp/nvim-autopairs'
@@ -29,6 +29,7 @@ Plug 'akinsho/bufferline.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.6' }
+Plug 'natecraddock/telescope-zf-native.nvim'
 
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
@@ -39,7 +40,6 @@ Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'rmagatti/goto-preview'
-Plug 'lukas-reineke/indent-blankline.nvim'
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'ej-shafran/compile-mode.nvim'
@@ -227,7 +227,22 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Commands
 vim.api.nvim_create_user_command("DiagnosticsToggle", function()
-    vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+    local diagnostic = vim.diagnostic.is_enabled()
+    vim.diagnostic.enable(not diagnostic)
+
+    local status = (not diagnostic) and "enabled" or "disabled"
+    print("Diagnostic is " .. status)
+end, {})
+
+vim.api.nvim_create_user_command("VirtualTextToggle", function()
+    local cfg = vim.diagnostic.config()
+
+    vim.diagnostic.config({
+    virtual_text = not cfg.virtual_text,
+    })
+
+    local status = (not cfg.virtual_text) and "enabled" or "disabled"
+    print("Diagnostic virtual text is " .. status)
 end, {})
 
 vim.api.nvim_create_user_command("ListSymbols", function()
@@ -354,6 +369,7 @@ require("blink.cmp").setup({
 		completion = { menu = { auto_show = true } },
 	},
 })
+require("luasnip.loaders.from_vscode").lazy_load()
 
 -- TreeSitter (TS)
 require("nvim-treesitter.configs").setup({
@@ -376,7 +392,7 @@ require("conform").setup({
 		python = { "black" },
         rust = { "rustfmt" },
 		go = { "goimports", "gofmt" },
-		javascript = { "prettier" },
+		javascript = { "biome", "prettier" },
 		sql = { "sql-formatter" },
 	},
 })
@@ -387,17 +403,19 @@ require("gruvbox").setup({
 	underline = false,
 	bold = false,
 	italic = {
-		folds = true,
+        strings = false,
 	},
 	inverse = true, -- invert background for search, diffs, statuslines and errors
 	contrast = "soft",
 	palette_overrides = {},
-	overrides = {
-		["@lsp.type.function"] = { fg = "#ff9900" },
-		["@lsp.type.method"] = { fg = "#ff9900" },
-		["@lsp.type.macro"] = { fg = "#fabd2f" },
-		["@lsp.type.property"] = { fg = "#ebdbb2" },
-	},
+--	overrides = {
+--		["@function"] = { fg = "#ff9900" },
+--		["@function.call"] = { fg = "#ff9900" },
+--		["@function.method"] = { fg = "#ff9900" },
+--		["@function.call"] = { fg = "#ff9900" },
+--		["@constant.macro"] = { fg = "#fabd2f" },
+--		["@property"] = { fg = "#ebdbb2" },
+--	},
 	dim_inactive = false,
 	transparent_mode = false,
 })
@@ -412,7 +430,6 @@ require('gitsigns').setup{
 }
 
 -- Others
-require("ibl").setup({})
 require("bufferline").setup({})
 require("todo-comments").setup({
 	highlight = { multiline = false },
@@ -440,6 +457,7 @@ require("telescope").setup({
 		},
 	},
 })
+require("telescope").load_extension("zf-native")
 
 require("Comment").setup({
 	opleader = {
@@ -472,6 +490,23 @@ require("goto-preview").setup({
 
 require("nvim-autopairs").setup({
 	enable_check_bracket_line = false,
+})
+
+require("snacks").setup(
+{
+    quickfile = { enabled = true },
+    image = {enabled = true},
+    indent = {
+        priority = 1,
+        enabled = true,
+        char = "│",
+        only_scope = false,
+        only_current = false,
+        hl = "SnacksIndent",
+        animate = { enabled = false}, -- fuck aniamation bro
+    },
+  
+
 })
 
 END
