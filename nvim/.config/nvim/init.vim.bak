@@ -195,7 +195,7 @@ function gitsigns_on_attach(bufnr)
 
     map('n', '<leader>gS', gitsigns.stage_buffer)
     map('n', '<leader>gR', gitsigns.reset_buffer)
-    map('n', '<leader>gph', gitsigns.preview_hunk)
+    map('n', '<leader>gh', gitsigns.preview_hunk)
 
     map('n', '<leader>gb', function()
       gitsigns.blame_line({ full = true })
@@ -273,7 +273,6 @@ require("mason-lspconfig").setup({
 -- local capabilities = require('blink.cmp').get_lsp_capabilities()
 
 local lspconfig_defaults = require("lspconfig").util.default_config
-
 lspconfig_defaults.capabilities = vim.tbl_deep_extend("force", lspconfig_defaults.capabilities, require("blink.cmp").get_lsp_capabilities())
 
 require("lspconfig").lua_ls.setup({})
@@ -438,6 +437,7 @@ require("trouble").setup({})
 require("lualine").setup({
 	options = { theme = "gruvbox" },
 })
+
 require("telescope").setup({
 	defaults = {
 		layout_config = {
@@ -457,6 +457,7 @@ require("telescope").setup({
 		},
 	},
 })
+
 require("telescope").load_extension("zf-native")
 
 require("Comment").setup({

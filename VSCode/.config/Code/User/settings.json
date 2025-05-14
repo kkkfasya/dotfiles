@@ -103,7 +103,7 @@
     "strings": "on"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "quokka.compactMessageOutput": false,
   "quokka.showOutputOnStart": false,
@@ -113,7 +113,7 @@
     "editor.defaultFormatter": "vscode.css-language-features"
   },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "editor.acceptSuggestionOnCommitCharacter": false,
   "todo-tree.general.tags": [
@@ -151,7 +151,7 @@
     "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
   },
   "workbench.colorTheme": "Dracula Theme",
-  "editor.fontSize": 15,
+  "editor.fontSize": 15.5,
   "workbench.iconTheme": "material-icon-theme",
   "git.autofetch": true,
 }

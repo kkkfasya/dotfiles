@@ -86,7 +86,7 @@
     {
         // Focus the terminal when the terminal is not focused
         "key": "ctrl+;",
-        "command": "workbench.action.terminal.focus"
+        "command": "workbench.action.terminal.toggleTerminal",
     },
     {
         "key": "ctrl+shift+f",
@@ -95,7 +95,7 @@
     {
         // Focus the active editor group (text editor) when the terminal is focused
         "key": "ctrl+;",
-        "command": "workbench.action.focusActiveEditorGroup",
+        "command": "workbench.action.terminal.toggleTerminal",
         "when": "terminalFocus"
     },
     {
