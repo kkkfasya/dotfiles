@@ -157,6 +157,7 @@ local COLORSCHEME = {
 local FORMATTER = {
 	"stevearc/conform.nvim",
 	lazy = true,
+
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {
@@ -169,8 +170,10 @@ local FORMATTER = {
 			},
 		})
 	end,
+	keys = function()
+		vim.keymap.set("n", "F", ":Format<CR>", { noremap = true, silent = true })
+	end,
 }
--- TODO: later
 local TELESCOPE = {
 	"nvim-telescope/telescope.nvim",
 	tag = "0.1.8",
@@ -195,6 +198,7 @@ local TELESCOPE = {
 			},
 		},
 	},
+
 	keys = function()
 		local telescope = require("telescope.builtin")
 		vim.keymap.set("n", "<leader>p", telescope.find_files, {})
@@ -288,7 +292,8 @@ local MISC = {
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 	{ "AlexeySachkov/llvm-vim", lazy = true, ft = { " " } },
 	{ "mg979/vim-visual-multi", lazy = true, event = { "BufReadPost", "BufNewFile" } },
-	{ "kkkfasya/timelapse.nvim", lazy = true }, -- my own plugin!!!
+	{ "kkkfasya/timelapse.nvim", lazy = true, cmd = { "Timelapse" } }, -- my own plugin!!!
+	{ "akinsho/bufferline.nvim", lazy = true, opts = {}, event = { "BufReadPost" } },
 
 	{
 		"norcalli/nvim-colorizer.lua",
@@ -311,15 +316,29 @@ local MISC = {
 		end,
 	},
 
-	-- { "akinsho/bufferline.nvim", lazy = true, opts = {} }, should i still use this?
 	{
 		"folke/todo-comments.nvim",
 		event = { "BufReadPost" },
 		opts = { highlight = { multiline = false } },
 	},
 
-	{ "famiu/bufdelete.nvim", lazy = true },
-	{ "ej-shafran/compile-mode.nvim", lazy = true },
+	{
+		"famiu/bufdelete.nvim",
+		lazy = true,
+		cmd = { "Bdelete" },
+		keys = function()
+			vim.keymap.set("n", "<leader>qq", "<cmd>Bdelete<CR>", { noremap = true, silent = true })
+		end,
+	},
+	{
+		"ej-shafran/compile-mode.nvim",
+		lazy = true,
+		cmd = { "Compile", "Recompile" },
+		keys = function()
+			vim.keymap.set("n", "<leader>C", ":w | :Compile<CR>", { noremap = true, silent = true })
+			vim.keymap.set("n", "<leader>cc", ":w | :Recompile<CR>", { noremap = true, silent = true })
+		end,
+	},
 
 	{ "windwp/nvim-autopairs", lazy = true, event = "InsertEnter", opts = { enable_check_bracket_line = false } },
 
@@ -424,15 +443,11 @@ local GITSIGNS = {
 				gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
 			end)
 
-			map("n", "<leader>gs", gs.stage_buffer, "Stage Buffer")
+			map("n", "<leader>ga", gs.stage_buffer, "Stage Buffer")
 			map("n", "<leader>gR", gs.reset_buffer, "Reset Buffer")
 			map("n", "<leader>gh", gs.preview_hunk_inline, "Preview Hunk Inline")
 
 			map("n", "<leader>gb", function()
-				gs.blame_line({ full = true })
-			end, "Blame Line")
-
-			map("n", "<leader>gB", function()
 				gs.blame()
 			end, "Blame Buffer")
 
@@ -564,6 +579,8 @@ local LSPCONFIG = {
 			vim.tbl_deep_extend("force", lspconfig_defaults.capabilities, require("blink.cmp").get_lsp_capabilities())
 	end,
 
+	-- im not very fond of the way lazy setup lazy-keymap but thankfully folke allows function
+	-- so i can set it up the normal way
 	keys = function()
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
@@ -571,6 +588,14 @@ local LSPCONFIG = {
 		vim.keymap.set("n", "E", vim.diagnostic.open_float, {})
 		vim.keymap.set("n", "ge", vim.diagnostic.goto_next)
 		vim.keymap.set("n", "gE", vim.diagnostic.goto_prev)
+		vim.keymap.set("n", "<leader>qf", function()
+			vim.lsp.buf.code_action({
+				filter = function(a)
+					return a.isPreferred
+				end,
+				apply = true,
+			})
+		end, { noremap = true, silent = true })
 	end,
 }
 
@@ -588,28 +613,15 @@ local LSPCONFIG = {
 -- General Mappings
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<C-Left>", ":vertical resize +3<CR>", { silent = true, desc = "Increase window width" })
-
 vim.keymap.set("n", "<C-Right>", ":vertical resize -3<CR>", { silent = true, desc = "Decrease window width" })
+
 vim.keymap.set("n", "<leader>bb", ":b#<CR>", {})
 vim.keymap.set("n", "<leader>bn", ":bn<CR>", {})
-
-vim.keymap.set("n", "<leader>C", ":w | :Compile<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>cc", ":w | :Recompile<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "F", ":Format<CR>", { noremap = true, silent = true })
 
 vim.keymap.set("n", "<C-k>", ":wincmd k<CR>", { silent = true, desc = "Move to window above" })
 vim.keymap.set("n", "<C-j>", ":wincmd j<CR>", { silent = true, desc = "Move to window below" })
 vim.keymap.set("n", "<C-h>", ":wincmd h<CR>", { silent = true, desc = "Move to window left" })
 vim.keymap.set("n", "<C-l>", ":wincmd l<CR>", { silent = true, desc = "Move to window right" })
-
-vim.keymap.set("n", "<leader>qf", function()
-	vim.lsp.buf.code_action({
-		filter = function(a)
-			return a.isPreferred
-		end,
-		apply = true,
-	})
-end, { noremap = true, silent = true })
 
 -- USER COMMANDS
 vim.api.nvim_create_user_command("ListSymbols", function()
