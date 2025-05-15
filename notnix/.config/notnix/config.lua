@@ -1,10 +1,13 @@
 local Config = {}
 
 Config.pkgs = {
-    "zoxide",
-    "pnpm",
-    "btop",
-    "ruff",
+	"snapper",
+	"kwin-effect-roundcorners",
+	"btrfs-assistant",
+	"zoxide",
+	"pnpm",
+	"btop",
+	"ruff",
 	"pdfarranger",
 	"distrobox",
 	"git", -- git is not preinstalled in fedora lmaoo
@@ -68,6 +71,7 @@ Config.pkgs = {
 	"postgresql",
 	"postgresql-contrib",
 
+	"php",
 	"php-mysqlnd",
 	"php-xml",
 	"php-json",
@@ -82,10 +86,9 @@ Config.flatpaks = {
 	"org.signal.Signal",
 	"org.gnome.World.PikaBackup",
 	"io.gitlab.theevilskeleton.Upscaler",
-	"org.upscayl.Upscayl",
 	"com.spotify.Client",
-	"dev.zed.Zed",
 	"dev.vencord.Vesktop",
+	"com.google.Chrome",
 }
 
 Config.repos = {
@@ -95,6 +98,7 @@ Config.repos = {
 	"sneexy/zen-browser",
 	"chenxiaolong/sbctl",
 	"pgdev/ghostty",
+	"matinlotfali/KDE-Rounded-Corners",
 }
 
 Config.install = "sudo dnf install"

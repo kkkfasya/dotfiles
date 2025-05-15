@@ -23,6 +23,7 @@ set -gx BAT_THEME gruvbox-dark
 
 # Remove all dup path, yes i know it's preferred to use fish_add_path but fuck it
 set -gx PATH (printf "%s\n" $PATH | sort -u)
+set -gx LC_ALL en_US.UTF-8
 
 if test $SSH_CONNECTION
     set -gx EDITOR vi
@@ -34,6 +35,10 @@ set -U fish_prompt_pwd_dir_length 0
 
 # ALIAS
 # alias code="code --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=auto"
+
+zoxide init fish | source
+alias cd="z"
+
 alias pkg='nvim ~/.config/notnix/config.lua'
 alias t='tmux attach || tmux'
 alias tks='tmux kill-server'
@@ -51,6 +56,7 @@ alias icat='kitten icat'
 alias ez='nvim ~/.zshrc'
 alias ef='nvim ~/.config/fish/config.fish'
 alias fm='nautilus'
+alias cat='bat'
 # alias cal='ncal -C'
 alias ffd='cd "$(fd -t d . $HOME | fzf)"'
 alias qd='cd "$(fd -t d . | fzf)"'
@@ -61,7 +67,7 @@ alias sf='source ~/.config/fish/config.fish'
 alias ts='tmux source ~/.config/tmux/tmux.conf'
 alias c='clear'
 alias ytdl='youtube-dl'
-alias eiv='nvim ~/.config/nvim/init.vim'
+alias eiv='nvim ~/.config/nvim/init.lua'
 alias clipb='xsel -i -b'
 alias vim='nvim'
 alias virtualenv='python3 -m virtualenv'
@@ -163,20 +169,7 @@ function @qrcode --description 'Generate a QR code; use -p or --png for PNG outp
 end
 
 function @url_short --description 'Shorten a URL'
-    if test (count $argv) -eq 0
-        echo "Error: Please provide a URL to shorten."
-        return 1
-    end
-
-    # Check if the string starts with https:// and add it if missing
-    if string match 'https://*' "$input"
-        set url $argv[1]
-    else
-        set url "https://$argv[1]"
-    end
-
-    # Send the URL to the shortening service
-    curl -F"shorten=$url" https://envs.sh
+   curl -F"shorten=$url" https://envs.sh
 end
 
 
@@ -186,6 +179,5 @@ set fish_cursor_default block
 
 if status is-interactive
     fastfetch
-    zoxide init fish | source
     # Commands to run in interactive sessions can go here
 end
