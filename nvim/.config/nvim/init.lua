@@ -32,7 +32,8 @@ local options = {
 	signcolumn = "yes",
 	undofile = true,
 	autowriteall = true,
-	so = 7,
+	termguicolors = true,
+	scrolloff = 7,
 }
 
 for key, value in pairs(options) do
@@ -103,14 +104,14 @@ vim.api.nvim_create_augroup("autosave", { clear = true })
 vim.api.nvim_create_autocmd("FocusLost", {
 	group = "autosave",
 	pattern = "*",
-	command = "wall",
+	command = "wall!",
 	desc = "Save all buffers on focus lost",
 })
 
 vim.api.nvim_create_autocmd("BufLeave", {
 	group = "autosave",
 	pattern = "*",
-	command = "wall",
+	command = "wall!",
 	desc = "Save all buffers on buffer leave",
 })
 
@@ -235,6 +236,7 @@ end
 
 local NVIMTREE = {
 	"nvim-tree/nvim-tree.lua",
+	lazy = true,
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
 		require("nvim-tree").setup({
@@ -258,7 +260,8 @@ local NVIMTREE = {
 }
 local TREESITTER = {
 	"nvim-treesitter/nvim-treesitter",
-	event = { "BufReadPost", "BufNewFile" },
+	event = { "BufReadPost", "BufNewFile", "CmdlineEnter" },
+	cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
 	config = function()
 		require("nvim-treesitter.configs").setup({
 			ensure_installed = {
@@ -286,23 +289,24 @@ local TREESITTER = {
 
 local MISC = {
 	-- extra colorscheme
-	{ "talha-akram/noctis.nvim", lazy = true },
-	{ "binhtran432k/dracula.nvim", lazy = true },
-
-	{ "nvim-tree/nvim-web-devicons", lazy = true },
-	{ "AlexeySachkov/llvm-vim", lazy = true, ft = { " " } },
+	{ "talha-akram/noctis.nvim", lazy = true, event = "CmdlineEnter" },
+	{ "binhtran432k/dracula.nvim", lazy = true, event = "CmdlineEnter" },
+	{ "AlexeySachkov/llvm-vim", lazy = true, ft = "llvm" },
 	{ "mg979/vim-visual-multi", lazy = true, event = { "BufReadPost", "BufNewFile" } },
 	{ "kkkfasya/timelapse.nvim", lazy = true, cmd = { "Timelapse" } }, -- my own plugin!!!
-	{ "akinsho/bufferline.nvim", lazy = true, opts = {}, event = { "BufReadPost" } },
+	{ "akinsho/bufferline.nvim", lazy = true, opts = {}, event = "BufReadPost" },
+	{ "windwp/nvim-autopairs", lazy = true, event = "InsertEnter", opts = { enable_check_bracket_line = false } },
 
 	{
-		"norcalli/nvim-colorizer.lua",
+		"catgoose/nvim-colorizer.lua",
 		lazy = true,
-		ft = { "html", "css", "javascript" },
+		ft = { "css", "javascript", "html" },
 		opts = {
-			"html",
-			"css",
-			"javascript",
+			filetypes = { "css", "javascript", "html" },
+			tailwind = true,
+			tailwind_opts = {
+				update_names = "both",
+			},
 		},
 	},
 
@@ -318,7 +322,7 @@ local MISC = {
 
 	{
 		"folke/todo-comments.nvim",
-		event = { "BufReadPost" },
+		event = "BufReadPost",
 		opts = { highlight = { multiline = false } },
 	},
 
@@ -339,8 +343,6 @@ local MISC = {
 			vim.keymap.set("n", "<leader>cc", ":w | :Recompile<CR>", { noremap = true, silent = true })
 		end,
 	},
-
-	{ "windwp/nvim-autopairs", lazy = true, event = "InsertEnter", opts = { enable_check_bracket_line = false } },
 
 	{
 		"rmagatti/goto-preview",
@@ -464,7 +466,7 @@ local GITSIGNS = {
 
 local BLINK_CMP = {
 	"Saghen/blink.cmp",
-	event = { "BufRead" },
+	event = { "BufRead", "CmdlineEnter" },
 	dependencies = {
 		{ "rafamadriz/friendly-snippets" },
 		{
@@ -542,14 +544,24 @@ local BLINK_CMP = {
 local LSPCONFIG = {
 	"neovim/nvim-lspconfig",
 	lazy = true,
-	event = { "BufRead" },
+	event = "BufRead",
 	priority = 1001,
 	dependencies = {
-		{ "mason-org/mason.nvim", opts = {} },
+		{ "mason-org/mason.nvim", opts = {}, event = "CmdlineEnter" },
 		{
 			"mason-org/mason-lspconfig.nvim",
 			opts = {
-				ensure_installed = { "lua_ls", "clangd", "ts_ls", "ruff", "gopls", "html", "cssls" },
+				ensure_installed = {
+					"lua_ls",
+					"clangd",
+					"vtsls",
+					"ruff",
+					"gopls",
+					"html",
+					"cssls",
+					"emmet_language_server",
+					"tailwindcss",
+				},
 			},
 		},
 	},
@@ -560,9 +572,21 @@ local LSPCONFIG = {
 			gopls = {},
 			clangd = {},
 			ruff = {},
-			ts_ls = {},
-			html = {},
+			vtsls = {},
+			svelte = {},
+			html = {
+				format = {
+					templating = true,
+					wrapLineLength = 120,
+					wrapAttributes = "auto",
+				},
+				hover = {
+					documentation = true,
+					references = true,
+				},
+			},
 			cssls = {},
+			emmet_language_server = {},
 			rust_analyzer = { check_on_save = false },
 			intelephense = {
 				check_on_save = false,
@@ -671,6 +695,7 @@ require("lazy").setup({
 		LSPCONFIG,
 		BLINK_CMP,
 		TELESCOPE,
+		TREESITTER,
 		MISC,
 	},
 	install = { colorscheme = { "gruvbox" } },
