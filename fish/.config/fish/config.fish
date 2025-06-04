@@ -37,7 +37,6 @@ set -U fish_prompt_pwd_dir_length 0
 # alias code="code --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=auto"
 
 zoxide init fish | source
-alias cd="z"
 
 alias pkg='nvim ~/.config/notnix/config.lua'
 alias t='tmux attach || tmux'
@@ -59,6 +58,7 @@ alias fm='nautilus'
 alias cat='bat'
 # alias cal='ncal -C'
 alias ffd='cd "$(fd -t d . $HOME | fzf)"'
+alias cd="z"
 alias qd='cd "$(fd -t d . | fzf)"'
 alias eb='nvim ~/.bashrc'
 alias sb='source ~/.bashrc'
@@ -99,6 +99,10 @@ bind --key btab forward-bigword
 # FUNCTIONS
 function bonsai -a text --description "Display bonsai, with my preference"
     cbonsai -S -t 0.125 -m $text
+end
+
+function gl --description "pretty git log"
+    git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
 end
 
 function tnew -a session_name --description "new Tmux session with name"
@@ -181,3 +185,10 @@ if status is-interactive
     fastfetch
     # Commands to run in interactive sessions can go here
 end
+
+# pnpm
+set -gx PNPM_HOME "/home/ovhell/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end

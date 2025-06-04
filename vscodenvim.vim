@@ -1,10 +1,9 @@
-" FIX: ctrl + shift + v not working
-
 call plug#begin()
 
 Plug 'vscode-neovim/vscode-multi-cursor.nvim'
 
 call plug#end()
+" TODO: add gitsigns
 
 let mapleader = " "
 
@@ -61,5 +60,7 @@ require('vscode-multi-cursor').setup()
 vim.keymap.set({ "n", "x", "i" }, "<C-d>", function()
 require("vscode-multi-cursor").addSelectionToNextFindMatch()
 end)
+
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 END

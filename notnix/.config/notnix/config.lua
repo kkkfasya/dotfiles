@@ -1,6 +1,12 @@
 local Config = {}
 
 Config.pkgs = {
+	"audacity",
+	"lua-ldoc",
+	"trivy",
+	"git-delta",
+	"adoptium-temurin-java-repository",
+	"temurin-8-jdk",
 	"snapper",
 	"kwin-effect-roundcorners",
 	"btrfs-assistant",
@@ -63,10 +69,10 @@ Config.pkgs = {
 	"kruler",
 
 	"kernel-cachyos",
-	"sbctl",
-	"ananicy-cpp",
+    --"ananicy-cpp",
 	"cachyos-settings",
 	"scx-scheds",
+	"scx-manager",
 
 	"postgresql",
 	"postgresql-contrib",
@@ -89,6 +95,8 @@ Config.flatpaks = {
 	"com.spotify.Client",
 	"dev.vencord.Vesktop",
 	"com.google.Chrome",
+	"fm.reaper.Reaper",
+    "com.voxdsp.TuxFishing",
 }
 
 Config.repos = {

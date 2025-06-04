@@ -6,7 +6,7 @@
   "zenMode.hideLineNumbers": false,
   "zenMode.centerLayout": false,
   "vsicons.dontShowNewVersionMessage": false,
-  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "terminal.integrated.fontFamily": "Hack",
   "editor.fontWeight": "normal",
   "editor.minimap.autohide": true,
   "explorer.confirmDragAndDrop": false,
@@ -103,7 +103,7 @@
     "strings": "on"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "quokka.compactMessageOutput": false,
   "quokka.showOutputOnStart": false,
@@ -113,7 +113,7 @@
     "editor.defaultFormatter": "vscode.css-language-features"
   },
   "[json]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.acceptSuggestionOnCommitCharacter": false,
   "todo-tree.general.tags": [
@@ -150,8 +150,12 @@
   "[sql]": {
     "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
   },
-  "workbench.colorTheme": "Dracula Theme",
+  "workbench.colorTheme": "Catppuccin Macchiato",
   "editor.fontSize": 15.5,
   "workbench.iconTheme": "material-icon-theme",
   "git.autofetch": true,
+  "editor.fontFamily": "'Hack Nerd Font'",
+  "[svelte]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
 }

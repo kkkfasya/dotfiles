@@ -49,7 +49,6 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.compile_mode = { baleia_setup = true }
 
--- these doesn't have lua api :(
 vim.cmd([[aunmenu PopUp.How-to\ disable\ mouse]])
 vim.cmd([[aunmenu PopUp.-1-]])
 
@@ -167,35 +166,43 @@ local FORMATTER = {
 				rust = { "rustfmt" },
 				go = { "goimports", "gofmt" },
 				javascript = { "biome", "prettier" },
+				svelte = { "biome", "prettier" },
 				sql = { "sql-formatter" },
 			},
 		})
 	end,
 	keys = function()
-		vim.keymap.set("n", "F", ":Format<CR>", { noremap = true, silent = true })
+		vim.keymap.set("n", "F", ":Format<CR>", { noremap = true })
 	end,
 }
+
 local TELESCOPE = {
 	"nvim-telescope/telescope.nvim",
 	tag = "0.1.8",
 	dependencies = { "nvim-lua/plenary.nvim", "natecraddock/telescope-zf-native.nvim" },
 	lazy = true,
 	opts = {
-		defaults = {
-			layout_config = {
-				height = 0.5,
-				preview_cutoff = 200,
-				prompt_position = "bottom",
-				width = 0.5,
-			},
-		},
+		--		defaults = {
+		--			layout_config = {
+		--				height = 0.5,
+		--				preview_cutoff = 200,
+		--				prompt_position = "bottom",
+		--				width = 0.5,
+		--			},
+		--		},
 
 		pickers = {
 			find_files = {
-				no_ignore_parent = true,
-				no_ignore = true,
 				hidden = true,
-				file_ignore_patterns = { "node_modules", ".git", ".venv" },
+				file_ignore_patterns = {
+					"node_modules",
+					".git",
+					".venv",
+					".svelte-kit/",
+					"dist",
+					"build",
+					"target",
+				},
 			},
 		},
 	},
@@ -255,7 +262,7 @@ local NVIMTREE = {
 	end,
 	cmd = { "NvimTreeOpen" },
 	keys = function()
-		vim.keymap.set("n", "<leader>e", ":NvimTreeOpen<CR>", { noremap = true })
+		vim.keymap.set("n", "<leader>e", ":NvimTreeOpen<CR>", { noremap = true, silent = true })
 	end,
 }
 local TREESITTER = {
@@ -271,9 +278,10 @@ local TREESITTER = {
 				"javascript",
 				"typescript",
 				"php",
+				"go",
 				"html",
 				"css",
-				"go",
+				"svelte",
 			},
 			sync_install = false,
 			auto_install = false,
@@ -291,6 +299,9 @@ local MISC = {
 	-- extra colorscheme
 	{ "talha-akram/noctis.nvim", lazy = true, event = "CmdlineEnter" },
 	{ "binhtran432k/dracula.nvim", lazy = true, event = "CmdlineEnter" },
+	{ "catppuccin/nvim", name = "catppuccin", lazy = true, event = "CmdlineEnter" },
+
+	{ "christoomey/vim-tmux-navigator", lazy = true, event = "BufReadPost"},
 	{ "AlexeySachkov/llvm-vim", lazy = true, ft = "llvm" },
 	{ "mg979/vim-visual-multi", lazy = true, event = { "BufReadPost", "BufNewFile" } },
 	{ "kkkfasya/timelapse.nvim", lazy = true, cmd = { "Timelapse" } }, -- my own plugin!!!
@@ -305,7 +316,7 @@ local MISC = {
 			filetypes = { "css", "javascript", "html" },
 			tailwind = true,
 			tailwind_opts = {
-				update_names = "both",
+				update_names = "lsp",
 			},
 		},
 	},
@@ -339,8 +350,8 @@ local MISC = {
 		lazy = true,
 		cmd = { "Compile", "Recompile" },
 		keys = function()
-			vim.keymap.set("n", "<leader>C", ":w | :Compile<CR>", { noremap = true, silent = true })
-			vim.keymap.set("n", "<leader>cc", ":w | :Recompile<CR>", { noremap = true, silent = true })
+			vim.keymap.set("n", "<leader>C", ":w | :Compile<CR>", { noremap = true })
+			vim.keymap.set("n", "<leader>cc", ":w | :Recompile<CR>", { noremap = true })
 		end,
 	},
 
@@ -352,6 +363,14 @@ local MISC = {
 				vim.keymap.set("n", "q", "<cmd>lua require('goto-preview').close_all_win()<CR>", { noremap = true })
 			end,
 		},
+		keys = function()
+			vim.keymap.set(
+				"n",
+				"gp",
+				"<cmd>lua require('goto-preview').goto_preview_definition()<CR>",
+				{ noremap = true }
+			)
+		end,
 	},
 
 	{
@@ -368,7 +387,6 @@ local MISC = {
 		"numToStr/Comment.nvim",
 		event = "BufReadPre",
 		opts = {
-
 			opleader = {
 				line = "<C-_>",
 			},
@@ -464,9 +482,9 @@ local GITSIGNS = {
 	},
 }
 
-local BLINK_CMP = {
+local AUTOCOMPLETE = {
 	"Saghen/blink.cmp",
-	event = { "BufRead", "CmdlineEnter" },
+	event = { "BufReadPost", "CmdlineEnter" },
 	dependencies = {
 		{ "rafamadriz/friendly-snippets" },
 		{
@@ -519,6 +537,8 @@ local BLINK_CMP = {
 		keymap = {
 			["<CR>"] = { "accept", "fallback" },
 			["<Tab>"] = { "select_next", "fallback" },
+			["<Down>"] = { "select_next", "fallback" },
+			["<Up>"] = { "select_prev", "fallback" },
 			["<S-Tab>"] = { "snippet_backward", "fallback" },
 			["<Up>"] = { "select_prev", "fallback" },
 			["<Down>"] = { "select_next", "fallback" },
@@ -555,25 +575,26 @@ local LSPCONFIG = {
 					"lua_ls",
 					"clangd",
 					"vtsls",
-					"ruff",
+					"pyright",
 					"gopls",
 					"html",
 					"cssls",
 					"emmet_language_server",
 					"tailwindcss",
+					"svelte",
 				},
 			},
 		},
 	},
 	opts = {
 		servers = {
+			svelte = {},
 			lua_ls = {},
 			tailwindcss = {},
 			gopls = {},
 			clangd = {},
-			ruff = {},
+			pyright = {},
 			vtsls = {},
-			svelte = {},
 			html = {
 				format = {
 					templating = true,
@@ -610,8 +631,9 @@ local LSPCONFIG = {
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 		vim.keymap.set("n", "E", vim.diagnostic.open_float, {})
-		vim.keymap.set("n", "ge", vim.diagnostic.goto_next)
-		vim.keymap.set("n", "gE", vim.diagnostic.goto_prev)
+		vim.keymap.set("n", "ge", vim.diagnostic.goto_next, {})
+		vim.keymap.set("n", "gE", vim.diagnostic.goto_prev, {})
+		vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, {})
 		vim.keymap.set("n", "<leader>qf", function()
 			vim.lsp.buf.code_action({
 				filter = function(a)
@@ -693,7 +715,7 @@ require("lazy").setup({
 		NVIMTREE,
 		GITSIGNS,
 		LSPCONFIG,
-		BLINK_CMP,
+		AUTOCOMPLETE,
 		TELESCOPE,
 		TREESITTER,
 		MISC,
