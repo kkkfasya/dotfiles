@@ -24,16 +24,17 @@ local options = {
 	showmode = false,
 	title = true,
 	swapfile = false,
-	mouse = "a",
 	breakindent = true,
 	hidden = true,
-	encoding = "UTF-8",
-	background = "dark",
-	signcolumn = "yes",
 	undofile = true,
 	autowriteall = true,
 	termguicolors = true,
+	splitbelow = true,
 	scrolloff = 7,
+	mouse = "a",
+	encoding = "UTF-8",
+	background = "dark",
+	signcolumn = "yes",
 }
 
 for key, value in pairs(options) do
@@ -56,6 +57,8 @@ vim.g.VM_maps = {
 	["Find Under"] = "<C-d>",
 	["Find Subword Under"] = "<C-d>",
 	["I Return"] = "<S-CR>",
+	["Add Cursor Down"] = "",
+	["Add Cursor Up"] = "",
 }
 
 -- AUGRUP AND AUTOCMD
@@ -299,18 +302,27 @@ local MISC = {
 	-- extra colorscheme
 	{ "talha-akram/noctis.nvim", lazy = true, event = "CmdlineEnter" },
 	{ "binhtran432k/dracula.nvim", lazy = true, event = "CmdlineEnter" },
-	{ "catppuccin/nvim", name = "catppuccin", lazy = true, event = "CmdlineEnter" },
+	{ "kkkfasya/frappeless.nvim", lazy = true, event = "CmdlineEnter" },
 
-	{ "christoomey/vim-tmux-navigator", lazy = true, event = "BufReadPost"},
+	{ "christoomey/vim-tmux-navigator", lazy = true, event = "BufReadPost" },
 	{ "AlexeySachkov/llvm-vim", lazy = true, ft = "llvm" },
+	{ "https://github.com/pigpigyyy/YueScript-vim" },
+
 	{ "mg979/vim-visual-multi", lazy = true, event = { "BufReadPost", "BufNewFile" } },
 	{ "kkkfasya/timelapse.nvim", lazy = true, cmd = { "Timelapse" } }, -- my own plugin!!!
 	{ "akinsho/bufferline.nvim", lazy = true, opts = {}, event = "BufReadPost" },
-	{ "windwp/nvim-autopairs", lazy = true, event = "InsertEnter", opts = { enable_check_bracket_line = false } },
+
+	{
+		"windwp/nvim-autopairs",
+		lazy = true,
+		event = "InsertEnter",
+		opts = { enable_check_bracket_line = false },
+	},
 
 	{
 		"catgoose/nvim-colorizer.lua",
 		lazy = true,
+		event = "BufReadPre",
 		ft = { "css", "javascript", "html" },
 		opts = {
 			filetypes = { "css", "javascript", "html" },
@@ -376,7 +388,7 @@ local MISC = {
 	{
 		"nvim-lualine/lualine.nvim",
 		lazy = false,
-		opts = { theme = "gruvbox" },
+		opts = { theme = "auto" },
 		config = function(_, opts)
 			require("lualine").setup({
 				options = opts,
@@ -416,9 +428,25 @@ local MISC = {
 	{
 		"iamcco/markdown-preview.nvim",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		build = "cd app && npm install",
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
 		ft = { "markdown" },
-		build = ":call mkdp#util#install()",
 	},
+}
+
+local VSCODE = {
+	"vscode-neovim/vscode-multi-cursor.nvim",
+	event = "VeryLazy",
+	cond = not not vim.g.vscode,
+	opts = {},
+	config = function()
+		vim.keymap.set({ "n", "x", "i" }, "<C-d>", function()
+			require("vscode-multi-cursor").addSelectionToNextFindMatch()
+		end)
+		require("vscode-multi-cursor").setup()
+	end,
 }
 
 local GITSIGNS = {
@@ -582,6 +610,7 @@ local LSPCONFIG = {
 					"emmet_language_server",
 					"tailwindcss",
 					"svelte",
+					"rust_analyzer",
 				},
 			},
 		},
@@ -609,6 +638,7 @@ local LSPCONFIG = {
 			cssls = {},
 			emmet_language_server = {},
 			rust_analyzer = { check_on_save = false },
+			bacon_ls = {},
 			intelephense = {
 				check_on_save = false,
 				root_dir = function(_)
@@ -660,6 +690,8 @@ local LSPCONFIG = {
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<C-Left>", ":vertical resize +3<CR>", { silent = true, desc = "Increase window width" })
 vim.keymap.set("n", "<C-Right>", ":vertical resize -3<CR>", { silent = true, desc = "Decrease window width" })
+vim.keymap.set("n", "<C-Up>", ":horizontal resize +3<CR>", { silent = true, desc = "Increase window width" })
+vim.keymap.set("n", "<C-Down>", ":horizontal resize -3<CR>", { silent = true, desc = "Decrease window width" })
 
 vim.keymap.set("n", "<leader>bb", ":b#<CR>", {})
 vim.keymap.set("n", "<leader>bn", ":bn<CR>", {})
@@ -718,6 +750,7 @@ require("lazy").setup({
 		AUTOCOMPLETE,
 		TELESCOPE,
 		TREESITTER,
+		VSCODE,
 		MISC,
 	},
 	install = { colorscheme = { "gruvbox" } },

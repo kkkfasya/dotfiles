@@ -1,4 +1,3 @@
-# ~/scripts/./days.sh
 
 # ENV VARIABLE
 set -gx PATH $HOME/usr/local/go/bin $PATH # GOROOT i assume?
@@ -43,7 +42,8 @@ alias t='tmux attach || tmux'
 alias tks='tmux kill-server'
 alias l='ls -alFh'
 alias cpudebug='sudo auto-cpufreq --debug'
-
+alias note='nvim $HOME/TXT/notes.md'
+alias notes='nvim $HOME/TXT/notes.md'
 alias sudo='sudo '
 alias gls='git ls-files'
 alias spkg='sudo dnf search '
@@ -99,6 +99,11 @@ bind --key btab forward-bigword
 # FUNCTIONS
 function bonsai -a text --description "Display bonsai, with my preference"
     cbonsai -S -t 0.125 -m $text
+end
+
+function @note
+    markdown-it "$HOME/TXT/notes.md" > "/tmp/notes.html"
+    xdg-open "/tmp/notes.html"
 end
 
 function gl --description "pretty git log"
@@ -183,6 +188,7 @@ set fish_cursor_default block
 
 if status is-interactive
     fastfetch
+    ~/scripts/./days.sh
     # Commands to run in interactive sessions can go here
 end
 

@@ -129,7 +129,7 @@
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
   },
-  "vscode-neovim.neovimInitVimPaths.linux": "/home/ovhell/dotfiles/vscodenvim.vim",
+  "vscode-neovim.neovimInitVimPaths.linux": "/home/ovhell/dotfiles/vscodenvim.lua",
   "editor.cursorBlinking": "solid",
   "svelte.enable-ts-plugin": true,
   "html.autoClosingTags": false,

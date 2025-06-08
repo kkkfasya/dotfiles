@@ -1,8 +1,8 @@
 local Config = {}
 
 Config.pkgs = {
+	"scrcpy",
 	"audacity",
-	"lua-ldoc",
 	"trivy",
 	"git-delta",
 	"adoptium-temurin-java-repository",
@@ -107,6 +107,7 @@ Config.repos = {
 	"chenxiaolong/sbctl",
 	"pgdev/ghostty",
 	"matinlotfali/KDE-Rounded-Corners",
+	"zeno/scrcpy",
 }
 
 Config.install = "sudo dnf install"
