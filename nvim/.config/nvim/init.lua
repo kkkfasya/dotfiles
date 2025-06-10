@@ -515,20 +515,17 @@ local AUTOCOMPLETE = {
 	event = { "BufReadPost", "CmdlineEnter" },
 	dependencies = {
 		{ "rafamadriz/friendly-snippets" },
-		{
-			"L3MON4D3/LuaSnip",
-			-- follow latest release.
-			version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-			-- install jsregexp (optional!).
-			build = "make install_jsregexp",
-			config = function()
-				require("luasnip.loaders.from_vscode").lazy_load()
-			end,
-		},
 	},
 	opts = {
 		cmdline = { enabled = true },
-		fuzzy = { implementation = "prefer_rust" },
+		fuzzy = {
+			implementation = "prefer_rust",
+			sorts = {
+				"exact",
+				"score",
+				"sort_text",
+			},
+		},
 
 		completion = {
 			keyword = { range = "full" },
@@ -553,13 +550,9 @@ local AUTOCOMPLETE = {
 		},
 
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer" },
+			default = { "lsp", "path", "buffer" },
 		},
 
-		-- Use a preset for snippets, check the snippets documentation for more information
-		snippets = { preset = "luasnip" },
-
-		-- Experimental signature help support
 		signature = { enabled = true },
 
 		keymap = {

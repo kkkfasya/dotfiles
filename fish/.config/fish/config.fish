@@ -42,8 +42,8 @@ alias t='tmux attach || tmux'
 alias tks='tmux kill-server'
 alias l='ls -alFh'
 alias cpudebug='sudo auto-cpufreq --debug'
-alias note='nvim $HOME/TXT/notes.md'
-alias notes='nvim $HOME/TXT/notes.md'
+alias note='nvim $HOME/NOTES/notes.md'
+alias notes='nvim $HOME/NOTES/notes.md'
 alias sudo='sudo '
 alias gls='git ls-files'
 alias spkg='sudo dnf search '
@@ -102,7 +102,8 @@ function bonsai -a text --description "Display bonsai, with my preference"
 end
 
 function @note
-    markdown-it "$HOME/TXT/notes.md" > "/tmp/notes.html"
+    doctoc "$HOME/NOTES/notes.md"
+    markdown-it "$HOME/NOTES/notes.md" > "/tmp/notes.html"
     xdg-open "/tmp/notes.html"
 end
 
