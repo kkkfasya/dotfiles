@@ -143,7 +143,6 @@ local COLORSCHEME = {
 			palette_overrides = {},
 			overrides = {
 				["@function"] = { fg = "#ff9900" },
-				["@function.call"] = { fg = "#ff9900" },
 				["@function.method"] = { fg = "#ff9900" },
 				["@function.call"] = { fg = "#ff9900" },
 				["@constant.macro"] = { fg = "#fabd2f" },
@@ -171,6 +170,7 @@ local FORMATTER = {
 				javascript = { "biome", "prettier" },
 				svelte = { "biome", "prettier" },
 				sql = { "sql-formatter" },
+				md = { "mdformat" },
 			},
 		})
 	end,
@@ -181,7 +181,7 @@ local FORMATTER = {
 
 local TELESCOPE = {
 	"nvim-telescope/telescope.nvim",
-	tag = "0.1.8",
+	branch = "0.1.x",
 	dependencies = { "nvim-lua/plenary.nvim", "natecraddock/telescope-zf-native.nvim" },
 	lazy = true,
 	opts = {
@@ -201,7 +201,7 @@ local TELESCOPE = {
 					"node_modules",
 					".git",
 					".venv",
-					".svelte-kit/",
+					".svelte-kit",
 					"dist",
 					"build",
 					"target",
@@ -309,8 +309,8 @@ local MISC = {
 	{ "https://github.com/pigpigyyy/YueScript-vim" },
 
 	{ "mg979/vim-visual-multi", lazy = true, event = { "BufReadPost", "BufNewFile" } },
-	{ "kkkfasya/timelapse.nvim", lazy = true, cmd = { "Timelapse" } }, -- my own plugin!!!
 	{ "akinsho/bufferline.nvim", lazy = true, opts = {}, event = "BufReadPost" },
+	{ "kkkfasya/timelapse.nvim", lazy = true, cmd = { "Timelapse" } }, -- my own plugin!!!
 
 	{
 		"windwp/nvim-autopairs",
@@ -512,12 +512,12 @@ local GITSIGNS = {
 
 local AUTOCOMPLETE = {
 	"Saghen/blink.cmp",
+	version = "1.*",
 	event = { "BufReadPost", "CmdlineEnter" },
 	dependencies = {
 		{ "rafamadriz/friendly-snippets" },
 	},
 	opts = {
-		cmdline = { enabled = true },
 		fuzzy = {
 			implementation = "prefer_rust",
 			sorts = {
@@ -561,8 +561,6 @@ local AUTOCOMPLETE = {
 			["<Down>"] = { "select_next", "fallback" },
 			["<Up>"] = { "select_prev", "fallback" },
 			["<S-Tab>"] = { "snippet_backward", "fallback" },
-			["<Up>"] = { "select_prev", "fallback" },
-			["<Down>"] = { "select_next", "fallback" },
 			["<C-p>"] = { "select_prev", "fallback_to_mappings" },
 			["<C-n>"] = { "select_next", "fallback_to_mappings" },
 			["<C-b>"] = { "scroll_documentation_up", "fallback" },
@@ -615,7 +613,11 @@ local LSPCONFIG = {
 			tailwindcss = {},
 			gopls = {},
 			clangd = {},
-			pyright = {},
+			pyright = {
+				root_dir = function(_)
+					return vim.loop.cwd()
+				end,
+			},
 			vtsls = {},
 			html = {
 				format = {
@@ -714,10 +716,6 @@ end, { range = true })
 vim.api.nvim_create_user_command("VirtualTextToggle", function()
 	local cfg = vim.diagnostic.config()
 
-	vim.diagnostic.config({
-		virtual_text = not cfg.virtual_text,
-	})
-
 	local status = (not cfg.virtual_text) and "enabled" or "disabled"
 	print("Diagnostic virtual text is " .. status)
 end, {})
@@ -750,4 +748,6 @@ require("lazy").setup({
 	checker = { enabled = false },
 })
 
-vim.diagnostic.enable(false)
+vim.diagnostic.config({
+	virtual_text = false,
+})

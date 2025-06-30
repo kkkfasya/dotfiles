@@ -1,6 +1,7 @@
 local Config = {}
 
 Config.pkgs = {
+	"aircrack-ng",
 	"scrcpy",
 	"audacity",
 	"trivy",
@@ -22,6 +23,7 @@ Config.pkgs = {
 	"bat",
 	"pigz",
 	"g++",
+	"clang",
 	"zstd",
 	"cmake",
 	"extra-cmake-modules",
@@ -69,7 +71,7 @@ Config.pkgs = {
 	"kruler",
 
 	"kernel-cachyos",
-    --"ananicy-cpp",
+	--"ananicy-cpp",
 	"cachyos-settings",
 	"scx-scheds",
 	"scx-manager",
@@ -96,7 +98,7 @@ Config.flatpaks = {
 	"dev.vencord.Vesktop",
 	"com.google.Chrome",
 	"fm.reaper.Reaper",
-    "com.voxdsp.TuxFishing",
+	"com.voxdsp.TuxFishing",
 }
 
 Config.repos = {
@@ -108,6 +110,7 @@ Config.repos = {
 	"pgdev/ghostty",
 	"matinlotfali/KDE-Rounded-Corners",
 	"zeno/scrcpy",
+	"ycollet/linuxmao",
 }
 
 Config.install = "sudo dnf install"
