@@ -44,6 +44,7 @@ end
 vim.g.mapleader = " "
 vim.opt.undodir = os.getenv("HOME") .. "/.nvim_undodir/"
 vim.opt.clipboard:append("unnamedplus")
+vim.cmd([[filetype plugin on]]) -- this somehow fix the bug where neovim cant detect filetype for me
 
 -- for nvimtree
 vim.g.loaded_netrw = 1
@@ -67,7 +68,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	group = "highlight_yank",
 	pattern = "*",
 	callback = function()
-		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 100 })
+		vim.hl.on_yank({ higroup = "IncSearch", timeout = 100 })
 	end,
 	desc = "Highlight yanked text",
 })
@@ -198,13 +199,13 @@ local TELESCOPE = {
 			find_files = {
 				hidden = true,
 				file_ignore_patterns = {
-					"node_modules",
-					".git",
-					".venv",
-					".svelte-kit",
-					"dist",
-					"build",
-					"target",
+					"node_modules/",
+					".git/",
+					".venv/",
+					".svelte-kit/",
+					"dist/",
+					"build/",
+					"target/",
 				},
 			},
 		},
@@ -219,47 +220,49 @@ local TELESCOPE = {
 		end)
 		vim.keymap.set("n", "gr", telescope.lsp_references, {})
 		vim.keymap.set("n", "<leader>bs", telescope.buffers, {})
+		vim.keymap.set("n", "<leader>sw", telescope.git_branches, {})
 
 		require("telescope").load_extension("zf-native")
 	end,
 }
-
-local function nvimtree_on_attach(bufnr)
-	local nvimtree = require("nvim-tree.api")
-	local function opts(desc)
-		return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-	end
-	nvimtree.config.mappings.default_on_attach(bufnr)
-	vim.keymap.del("n", "K", { buffer = bufnr })
-	vim.keymap.del("n", "r", { buffer = bufnr })
-	vim.keymap.del("n", "<C-e>", { buffer = bufnr })
-	vim.keymap.del("n", "o", { buffer = bufnr })
-	vim.keymap.del("n", "d", { buffer = bufnr })
-	vim.keymap.del("n", "Y", { buffer = bufnr })
-
-	vim.keymap.set("n", "K", nvimtree.node.show_info_popup, opts("Info"))
-	vim.keymap.set("n", "r", nvimtree.fs.rename_full, opts("Rename"))
-	vim.keymap.set("n", "o", nvimtree.tree.change_root_to_node, opts("CD"))
-	vim.keymap.set("n", "d", nvimtree.fs.trash, opts("Trash file"))
-	vim.keymap.set("n", "Y", nvimtree.fs.copy.absolute_path, opts("Info"))
-end
 
 local NVIMTREE = {
 	"nvim-tree/nvim-tree.lua",
 	lazy = true,
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
+		local function nvimtree_on_attach(bufnr)
+			local nvimtree = require("nvim-tree.api")
+			local function opts(desc)
+				return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+			end
+			nvimtree.config.mappings.default_on_attach(bufnr)
+			vim.keymap.del("n", "K", { buffer = bufnr })
+			vim.keymap.del("n", "r", { buffer = bufnr })
+			vim.keymap.del("n", "<C-e>", { buffer = bufnr })
+			vim.keymap.del("n", "o", { buffer = bufnr })
+			vim.keymap.del("n", "d", { buffer = bufnr })
+			vim.keymap.del("n", "Y", { buffer = bufnr })
+
+			vim.keymap.set("n", "K", nvimtree.node.show_info_popup, opts("Info"))
+			vim.keymap.set("n", "r", nvimtree.fs.rename_full, opts("Rename"))
+			vim.keymap.set("n", "o", nvimtree.tree.change_root_to_node, opts("CD"))
+			vim.keymap.set("n", "d", nvimtree.fs.trash, opts("Trash file"))
+			vim.keymap.set("n", "Y", nvimtree.fs.copy.absolute_path, opts("Info"))
+		end
+
 		require("nvim-tree").setup({
 			on_attach = nvimtree_on_attach,
 			sort = {
 				sorter = "case_sensitive",
 			},
 			view = {
-				width = 30,
+				width = 27,
 			},
 			filters = {
+				dotfiles = true,
 				custom = { "^\\.git" },
-				exclude = { ".gitignore" },
+				exclude = { ".gitignore", ".github" },
 			},
 		})
 	end,
@@ -321,16 +324,8 @@ local MISC = {
 
 	{
 		"catgoose/nvim-colorizer.lua",
-		lazy = true,
-		event = "BufReadPre",
-		ft = { "css", "javascript", "html" },
-		opts = {
-			filetypes = { "css", "javascript", "html" },
-			tailwind = true,
-			tailwind_opts = {
-				update_names = "lsp",
-			},
-		},
+		lazy = false,
+		opts = {},
 	},
 
 	{
@@ -410,7 +405,9 @@ local MISC = {
 
 	{
 		"folke/snacks.nvim",
+		priority = 1000,
 		opts = {
+			bigfile = { enabled = true },
 			quickfile = { enabled = true },
 			image = { enabled = true },
 			indent = {
@@ -602,15 +599,16 @@ local LSPCONFIG = {
 					"tailwindcss",
 					"svelte",
 					"rust_analyzer",
+					"jsonls",
+					"gh_actions_ls",
 				},
 			},
 		},
 	},
+
 	opts = {
 		servers = {
-			svelte = {},
 			lua_ls = {},
-			tailwindcss = {},
 			gopls = {},
 			clangd = {},
 			pyright = {
@@ -630,8 +628,6 @@ local LSPCONFIG = {
 					references = true,
 				},
 			},
-			cssls = {},
-			emmet_language_server = {},
 			rust_analyzer = { check_on_save = false },
 			bacon_ls = {},
 			intelephense = {
@@ -640,6 +636,16 @@ local LSPCONFIG = {
 					return vim.loop.cwd()
 				end,
 			},
+
+			-- config language lsp
+			json_ls = {},
+			gh_actions_ls = {},
+
+			-- web lsp
+			tailwindcss = {},
+			svelte = {},
+			cssls = {},
+			emmet_language_server = {},
 		},
 	},
 
@@ -746,6 +752,13 @@ require("lazy").setup({
 	},
 	install = { colorscheme = { "gruvbox" } },
 	checker = { enabled = false },
+})
+
+-- EXTRA
+vim.filetype.add({
+	pattern = {
+		[".*/%.github[%w/]+workflows[%w/]+.*%.ya?ml"] = "yaml.github",
+	},
 })
 
 vim.diagnostic.config({

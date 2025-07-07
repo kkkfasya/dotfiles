@@ -1,4 +1,3 @@
-
 # ENV VARIABLE
 set -gx PATH $HOME/usr/local/go/bin $PATH # GOROOT i assume?
 set -gx PATH $HOME/.local/bin $PATH
@@ -43,9 +42,15 @@ alias tks='tmux kill-server'
 alias l='ls -alFh'
 alias cpudebug='sudo auto-cpufreq --debug'
 alias note='nvim $HOME/NOTES/notes.md'
+alias lks='nvim $HOME/NOTES/done.md'
 alias notes='nvim $HOME/NOTES/notes.md'
 alias sudo='sudo '
+
 alias gls='git ls-files'
+alias ga='git add .'
+alias gs='git status'
+alias gwip ='git commit -m "work in progress"'
+
 alias spkg='sudo dnf search '
 alias :q='exit'
 alias wcc='warp-cli connect'
@@ -105,6 +110,12 @@ function @note
     doctoc "$HOME/NOTES/notes.md"
     markdown-it "$HOME/NOTES/notes.md" > "/tmp/notes.html"
     xdg-open "/tmp/notes.html"
+end
+
+function @lks
+    doctoc "$HOME/NOTES/done.md"
+    markdown-it "$HOME/NOTES/done.md" > "/tmp/done.html"
+    xdg-open "/tmp/done.html"
 end
 
 function gl --description "pretty git log"
@@ -188,7 +199,7 @@ set -g fish_greeting
 set fish_cursor_default block
 
 if status is-interactive
-    fastfetch
+    fastfetch -l pacbsd
     ~/scripts/./days.sh
     # Commands to run in interactive sessions can go here
 end

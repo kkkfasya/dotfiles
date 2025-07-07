@@ -1,13 +1,12 @@
 local Config = {}
 
 Config.pkgs = {
+	"hugo",
+	"easyeffects",
 	"aircrack-ng",
-	"scrcpy",
 	"audacity",
 	"trivy",
 	"git-delta",
-	"adoptium-temurin-java-repository",
-	"temurin-8-jdk",
 	"snapper",
 	"kwin-effect-roundcorners",
 	"btrfs-assistant",
@@ -46,7 +45,6 @@ Config.pkgs = {
 	"fish",
 	"zen-browser",
 	"gitui",
-	"lazygit",
 	"torbrowser-launcher",
 	"tor",
 	"neovim",
@@ -86,6 +84,9 @@ Config.pkgs = {
 	"php-gd",
 	"php-mbstring",
 	"phpMyAdmin",
+
+    -- dnf plugins
+    "python3-dnf-plugin-versionlock"
 }
 
 Config.flatpaks = {
@@ -110,7 +111,6 @@ Config.repos = {
 	"pgdev/ghostty",
 	"matinlotfali/KDE-Rounded-Corners",
 	"zeno/scrcpy",
-	"ycollet/linuxmao",
 }
 
 Config.install = "sudo dnf install"
