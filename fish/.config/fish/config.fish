@@ -49,7 +49,6 @@ alias sudo='sudo '
 alias gls='git ls-files'
 alias ga='git add .'
 alias gs='git status'
-alias gwip ='git commit -m "work in progress"'
 
 alias spkg='sudo dnf search '
 alias :q='exit'
@@ -121,6 +120,11 @@ end
 function gl --description "pretty git log"
     git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
 end
+
+function gwip --description "commit with 'work in progress' message" 
+    git commit -m "work in progress"
+end
+
 
 function tnew -a session_name --description "new Tmux session with name"
     tmux new -s "$session_name"

@@ -3,7 +3,6 @@ local Config = {}
 Config.pkgs = {
 	"hugo",
 	"easyeffects",
-	"aircrack-ng",
 	"audacity",
 	"trivy",
 	"git-delta",

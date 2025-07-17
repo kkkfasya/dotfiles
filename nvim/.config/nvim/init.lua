@@ -1,3 +1,4 @@
+-- TODO: keybind to show all available completion opt
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -172,6 +173,7 @@ local FORMATTER = {
 				svelte = { "biome", "prettier" },
 				sql = { "sql-formatter" },
 				md = { "mdformat" },
+				terraform = { "terraform_fmt" },
 			},
 		})
 	end,
@@ -271,6 +273,7 @@ local NVIMTREE = {
 		vim.keymap.set("n", "<leader>e", ":NvimTreeOpen<CR>", { noremap = true, silent = true })
 	end,
 }
+
 local TREESITTER = {
 	"nvim-treesitter/nvim-treesitter",
 	event = { "BufReadPost", "BufNewFile", "CmdlineEnter" },
@@ -288,6 +291,9 @@ local TREESITTER = {
 				"html",
 				"css",
 				"svelte",
+
+				"hcl",
+				"terraform",
 			},
 			sync_install = false,
 			auto_install = false,
@@ -314,7 +320,30 @@ local MISC = {
 	{ "mg979/vim-visual-multi", lazy = true, event = { "BufReadPost", "BufNewFile" } },
 	{ "akinsho/bufferline.nvim", lazy = true, opts = {}, event = "BufReadPost" },
 	{ "kkkfasya/timelapse.nvim", lazy = true, cmd = { "Timelapse" } }, -- my own plugin!!!
-
+	{
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"sindrets/diffview.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
+		lazy = true,
+		cmd = { "Neogit" },
+		opts = {
+			integrations = { diffview = true, telescope = true },
+			graph_style = "kitty",
+			process_spinner = true,
+			mappings = {
+				status = {
+					["<esc>"] = "Close",
+					["<space>"] = "Toggle",
+				},
+			},
+		},
+		keys = function()
+			vim.keymap.set("n", "<leader>", "<cmd>Neogit<CR>", { noremap = true, silent = true })
+		end,
+	},
 	{
 		"windwp/nvim-autopairs",
 		lazy = true,
@@ -325,7 +354,7 @@ local MISC = {
 	{
 		"catgoose/nvim-colorizer.lua",
 		lazy = false,
-		opts = {},
+		opts = { names = false },
 	},
 
 	{
@@ -430,6 +459,13 @@ local MISC = {
 			vim.g.mkdp_filetypes = { "markdown" }
 		end,
 		ft = { "markdown" },
+	},
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+		opts = {
+			completions = { blink = { enabled = true } },
+		},
 	},
 }
 
@@ -600,7 +636,7 @@ local LSPCONFIG = {
 					"svelte",
 					"rust_analyzer",
 					"jsonls",
-					"gh_actions_ls",
+					"terraformls",
 				},
 			},
 		},
@@ -639,7 +675,7 @@ local LSPCONFIG = {
 
 			-- config language lsp
 			json_ls = {},
-			gh_actions_ls = {},
+			terraform_ls = {},
 
 			-- web lsp
 			tailwindcss = {},
