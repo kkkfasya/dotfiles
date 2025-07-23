@@ -166,7 +166,7 @@ local FORMATTER = {
 		require("conform").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
-				python = { "black" },
+				python = { "ruff format" },
 				rust = { "rustfmt" },
 				go = { "goimports", "gofmt" },
 				javascript = { "biome", "prettier" },
@@ -200,8 +200,11 @@ local TELESCOPE = {
 		pickers = {
 			find_files = {
 				hidden = true,
+				hidden = true,
+				no_ignore = true,
 				file_ignore_patterns = {
 					"node_modules/",
+					".terraform/",
 					".git/",
 					".venv/",
 					".svelte-kit/",
@@ -337,6 +340,10 @@ local MISC = {
 				status = {
 					["<esc>"] = "Close",
 					["<space>"] = "Toggle",
+				},
+				popup = {
+					["p"] = "PushPopup",
+					["P"] = "PullPopup",
 				},
 			},
 		},

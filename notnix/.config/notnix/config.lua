@@ -2,6 +2,7 @@ local Config = {}
 
 Config.pkgs = {
 	"hugo",
+	"scrcpy",
 	"easyeffects",
 	"audacity",
 	"trivy",
@@ -84,8 +85,8 @@ Config.pkgs = {
 	"php-mbstring",
 	"phpMyAdmin",
 
-    -- dnf plugins
-    "python3-dnf-plugin-versionlock"
+	-- dnf plugins
+	"python3-dnf-plugin-versionlock",
 }
 
 Config.flatpaks = {
@@ -99,6 +100,7 @@ Config.flatpaks = {
 	"com.google.Chrome",
 	"fm.reaper.Reaper",
 	"com.voxdsp.TuxFishing",
+	"us.zoom.Zoom",
 }
 
 Config.repos = {

@@ -164,4 +164,7 @@
   "[vue]": {
     "editor.defaultFormatter": "Vue.volar"
   },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
 }

@@ -68,7 +68,7 @@ alias eb='nvim ~/.bashrc'
 alias sb='source ~/.bashrc'
 alias sz='source ~/.zshrc'
 alias sf='source ~/.config/fish/config.fish'
-alias ts='tmux source ~/.config/tmux/tmux.conf'
+alias tls='tmux list-sessions'
 alias c='clear'
 alias ytdl='youtube-dl'
 alias eiv='nvim ~/.config/nvim/init.lua'
@@ -86,6 +86,7 @@ alias multitail='multitail --no-repeat -c'
 alias cpd='pwd | tr -d "\n" | xsel -i -b'
 alias copydir='pwd | tr -d "\n" | xsel -i -b'
 alias cd..='cd ..'
+alias tf="terraform"
 
 # KEYBINDING || MAPPING
 bind --key btab true
