@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  pull_request:
+  
+  push:
+    branches:
+      - master
+    
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3h

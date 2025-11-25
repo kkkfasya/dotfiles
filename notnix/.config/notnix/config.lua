@@ -1,6 +1,20 @@
+local confdir = debug.getinfo(1, "S").source:sub(2):match("^(.-notnix[/\\])")
+package.path = ("%s;%s/?.lua;%s/modules/?.lua"):format(package.path, confdir, confdir)
+
 local Config = {}
 
 Config.pkgs = {
+	"difftastic",
+	"wev",
+	"wlsunset",
+	"quickshell",
+	"brightnessctl",
+	"niri",
+	"cava",
+	"qemu",
+	"telegram-desktop",
+	"mpv",
+	"haruna",
 	"hugo",
 	"scrcpy",
 	"easyeffects",
@@ -17,8 +31,6 @@ Config.pkgs = {
 	"pdfarranger",
 	"distrobox",
 	"git", -- git is not preinstalled in fedora lmaoo
-	"libavcodec-freeworld",
-	"mesa-va-drivers-freeworld",
 	"bat",
 	"pigz",
 	"g++",
@@ -56,6 +68,7 @@ Config.pkgs = {
 	"xxd",
 	"uv",
 	"flameshot",
+
 	"docker",
 	"docker-compose",
 
@@ -68,30 +81,24 @@ Config.pkgs = {
 	"kvantum",
 	"kruler",
 
-	"kernel-cachyos",
-	--"ananicy-cpp",
-	"cachyos-settings",
-	"scx-scheds",
-	"scx-manager",
-
 	"postgresql",
 	"postgresql-contrib",
 
-	"php",
-	"php-mysqlnd",
-	"php-xml",
-	"php-json",
-	"php-gd",
-	"php-mbstring",
-	"phpMyAdmin",
-
-	-- dnf plugins
-	"python3-dnf-plugin-versionlock",
+	-- NOTE: must be put at the end otherwise wouldn't return all
+	-- iterables items because fuck you and fuck lua and fuck prabowo
+	require("util").add_module({
+		require("modules.php"),
+		require("modules.dnf-plugins"),
+		require("modules.cachyos"),
+	}),
 }
 
 Config.flatpaks = {
 	-- "com.google.AndroidStudio",
 	-- "com.jetbrains.Rider",
+    "org.jousse.vincent.Pomodorolm",
+    "dev.bragefuglseth.Fretboard",
+	"com.github.tchx84.Flatseal",
 	"org.signal.Signal",
 	"org.gnome.World.PikaBackup",
 	"io.gitlab.theevilskeleton.Upscaler",
@@ -99,11 +106,13 @@ Config.flatpaks = {
 	"dev.vencord.Vesktop",
 	"com.google.Chrome",
 	"fm.reaper.Reaper",
-	"com.voxdsp.TuxFishing",
 	"us.zoom.Zoom",
+	"com.brave.Browser",
 }
 
 Config.repos = {
+	"yalter/niri",
+	"errornointernet/quickshell",
 	"atim/lazygit",
 	"bieszczaders/kernel-cachyos-addons",
 	"bieszczaders/kernel-cachyos",

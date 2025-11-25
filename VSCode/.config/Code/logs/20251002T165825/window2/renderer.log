@@ -1,0 +1,7 @@
+2025-10-02 17:50:13.150 [info] ChatSessionStore: Migrating 0 chat sessions from storage service to file system
+2025-10-02 17:50:13.317 [info] Started local extension host with pid 39781.
+2025-10-02 17:50:13.802 [info] Ignoring configured affinity for 'asvetliakov.vscode-neovim' because extension host(s) are already running. Reload window.
+2025-10-02 17:50:14.080 [info] Settings Sync: Account status changed from uninitialized to unavailable
+2025-10-02 17:50:15.941 [info] [perf] Render performance baseline is 22ms
+2025-10-02 17:50:17.930 [info] Ignoring configured affinity for 'asvetliakov.vscode-neovim' because extension host(s) are already running. Reload window.
+2025-10-02 17:50:40.530 [warning] [backup tracker] suspended, ignoring unregister event file:///home/nekraut/gitclones/news_app_dashboard/package.json 

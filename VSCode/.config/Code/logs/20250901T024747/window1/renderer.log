@@ -1,0 +1,38 @@
+2025-09-01 02:47:48.594 [warning] Via 'product.json#extensionEnabledApiProposals' extension 'ms-vsliveshare.vsliveshare' wants API proposal 'notebookCellExecutionState' but that proposal DOES NOT EXIST. Likely, the proposal has been finalized (check 'vscode.d.ts') or was abandoned.
+2025-09-01 02:47:48.620 [warning] Via 'product.json#extensionEnabledApiProposals' extension 'ms-python.gather' wants API proposal 'notebookCellExecutionState' but that proposal DOES NOT EXIST. Likely, the proposal has been finalized (check 'vscode.d.ts') or was abandoned.
+2025-09-01 02:47:48.620 [warning] Via 'product.json#extensionEnabledApiProposals' extension 'ms-python.vscode-pylance' wants API proposal 'mcpConfigurationProvider' but that proposal DOES NOT EXIST. Likely, the proposal has been finalized (check 'vscode.d.ts') or was abandoned.
+2025-09-01 02:47:49.176 [info] Started local extension host with pid 25331.
+2025-09-01 02:47:49.510 [info] ChatSessionStore: Migrating 0 chat sessions from storage service to file system
+2025-09-01 02:47:49.998 [info] Ignoring configured affinity for 'asvetliakov.vscode-neovim' because extension host(s) are already running. Reload window.
+2025-09-01 02:47:50.034 [info] Settings Sync: Account status changed from uninitialized to unavailable
+2025-09-01 02:47:51.344 [error] [Extension Host] (node:25331) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `exe --trace-deprecation ...` to show where the warning was created)
+2025-09-01 02:47:51.912 [info] [perf] Render performance baseline is 43ms
+2025-09-01 02:47:53.603 [info] Ignoring configured affinity for 'asvetliakov.vscode-neovim' because extension host(s) are already running. Reload window.
+2025-09-01 02:58:26.731 [warning] [File Watcher ('parcel')] Watcher shutdown because watched path got deleted (path: /home/nekraut/Programming/Python/safe_builtins/docs)
+2025-09-01 02:58:26.732 [error] [File Watcher (node.js)] Failed to watch /home/nekraut/Programming/Python/safe_builtins/docs/README.md for changes using fs.watch() (Error: ENOENT: no such file or directory, watch '/home/nekraut/Programming/Python/safe_builtins/docs/README.md')
+2025-09-01 02:58:27.530 [error] [File Watcher (node.js)] Failed to watch /home/nekraut/Programming/Python/safe_builtins/docs/README.md for changes using fs.watch() (Error: ENOENT: no such file or directory, watch '/home/nekraut/Programming/Python/safe_builtins/docs/README.md')
+2025-09-01 02:58:41.777 [error] Error: The editor could not be opened because the file was not found.
+    at GEe.gc (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:2598:81151)
+    at async GEe.setInput (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:2598:80309)
+    at async jqe.S (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:610:58567)
+    at async jqe.L (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:610:57122)
+    at async jqe.openEditor (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:610:56204)
+    at async vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:722:23350
+    at async vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:604:1272
+2025-09-01 02:58:50.226 [error] Error: The editor could not be opened because the file was not found.
+    at GEe.gc (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:2598:81151)
+    at async GEe.setInput (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:2598:80309)
+    at async jqe.S (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:610:58567)
+    at async jqe.L (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:610:57122)
+    at async jqe.openEditor (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:610:56204)
+    at async vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:722:23350
+    at async vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:604:1272
+2025-09-01 19:42:37.718 [warning] Failed to fetch chat participant registry Failed to fetch
+2025-09-01 19:48:05.783 [warning] Failed to fetch chat participant registry Offline
+2025-09-01 19:53:29.636 [warning] Failed to fetch chat participant registry Offline
+2025-09-01 19:58:53.643 [warning] Failed to fetch chat participant registry Offline
+2025-09-01 20:04:18.667 [warning] Failed to fetch chat participant registry Offline
+2025-09-01 20:09:47.670 [warning] Failed to fetch chat participant registry Offline
+2025-09-01 20:15:14.672 [warning] Failed to fetch chat participant registry Offline
+2025-09-01 20:20:40.725 [warning] Failed to fetch chat participant registry Offline

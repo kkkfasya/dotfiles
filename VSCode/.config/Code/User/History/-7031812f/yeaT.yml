@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    tags:
+      # only accept tags that follows PEP 440
+      - "[0-9]+.[0-9]+.[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+a[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+b[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+rc[0-9]+"
+      
+
+jobs:
+  check_secret:
+    name: Check if secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate required inputs
+        run: |
+          test -n "${{ secrets.PYPI_TOKEN }}" || { echo "::error::PYPI_TOKEN"; exit 1; }
+  pypi:
+    needs: check_secret
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check pypi token
+        run: test -n "${{ secrets.PYPI_TOKEN }}" || { echo "::error::Missing PYPI_TOKEN"; exit 1; }
+
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: "0.8.8"
+      
+      - name: Install deps
+        run: uv sync --all-groups
+      
+      - name: Update package version based on recently pushed git tags version
+        run: uv version ${{ github.ref_name }}
+        
+       - name: Commit changes
+         uses: EndBug/add-and-commit@v9
+         with:
+           author_name: Your Name
+           author_email: mail@example.com
+           message: 'Your commit message'
+           add: '*.js'
+        
+      - name: Build package
+        run: uv build
+
+      - name: Publish to pypi
+        run: uv publish --token ${{ secrets.PYPI_TOKEN }}

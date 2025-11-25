@@ -146,3 +146,4 @@ require("lazy").setup({
 })
 
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+vim.keymap.set({ "n", "v" }, "w", "e", {})

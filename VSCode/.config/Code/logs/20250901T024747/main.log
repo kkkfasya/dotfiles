@@ -1,0 +1,14 @@
+2025-09-01 02:47:48.034 [info] update#setState idle
+2025-09-01 02:48:17.989 [info] update#setState checking for updates
+2025-09-01 02:48:18.114 [info] update#setState idle
+2025-09-01 03:48:17.996 [info] update#setState checking for updates
+2025-09-01 03:48:18.328 [info] update#setState idle
+2025-09-01 19:59:22.029 [info] update#setState checking for updates
+2025-09-01 19:59:22.038 [error] #4: https://update.code.visualstudio.com/api/update/linux-x64/stable/6f17636121051a53c88d3e605c491d22af2ba755?bg=true - error undefined net::ERR_INTERNET_DISCONNECTED
+2025-09-01 19:59:22.039 [error] Error: net::ERR_INTERNET_DISCONNECTED
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123921)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+2025-09-01 19:59:22.041 [info] update#setState idle
+2025-09-01 20:25:14.033 [error] [UtilityProcess type: shared-process, pid: 25311]: crashed with code 15 and reason 'killed'
+2025-09-01 20:25:14.044 [info] Extension host with pid 25331 exited with code: 15, signal: unknown.
+2025-09-01 20:25:14.045 [error] [UtilityProcess id: 1, type: extensionHost, pid: 25331]: crashed with code 15 and reason 'killed'

@@ -1,0 +1,26 @@
+name: doctoc the notes
+
+on:
+  push:
+    paths: 
+      - 'notes.md'
+    branches:  [master]
+
+jobs:
+  doctoc-notes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with: 
+          bun-version: latest
+
+      - run: bunx doctoc notes.md
+    
+      - name: Commit version change 
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "chore: add ToC using doctoc"
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+      

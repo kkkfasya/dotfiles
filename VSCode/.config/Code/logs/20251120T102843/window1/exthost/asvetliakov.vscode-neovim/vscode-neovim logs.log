@@ -1,0 +1,15 @@
+2025-11-20 10:28:48.620 [info] MainController: Starting nvim: /bin/nvim -N --embed --cmd source /home/nekraut/.vscode/extensions/asvetliakov.vscode-neovim-1.18.24/runtime/vscode-neovim.vim -u $HOME/dotfiles/vscodenvim.lua
+2025-11-20 10:28:48.876 [info] MainController: Nvim info: {
+  nvimVersion: {
+    patch: 5,
+    minor: 11,
+    build: null,
+    api_compatible: 0,
+    prerelease: false,
+    api_level: 13,
+    major: 0,
+    api_prerelease: false
+  },
+  logFile: '/home/nekraut/.local/state/nvim/log',
+  configDir: '/home/nekraut/.config/nvim'
+}

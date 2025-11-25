@@ -1,0 +1,14 @@
+2025-09-01 02:47:40.747 [warning] Via 'product.json#extensionEnabledApiProposals' extension 'ms-vsliveshare.vsliveshare' wants API proposal 'notebookCellExecutionState' but that proposal DOES NOT EXIST. Likely, the proposal has been finalized (check 'vscode.d.ts') or was abandoned.
+2025-09-01 02:47:40.772 [warning] Via 'product.json#extensionEnabledApiProposals' extension 'ms-python.gather' wants API proposal 'notebookCellExecutionState' but that proposal DOES NOT EXIST. Likely, the proposal has been finalized (check 'vscode.d.ts') or was abandoned.
+2025-09-01 02:47:40.773 [warning] Via 'product.json#extensionEnabledApiProposals' extension 'ms-python.vscode-pylance' wants API proposal 'mcpConfigurationProvider' but that proposal DOES NOT EXIST. Likely, the proposal has been finalized (check 'vscode.d.ts') or was abandoned.
+2025-09-01 02:47:41.448 [info] Started local extension host with pid 25087.
+2025-09-01 02:47:42.269 [info] Ignoring configured affinity for 'asvetliakov.vscode-neovim' because extension host(s) are already running. Reload window.
+2025-09-01 02:47:43.273 [error] Canceled: Canceled
+    at VC (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:7:1282)
+    at vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:3642:37249
+    at Array.forEach (<anonymous>)
+    at MDt.dispose (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:3642:37189)
+    at LRe.dispose (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:3642:48866)
+    at Vun.dispose (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:3649:7731)
+    at Oun.stopAllInReverse (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:3649:7033)
+    at async gkt.tb (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:3648:15899)

@@ -1,0 +1,18 @@
+on:
+  push:
+    tags:
+      - v*
+jobs:
+  github-example-tags:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Branch name
+      id: branch_name
+      run: |
+        echo "SOURCE_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        echo "SOURCE_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        echo "SOURCE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+     - name: GitHub Tag Name example
+       run: |
+         echo "Tag name from github.ref_name: ${{  github.ref_name }}"

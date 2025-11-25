@@ -1,0 +1,170 @@
+{
+  "terminal.integrated.tabs.location": "left",
+  "explorer.confirmDelete": false,
+  "files.autoSave": "onFocusChange",
+  "editor.fontLigatures": false,
+  "zenMode.hideLineNumbers": false,
+  "zenMode.centerLayout": false,
+  "vsicons.dontShowNewVersionMessage": false,
+  "terminal.integrated.fontFamily": "Hack",
+  "editor.fontWeight": "normal",
+  "editor.minimap.autohide": "mouseover",
+  "explorer.confirmDragAndDrop": false,
+  "editor.unicodeHighlight.includeComments": true,
+  "workbench.colorCustomizations": {
+    "editorLineNumber.foeground": "#f3e2e2e3",
+    "[Noctis Minimus]": {
+      "statusBar.background": "#046fc7",
+      "statusBar.foreground": "#ece8e8",
+      "editor.selectionBackground": "#ff84d634",
+      // "editor.selectionHighlightBorder": "#ffffffc2",
+      "editor.selectionHighlightBackground": "#ffffff2d"
+    },
+    "[Gruvbox Dark Hard]": {
+      "editorSuggestWidget.background": "#221a05",
+      "editorSuggestWidget.selectedBackground": "#ebb4332c",
+      "editorLineNumber.foreground": "#C6C6C6"
+    },
+  },
+  "editor.tokenColorCustomizations": {
+    "[Noctis Minimus]": {
+      "comments": "#4db2ec",
+      // "comments": "#d6d6d6e5",
+      "numbers": "#5096ff",
+      "keywords": {
+        "fontStyle": "italic"
+      }
+    }
+  },
+  "editor.semanticTokenColorCustomizations": {
+    "[Noctis Minimus]": {
+      "enabled": true,
+      "rules": {
+        "class": "#e5c07b",
+        "parameter": {
+          "foreground": "#f09383d5",
+          "fontStyle": "italic"
+        },
+        "*.decorator": "#46a1ecd7",
+      }
+    },
+    "[Gruvbox Dark Hard]": {
+      "enabled": true,
+      "rules": {
+        "parameter": {
+          "foreground": "#d65e0e",
+          "fontStyle": "italic",
+        },
+        "variable": "#fbf1c7da"
+      }
+    },
+  },
+  "terminal.integrated.gpuAcceleration": "auto",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "off",
+  "vsicons.presets.jsonOfficial": true,
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "workbench.layoutControl.enabled": false,
+  "liveServer.settings.donotVerifyTags": true,
+  "terminal.integrated.cursorBlinking": true,
+  "emmet.excludeLanguages": [
+    "markdown",
+    "css"
+  ],
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python",
+    "editor.formatOnType": true
+  },
+  "python.formatting.provider": "black",
+  "errorLens.enabledDiagnosticLevels": [
+    "warning",
+    "info",
+    "hint",
+    "error"
+  ],
+  "comments.useRelativeTime": false,
+  "http.proxyAuthorization": null,
+  "files.insertFinalNewline": true,
+  "editor.minimap.enabled": false,
+  "editor.cursorSurroundingLines": 7,
+  "keyboard.dispatch": "keyCode",
+  "editor.bracketPairColorization.enabled": false,
+  "editor.guides.bracketPairs": "active",
+  "code-runner.saveFileBeforeRun": true,
+  "code-runner.enableAppInsights": false,
+  "code-runner.clearPreviousOutput": true,
+  "telemetry.telemetryLevel": "off",
+  "window.menuBarVisibility": "toggle",
+  "editor.quickSuggestions": {
+    "comments": "on",
+    "strings": "on"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "quokka.compactMessageOutput": false,
+  "quokka.showOutputOnStart": false,
+  "editor.inlineSuggest.enabled": false,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "todo-tree.general.tags": [
+    "BUG",
+    "HACK",
+    "FIXME",
+    "TODO",
+    "XXX",
+    "[ ]",
+    "[x]",
+    "NOTE"
+  ],
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "vscode-neovim.neovimInitVimPaths.linux": "/home/ovhell/dotfiles/vscodenvim.lua",
+  "editor.cursorBlinking": "solid",
+  "svelte.enable-ts-plugin": true,
+  "html.autoClosingTags": false,
+  "explorer.confirmPasteNative": false,
+  "tailwindCSS.includeLanguages": {
+    "html": "html",
+    "javascript": "javascript",
+    "css": "css"
+  },
+  "workbench.editor.labelFormat": "short",
+  "explorer.compactFolders": false,
+  "workbench.tree.indent": 12,
+  "git.openRepositoryInParentFolders": "never",
+  "search.quickOpen.history.filterSortOrder": "recency",
+  "window.titleBarStyle": "native",
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 120,
+  "[sql]": {
+    "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
+  },
+  "editor.fontSize": 15.5,
+  "workbench.iconTheme": "material-icon-theme",
+  "git.autofetch": true,
+  "editor.fontFamily": "'Hack Nerd Font'",
+  "[svelte]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "Vue.volar"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "workbench.colorTheme": "Gruvbox Dark Medium",
+}

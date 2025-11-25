@@ -1,0 +1,17 @@
+2025-09-08 14:26:50.287 [info] Extension host with pid 14290 started
+2025-09-08 14:26:50.287 [info] Skipping acquiring lock for /home/nekraut/.config/Code/User/workspaceStorage/8d76f3826c8fe24113c1744806471671.
+2025-09-08 14:26:50.353 [info] ExtensionService#_doActivateExtension vscode.github-authentication, startup: false, activationEvent: 'onAuthenticationRequest:github'
+2025-09-08 14:26:50.403 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: true, activationEvent: '*', root cause: vscode.git
+2025-09-08 14:26:50.414 [info] ExtensionService#_doActivateExtension vscode.git, startup: true, activationEvent: '*'
+2025-09-08 14:26:50.476 [info] ExtensionService#_doActivateExtension vscode.github, startup: true, activationEvent: '*'
+2025-09-08 14:26:50.629 [info] Eager extensions activated
+2025-09-08 14:26:50.767 [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch, startup: false, activationEvent: 'onStartupFinished'
+2025-09-08 14:26:50.770 [info] ExtensionService#_doActivateExtension vscode.merge-conflict, startup: false, activationEvent: 'onStartupFinished'
+2025-09-08 14:26:50.809 [info] Extension host with pid 14323 started
+2025-09-08 14:26:50.809 [info] Skipping acquiring lock for /home/nekraut/.config/Code/User/workspaceStorage/8d76f3826c8fe24113c1744806471671.
+2025-09-08 14:26:50.824 [info] Eager extensions activated
+2025-09-08 14:26:50.836 [info] ExtensionService#_doActivateExtension asvetliakov.vscode-neovim, startup: false, activationEvent: 'onStartupFinished'
+2025-09-08 14:26:51.002 [info] Extension host terminating: renderer closed the MessagePort
+2025-09-08 14:26:51.003 [info] Extension host with pid 14323 exiting with code 0
+2025-09-08 14:26:51.007 [info] Extension host terminating: renderer closed the MessagePort
+2025-09-08 14:26:51.018 [info] Extension host with pid 14290 exiting with code 0

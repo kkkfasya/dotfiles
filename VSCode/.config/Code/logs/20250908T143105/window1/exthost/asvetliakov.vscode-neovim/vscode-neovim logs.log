@@ -1,0 +1,19 @@
+2025-09-08 14:31:07.928 [info] MainController: Starting nvim: /bin/nvim -N --embed --cmd source /home/nekraut/.vscode/extensions/asvetliakov.vscode-neovim-1.18.24/runtime/vscode-neovim.vim -u $HOME/dotfiles/vscodenvim.lua
+2025-09-08 14:31:07.985 [info] MainController: Nvim info: {
+  nvimVersion: {
+    minor: 11,
+    major: 0,
+    api_level: 13,
+    api_prerelease: false,
+    api_compatible: 0,
+    build: null,
+    patch: 3,
+    prerelease: false
+  },
+  logFile: '/home/nekraut/.local/state/nvim/log',
+  configDir: '/home/nekraut/.config/nvim'
+}
+2025-09-08 14:31:18.389 [info] MessagesManager: '2 changes; before #6  1 second ago\n'
+2025-09-08 14:37:19.161 [info] MessagesManager: '2 more lines; before #11  3 seconds ago\n'
+2025-09-08 14:38:03.999 [info] MessagesManager: '3 lines yanked\n'
+2025-09-08 14:38:12.981 [info] MessagesManager: '3 more lines\n'

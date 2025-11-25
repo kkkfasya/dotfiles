@@ -1,4 +1,3 @@
--- TODO: keybind to show all available completion opt
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -141,7 +140,7 @@ local COLORSCHEME = {
 				strings = false,
 			},
 			inverse = true, -- invert background for search, diffs, statuslines and errors
-			contrast = "soft",
+			contrast = "hard",
 			palette_overrides = {},
 			overrides = {
 				["@function"] = { fg = "#ff9900" },
@@ -149,6 +148,7 @@ local COLORSCHEME = {
 				["@function.call"] = { fg = "#ff9900" },
 				["@constant.macro"] = { fg = "#fabd2f" },
 				["@property"] = { fg = "#ebdbb2" },
+				["DiagnosticUnnecessary"] = { fg = "#ebdbb2" },
 			},
 			dim_inactive = false,
 			transparent_mode = false,
@@ -166,11 +166,15 @@ local FORMATTER = {
 		require("conform").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
-				python = { "ruff format" },
+				python = { "ruff" }, -- WARNING: doesnt work
 				rust = { "rustfmt" },
 				go = { "goimports", "gofmt" },
 				javascript = { "biome", "prettier" },
+				typescript = { "biome", "prettier" },
+				tsx = { "biome", "prettier" },
 				svelte = { "biome", "prettier" },
+				css = { "biome", "prettier" },
+				html = { "biome", "prettier" },
 				sql = { "sql-formatter" },
 				md = { "mdformat" },
 				terraform = { "terraform_fmt" },
@@ -200,13 +204,16 @@ local TELESCOPE = {
 		pickers = {
 			find_files = {
 				hidden = true,
-				hidden = true,
 				no_ignore = true,
 				file_ignore_patterns = {
+					".mypy_cache/",
 					"node_modules/",
 					".terraform/",
 					".git/",
 					".venv/",
+					".ruff_cache/",
+					".pytest_cache/",
+					".__pycache__/",
 					".svelte-kit/",
 					"dist/",
 					"build/",
@@ -293,10 +300,15 @@ local TREESITTER = {
 				"go",
 				"html",
 				"css",
+
+				"tsx",
 				"svelte",
 
 				"hcl",
 				"terraform",
+
+				"make",
+				"cmake",
 			},
 			sync_install = false,
 			auto_install = false,
@@ -315,8 +327,24 @@ local MISC = {
 	{ "talha-akram/noctis.nvim", lazy = true, event = "CmdlineEnter" },
 	{ "binhtran432k/dracula.nvim", lazy = true, event = "CmdlineEnter" },
 	{ "kkkfasya/frappeless.nvim", lazy = true, event = "CmdlineEnter" },
-
-	{ "christoomey/vim-tmux-navigator", lazy = true, event = "BufReadPost" },
+	{
+		"christoomey/vim-tmux-navigator",
+		cmd = {
+			"TmuxNavigateLeft",
+			"TmuxNavigateDown",
+			"TmuxNavigateUp",
+			"TmuxNavigateRight",
+			"TmuxNavigatePrevious",
+			"TmuxNavigatorProcessList",
+		},
+		keys = {
+			{ "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+			{ "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+			{ "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+			{ "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+			{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+		},
+	},
 	{ "AlexeySachkov/llvm-vim", lazy = true, ft = "llvm" },
 	{ "https://github.com/pigpigyyy/YueScript-vim" },
 
@@ -385,6 +413,7 @@ local MISC = {
 		lazy = true,
 		cmd = { "Bdelete" },
 		keys = function()
+			-- TODO: add keymap to delete all buffer, <leader>qa
 			vim.keymap.set("n", "<leader>qq", "<cmd>Bdelete<CR>", { noremap = true, silent = true })
 		end,
 	},
@@ -445,7 +474,7 @@ local MISC = {
 		opts = {
 			bigfile = { enabled = true },
 			quickfile = { enabled = true },
-			image = { enabled = true },
+			image = { enabled = true, inline = false },
 			indent = {
 				priority = 1,
 				enabled = true,
@@ -468,11 +497,13 @@ local MISC = {
 		ft = { "markdown" },
 	},
 	{
-		"MeanderingProgrammer/render-markdown.nvim",
-		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
-		opts = {
-			completions = { blink = { enabled = true } },
-		},
+		"Bekaboo/dropbar.nvim",
+		config = function()
+			local dropbar_api = require("dropbar.api")
+			vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
+			vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
+			vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
+		end,
 	},
 }
 
@@ -591,6 +622,14 @@ local AUTOCOMPLETE = {
 
 		sources = {
 			default = { "lsp", "path", "buffer" },
+			providers = {
+				lsp = {
+					name = "vtsls",
+					module = "blink.cmp.sources.lsp",
+					min_keyword_length = 1,
+					score_offset = 10,
+				},
+			},
 		},
 
 		signature = { enabled = true },
@@ -606,7 +645,13 @@ local AUTOCOMPLETE = {
 			["<C-b>"] = { "scroll_documentation_up", "fallback" },
 			["<C-f>"] = { "scroll_documentation_down", "fallback" },
 
-			["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+			-- ["<C-k>"] = { "show", "hide", "fallback" },
+            
+			["<C-k>"] = {
+				function(cmp)
+					cmp.show({ providers = { "lsp" } })
+				end,
+			},
 		},
 
 		cmdline = {
@@ -627,6 +672,28 @@ local LSPCONFIG = {
 	priority = 1001,
 	dependencies = {
 		{ "mason-org/mason.nvim", opts = {}, event = "CmdlineEnter" },
+		{
+			"WhoIsSethDaniel/mason-tool-installer",
+			opts = {
+				ensure_installed = {
+					"gopls",
+					"stylua",
+					"stylua",
+					"ruff",
+					"rustfmt",
+					"goimports",
+					"prettier",
+					"prettier",
+					"sql-formatter",
+					"mdformat",
+					"marksman",
+				},
+				integrations = {
+					["mason-lspconfig"] = true,
+					["mason-nvim-dap"] = true,
+				},
+			},
+		},
 		{
 			"mason-org/mason-lspconfig.nvim",
 			opts = {
@@ -651,6 +718,7 @@ local LSPCONFIG = {
 
 	opts = {
 		servers = {
+			marksman = {},
 			lua_ls = {},
 			gopls = {},
 			clangd = {},
@@ -659,7 +727,17 @@ local LSPCONFIG = {
 					return vim.loop.cwd()
 				end,
 			},
-			vtsls = {},
+			vtsls = {
+				settings = {
+					typescript = {
+						preferences = {
+							includeCompletionsForModuleExports = true,
+							includeCompletionsForImportStatements = true,
+							importModuleSpecifier = "non-relative",
+						},
+					},
+				},
+			},
 			html = {
 				format = {
 					templating = true,
@@ -744,6 +822,7 @@ vim.keymap.set("n", "<C-k>", ":wincmd k<CR>", { silent = true, desc = "Move to w
 vim.keymap.set("n", "<C-j>", ":wincmd j<CR>", { silent = true, desc = "Move to window below" })
 vim.keymap.set("n", "<C-h>", ":wincmd h<CR>", { silent = true, desc = "Move to window left" })
 vim.keymap.set("n", "<C-l>", ":wincmd l<CR>", { silent = true, desc = "Move to window right" })
+vim.keymap.set({ "n", "v" }, "w", "e", {})
 
 -- USER COMMANDS
 vim.api.nvim_create_user_command("ListSymbols", function()

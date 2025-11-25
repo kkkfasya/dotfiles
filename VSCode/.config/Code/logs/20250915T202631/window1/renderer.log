@@ -1,0 +1,24 @@
+2025-09-15 20:26:32.360 [warning] Via 'product.json#extensionEnabledApiProposals' extension 'ms-vsliveshare.vsliveshare' wants API proposal 'notebookCellExecutionState' but that proposal DOES NOT EXIST. Likely, the proposal has been finalized (check 'vscode.d.ts') or was abandoned.
+2025-09-15 20:26:32.376 [warning] Via 'product.json#extensionEnabledApiProposals' extension 'ms-python.gather' wants API proposal 'notebookCellExecutionState' but that proposal DOES NOT EXIST. Likely, the proposal has been finalized (check 'vscode.d.ts') or was abandoned.
+2025-09-15 20:26:32.377 [warning] Via 'product.json#extensionEnabledApiProposals' extension 'ms-python.vscode-pylance' wants API proposal 'mcpConfigurationProvider' but that proposal DOES NOT EXIST. Likely, the proposal has been finalized (check 'vscode.d.ts') or was abandoned.
+2025-09-15 20:26:32.949 [info] Started local extension host with pid 8235.
+2025-09-15 20:26:33.401 [info] Placing extension(s) asvetliakov.vscode-neovim on a separate extension host.
+2025-09-15 20:26:33.836 [info] Started local extension host with pid 8289.
+2025-09-15 20:26:34.069 [error] [Extension Host] (node:8235) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `exe --trace-deprecation ...` to show where the warning was created)
+2025-09-15 20:26:34.588 [info] Settings Sync: Account status changed from uninitialized to unavailable
+2025-09-15 20:26:35.677 [info] [perf] Render performance baseline is 34ms
+2025-09-15 20:26:47.084 [error] TypeError: Failed to fetch
+    at Sdn (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:3607:37006)
+    at vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:3607:38232
+    at K1t.c (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:503:47376)
+    at K1t.request (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:3607:38224)
+    at GKe.P (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:1268:308)
+    at async GKe.getManifest (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:1266:38407)
+2025-09-15 20:26:47.100 [error] Failed to fetch: TypeError: Failed to fetch
+    at Sdn (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:3607:37006)
+    at vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:3607:38232
+    at K1t.c (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:503:47376)
+    at K1t.request (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:3607:38224)
+    at GKe.P (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:1268:308)
+    at async GKe.getManifest (vscode-file://vscode-app/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:1266:38407)

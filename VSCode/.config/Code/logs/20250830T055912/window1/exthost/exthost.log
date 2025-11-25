@@ -1,0 +1,24 @@
+2025-08-30 05:59:13.336 [info] Extension host with pid 85987 started
+2025-08-30 05:59:13.336 [info] Skipping acquiring lock for /home/nekraut/.config/Code/User/workspaceStorage/e8c2aa1c715c9318dd00e6eac4a48f12.
+2025-08-30 05:59:13.386 [info] ExtensionService#_doActivateExtension vscode.github-authentication, startup: false, activationEvent: 'onAuthenticationRequest:github'
+2025-08-30 05:59:13.465 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: true, activationEvent: '*', root cause: vscode.git
+2025-08-30 05:59:13.478 [info] ExtensionService#_doActivateExtension vscode.git, startup: true, activationEvent: '*'
+2025-08-30 05:59:13.534 [info] ExtensionService#_doActivateExtension vscode.github, startup: true, activationEvent: '*'
+2025-08-30 05:59:13.660 [info] Eager extensions activated
+2025-08-30 05:59:13.669 [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch, startup: false, activationEvent: 'onStartupFinished'
+2025-08-30 05:59:13.672 [info] ExtensionService#_doActivateExtension vscode.merge-conflict, startup: false, activationEvent: 'onStartupFinished'
+2025-08-30 05:59:13.752 [info] Extension host with pid 86020 started
+2025-08-30 05:59:13.752 [info] Skipping acquiring lock for /home/nekraut/.config/Code/User/workspaceStorage/e8c2aa1c715c9318dd00e6eac4a48f12.
+2025-08-30 05:59:13.760 [info] Eager extensions activated
+2025-08-30 05:59:13.768 [info] ExtensionService#_doActivateExtension asvetliakov.vscode-neovim, startup: false, activationEvent: 'onStartupFinished'
+2025-08-30 05:59:15.702 [info] ExtensionService#_doActivateExtension redhat.vscode-yaml, startup: false, activationEvent: 'onLanguage:yaml', root cause: me-dutour-mathieu.vscode-github-actions
+2025-08-30 05:59:15.821 [info] ExtensionService#_doActivateExtension vscode.emmet, startup: false, activationEvent: 'onLanguage'
+2025-08-30 05:59:15.891 [info] ExtensionService#_doActivateExtension me-dutour-mathieu.vscode-github-actions, startup: false, activationEvent: 'onLanguage:yaml'
+2025-08-30 05:59:16.131 [warning] [redhat.vscode-yaml] Accessing a resource scoped configuration without providing a resource is not expected. To get the effective value for '[yaml]', provide the URI of a resource or 'null' for any resource.
+2025-08-30 05:59:16.134 [warning] [redhat.vscode-yaml] Accessing a resource scoped configuration without providing a resource is not expected. To get the effective value for '[yaml]', provide the URI of a resource or 'null' for any resource.
+2025-08-30 22:15:28.907 [info] Extension host terminating: renderer closed the MessagePort
+2025-08-30 22:15:28.917 [warning] ExtHostTextEditorOptions 'setCursorStyle' failed:'
+2025-08-30 22:15:28.922 [warning] Canceled
+2025-08-30 22:15:28.923 [info] Extension host with pid 86020 exiting with code 0
+2025-08-30 22:15:28.923 [info] Extension host terminating: renderer closed the MessagePort
+2025-08-30 22:15:28.937 [info] Extension host with pid 85987 exiting with code 0

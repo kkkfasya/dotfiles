@@ -8,7 +8,7 @@
   "vsicons.dontShowNewVersionMessage": false,
   "terminal.integrated.fontFamily": "Hack",
   "editor.fontWeight": "normal",
-  "editor.minimap.autohide": true,
+  "editor.minimap.autohide": "mouseover",
   "explorer.confirmDragAndDrop": false,
   "editor.unicodeHighlight.includeComments": true,
   "workbench.colorCustomizations": {
@@ -129,7 +129,7 @@
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
   },
-  "vscode-neovim.neovimInitVimPaths.linux": "/home/ovhell/dotfiles/vscodenvim.lua",
+  "vscode-neovim.neovimInitVimPaths.linux": "$HOME/dotfiles/vscodenvim.lua",
   "editor.cursorBlinking": "solid",
   "svelte.enable-ts-plugin": true,
   "html.autoClosingTags": false,
@@ -150,7 +150,6 @@
   "[sql]": {
     "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
   },
-  "workbench.colorTheme": "Catppuccin Macchiato",
   "editor.fontSize": 15.5,
   "workbench.iconTheme": "material-icon-theme",
   "git.autofetch": true,
@@ -167,4 +166,6 @@
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
+  "workbench.colorTheme": "Dracula Theme",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
 }

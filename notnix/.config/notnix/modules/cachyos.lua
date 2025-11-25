@@ -1,6 +1,6 @@
-local M = {}
-M.pkg = {
-    ""
+return {
+	"kernel-cachyos",
+	"cachyos-settings",
+	"scx-scheds",
+	"scx-manager",
 }
-
-return M

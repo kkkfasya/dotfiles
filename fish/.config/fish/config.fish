@@ -41,10 +41,9 @@ alias t='tmux attach || tmux'
 alias tks='tmux kill-server'
 alias l='ls -alFh'
 alias cpudebug='sudo auto-cpufreq --debug'
-alias note='nvim $HOME/NOTES/notes.md'
 alias lks='nvim $HOME/NOTES/done.md'
-alias notes='nvim $HOME/NOTES/notes.md'
 alias sudo='sudo '
+alias ffd='zi'
 
 alias gls='git ls-files'
 alias ga='git add .'
@@ -58,10 +57,12 @@ alias ll='ls -alFh'
 alias icat='kitten icat'
 alias ez='nvim ~/.zshrc'
 alias ef='nvim ~/.config/fish/config.fish'
+alias enc='nvim ~/.config/niri/config.kdl'
 alias fm='nautilus'
 alias cat='bat'
-# alias cal='ncal -C'
-alias ffd='cd "$(fd -t d . $HOME | fzf)"'
+
+
+
 alias cd="z"
 alias qd='cd "$(fd -t d . | fzf)"'
 alias eb='nvim ~/.bashrc'
@@ -70,7 +71,6 @@ alias sz='source ~/.zshrc'
 alias sf='source ~/.config/fish/config.fish'
 alias tls='tmux list-sessions'
 alias c='clear'
-alias ytdl='youtube-dl'
 alias eiv='nvim ~/.config/nvim/init.lua'
 alias clipb='xsel -i -b'
 alias vim='nvim'
@@ -84,12 +84,12 @@ alias ping='ping -c 10'
 alias less='less -R'
 alias multitail='multitail --no-repeat -c'
 alias cpd='pwd | tr -d "\n" | xsel -i -b'
-alias copydir='pwd | tr -d "\n" | xsel -i -b'
+alias copydir='pwd | tr -d "\n" | wl-copy'
 alias cd..='cd ..'
 alias tf="terraform"
 
 # KEYBINDING || MAPPING
-bind --key btab true
+# bind --key btab true
 
 bind \e\[Z forward-bigword
 bind \cF complete-and-search
@@ -98,12 +98,37 @@ bind \cF complete-and-search
 bind shift-tab forward-bigword
 bind ctrl-f complete-and-search
 
-#this is for tmux
-bind --key btab forward-bigword
 
 # FUNCTIONS
+#function ffd --description "fuzzy find directory from home"
+#    /bin/cd  "(fd -t d . $HOME | fzf)"
+#end
+
+function q --description "Run command quietly"
+    command $argv> /dev/null 2> /tmp/quiet.log &
+end
+
 function bonsai -a text --description "Display bonsai, with my preference"
     cbonsai -S -t 0.125 -m $text
+end
+
+function local_sudo -a program --description "run local user-binary with sudo"
+    sudo $HOME/.local/bin/$program $argv[2..-1]
+end
+
+function @docker_stop_and_kill_all
+    sudo docker stop $(sudo docker ps -a -q)
+    sudo docker kill $(sudo docker ps -a -q)
+end
+
+function note 
+    doctoc "$HOME/NOTES/notes.md"
+    nvim "$HOME/NOTES/notes.md"
+end
+
+function utbk 
+    doctoc "$HOME/NOTES/utbk-note.md"
+    nvim "$HOME/NOTES/utbk-note.md"
 end
 
 function @note
@@ -112,10 +137,10 @@ function @note
     xdg-open "/tmp/notes.html"
 end
 
-function @lks
-    doctoc "$HOME/NOTES/done.md"
-    markdown-it "$HOME/NOTES/done.md" > "/tmp/done.html"
-    xdg-open "/tmp/done.html"
+function @utbk
+    doctoc "$HOME/NOTES/utbk-note.md"
+    markdown-it "$HOME/NOTES/utbk-note.md" > "/tmp/utbk.html"
+    xdg-open "/tmp/utbk.html"
 end
 
 function gl --description "pretty git log"
@@ -204,13 +229,12 @@ set -g fish_greeting
 set fish_cursor_default block
 
 if status is-interactive
-    fastfetch -l pacbsd
-    ~/scripts/./days.sh
+    fastfetch
     # Commands to run in interactive sessions can go here
 end
 
 # pnpm
-set -gx PNPM_HOME "/home/ovhell/.local/share/pnpm"
+set -gx PNPM_HOME "$HOME/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end

@@ -1,0 +1,11 @@
+2025-10-02 16:58:26.732 [info] ChatSessionStore: Migrating 0 chat sessions from storage service to file system
+2025-10-02 16:58:26.934 [info] Started local extension host with pid 33156.
+2025-10-02 16:58:27.456 [info] Ignoring configured affinity for 'asvetliakov.vscode-neovim' because extension host(s) are already running. Reload window.
+2025-10-02 16:58:27.858 [info] Settings Sync: Account status changed from uninitialized to unavailable
+2025-10-02 16:58:30.005 [info] [perf] Render performance baseline is 22ms
+2025-10-02 16:58:30.408 [info] Auto updating outdated extensions. redhat.vscode-yaml
+2025-10-02 16:58:30.736 [info] Auto updating outdated extensions. redhat.vscode-yaml
+2025-10-02 16:58:31.248 [info] Ignoring configured affinity for 'asvetliakov.vscode-neovim' because extension host(s) are already running. Reload window.
+2025-10-02 17:07:24.928 [warning] Settings pattern "mcp" doesn't match any settings
+2025-10-02 17:07:24.928 [warning] SettingsEditor2: Settings not included in settingsLayout.ts: github.copilot.chat.agent.terminal.allowList, github.copilot.chat.agent.terminal.denyList
+2025-10-02 17:50:13.062 [warning] Settings pattern "mcp" doesn't match any settings
