@@ -1,8 +1,0 @@
-2025-11-20 10:28:46.433 [info] Deleted marked for removal extension from disk redhat.vscode-yaml /home/nekraut/.vscode/extensions/redhat.vscode-yaml-1.18.0
-2025-11-20 10:28:50.562 [info] Getting Manifest... redhat.vscode-yaml
-2025-11-20 10:28:50.776 [info] Installing extension: redhat.vscode-yaml {"productVersion":{"version":"1.106.2","date":"2025-11-19T16:56:50.023Z"},"pinned":false,"operation":3,"isApplicationScoped":false,"profileLocation":{"$mid":1,"external":"vscode-userdata:/home/nekraut/.vscode/extensions/extensions.json","path":"/home/nekraut/.vscode/extensions/extensions.json","scheme":"vscode-userdata"}}
-2025-11-20 10:28:53.692 [info] Extension signature verification result for redhat.vscode-yaml: Success. Internal Code: 0. Executed: true. Duration: 1219ms.
-2025-11-20 10:28:53.757 [info] Extracted extension to file:///home/nekraut/.vscode/extensions/redhat.vscode-yaml-1.19.1: redhat.vscode-yaml
-2025-11-20 10:28:53.762 [info] Renamed to /home/nekraut/.vscode/extensions/redhat.vscode-yaml-1.19.1
-2025-11-20 10:28:53.775 [info] Marked extension as removed redhat.vscode-yaml-1.19.0
-2025-11-20 10:28:53.777 [info] Extension installed successfully: redhat.vscode-yaml vscode-userdata:/home/nekraut/.vscode/extensions/extensions.json

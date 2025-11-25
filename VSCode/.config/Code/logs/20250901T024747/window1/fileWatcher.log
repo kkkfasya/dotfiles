@@ -1,3 +1,0 @@
-2025-09-01 02:58:26.733 [warning] [File Watcher ('parcel')] Watcher shutdown because watched path got deleted (path: /home/nekraut/Programming/Python/safe_builtins/docs)
-2025-09-01 02:58:26.733 [error] [File Watcher (node.js)] Failed to watch /home/nekraut/Programming/Python/safe_builtins/docs/README.md for changes using fs.watch() (Error: ENOENT: no such file or directory, watch '/home/nekraut/Programming/Python/safe_builtins/docs/README.md')
-2025-09-01 02:58:27.530 [error] [File Watcher (node.js)] Failed to watch /home/nekraut/Programming/Python/safe_builtins/docs/README.md for changes using fs.watch() (Error: ENOENT: no such file or directory, watch '/home/nekraut/Programming/Python/safe_builtins/docs/README.md')
