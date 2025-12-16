@@ -8,6 +8,7 @@ return {
 "dev.vencord.Vesktop",
 "fm.reaper.Reaper",
 "io.gitlab.theevilskeleton.Upscaler",
+"net.agalwood.Motrix",
 "org.gnome.World.PikaBackup",
 "org.jousse.vincent.Pomodorolm",
 "org.signal.Signal",

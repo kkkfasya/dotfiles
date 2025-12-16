@@ -36,6 +36,7 @@ set -U fish_prompt_pwd_dir_length 0
 
 zoxide init fish | source
 
+alias sdn='shutdown now'
 alias pkg='nvim ~/.config/notnix/config.lua'
 alias t='tmux attach || tmux'
 alias tks='tmux kill-server'
@@ -60,8 +61,7 @@ alias ef='nvim ~/.config/fish/config.fish'
 alias enc='nvim ~/.config/niri/config.kdl'
 alias fm='nautilus'
 alias cat='bat'
-
-
+alias nsuspend="qs -c noctalia-shell ipc call sessionMenu lockAndSuspend"
 
 alias cd="z"
 alias qd='cd "$(fd -t d . | fzf)"'
@@ -108,12 +108,20 @@ function q --description "Run command quietly"
     command $argv> /dev/null 2> /tmp/quiet.log &
 end
 
+function gclone -a repo --description "git clone --depth 1"
+    git clone $repo --depth 1 $argv[2..-1]
+end
+
 function bonsai -a text --description "Display bonsai, with my preference"
     cbonsai -S -t 0.125 -m $text
 end
 
 function local_sudo -a program --description "run local user-binary with sudo"
     sudo $HOME/.local/bin/$program $argv[2..-1]
+end
+
+function gc -a msg -a body --description "Git commit"
+    git commit -m "$msg" -m "$body"
 end
 
 function @docker_stop_and_kill_all

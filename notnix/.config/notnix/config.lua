@@ -4,6 +4,13 @@ package.path = ("%s;%s/?.lua;%s/modules/?.lua"):format(package.path, confdir, co
 local Config = {}
 
 Config.pkgs = {
+	"alsa-tools",
+	"pavucontrol",
+	"qpwgraph",
+	"elisa-player",
+	"qt5ct",
+	"qt6ct",
+	"meson",
 	"difftastic",
 	"wev",
 	"wlsunset",
@@ -96,8 +103,9 @@ Config.pkgs = {
 Config.flatpaks = {
 	-- "com.google.AndroidStudio",
 	-- "com.jetbrains.Rider",
-    "org.jousse.vincent.Pomodorolm",
-    "dev.bragefuglseth.Fretboard",
+	"net.agalwood.Motrix",
+	"org.jousse.vincent.Pomodorolm",
+	"dev.bragefuglseth.Fretboard",
 	"com.github.tchx84.Flatseal",
 	"org.signal.Signal",
 	"org.gnome.World.PikaBackup",

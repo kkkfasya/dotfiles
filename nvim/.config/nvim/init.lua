@@ -169,8 +169,8 @@ local FORMATTER = {
 				python = { "ruff" }, -- WARNING: doesnt work
 				rust = { "rustfmt" },
 				go = { "goimports", "gofmt" },
-				javascript = { "biome", "prettier" },
-				typescript = { "biome", "prettier" },
+				javascript = { "prettier" },
+				typescript = { "prettier" },
 				tsx = { "biome", "prettier" },
 				svelte = { "biome", "prettier" },
 				css = { "biome", "prettier" },
@@ -206,6 +206,8 @@ local TELESCOPE = {
 				hidden = true,
 				no_ignore = true,
 				file_ignore_patterns = {
+					".vscode/",
+					".astro/",
 					".mypy_cache/",
 					"node_modules/",
 					".terraform/",
@@ -225,7 +227,7 @@ local TELESCOPE = {
 
 	keys = function()
 		local telescope = require("telescope.builtin")
-		vim.keymap.set("n", "<leader>p", telescope.find_files, {})
+		-- vim.keymap.set("n", "<leader>p", telescope.find_files, {})
 
 		vim.keymap.set("n", "<leader>f", function()
 			telescope.grep_string({ search = vim.fn.input("grep > ") })
@@ -236,6 +238,33 @@ local TELESCOPE = {
 
 		require("telescope").load_extension("zf-native")
 	end,
+}
+
+local FFF = {
+	"dmtrKovalenko/fff.nvim",
+	build = function()
+		require("fff.download").download_or_build_binary()
+	end,
+	-- if you are using nixos
+	-- build = "nix run .#release",
+	opts = {
+		debug = {
+			enabled = false, -- we expect your collaboration at least during the beta
+			show_scores = false, -- to help us optimize the scoring system, feel free to share your scores!
+		},
+		prompt = "> ",
+	},
+	lazy = false,
+
+	keys = {
+		{
+			"<leader>p", -- try it if you didn't it is a banger keybinding for a picker
+			function()
+				require("fff").find_files()
+			end,
+			desc = "FFFind files",
+		},
+	},
 }
 
 local NVIMTREE = {
@@ -472,9 +501,8 @@ local MISC = {
 		"folke/snacks.nvim",
 		priority = 1000,
 		opts = {
-			bigfile = { enabled = true },
 			quickfile = { enabled = true },
-			image = { enabled = true, inline = false },
+			image = { enabled = true },
 			indent = {
 				priority = 1,
 				enabled = true,
@@ -504,6 +532,60 @@ local MISC = {
 			vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
 			vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
 		end,
+	},
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		opts = {
+			modes = {
+				char = {
+					enabled = false,
+				},
+			},
+		},
+		keys = {
+			{
+				"s",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump()
+				end,
+				desc = "Flash",
+			},
+			{
+				"S",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").treesitter()
+				end,
+				desc = "Flash Treesitter",
+			},
+			{
+				"r",
+				mode = "o",
+				function()
+					require("flash").remote()
+				end,
+				desc = "Remote Flash",
+			},
+			{
+				"R",
+				mode = { "o", "x" },
+				function()
+					require("flash").treesitter_search()
+				end,
+				desc = "Treesitter Search",
+			},
+			{
+				"<c-s>",
+				mode = { "c" },
+				function()
+					require("flash").toggle()
+				end,
+				desc = "Toggle Flash Search",
+			},
+		},
 	},
 }
 
@@ -563,7 +645,7 @@ local GITSIGNS = {
 			end)
 
 			map("n", "<leader>ga", gs.stage_buffer, "Stage Buffer")
-			map("n", "<leader>gR", gs.reset_buffer, "Reset Buffer")
+			map("n", "<leader>gr", gs.reset_buffer, "Reset Buffer")
 			map("n", "<leader>gh", gs.preview_hunk_inline, "Preview Hunk Inline")
 
 			map("n", "<leader>gb", function()
@@ -600,6 +682,12 @@ local AUTOCOMPLETE = {
 
 		completion = {
 			keyword = { range = "full" },
+
+			-- trigger = {
+			-- 	show_on_trigger_character = true,
+			-- 	show_on_blocked_trigger_characters = { " ", "\n", "\t" },
+			-- },
+
 			accept = { auto_brackets = { enabled = true } },
 			list = { selection = { preselect = true, auto_insert = true } },
 
@@ -616,12 +704,11 @@ local AUTOCOMPLETE = {
 
 			documentation = { auto_show = true, auto_show_delay_ms = 100 },
 
-			-- Display a preview of the selected item on the current line
 			ghost_text = { enabled = true },
 		},
 
 		sources = {
-			default = { "lsp", "path", "buffer" },
+			default = { "path", "buffer" },
 			providers = {
 				lsp = {
 					name = "vtsls",
@@ -637,21 +724,15 @@ local AUTOCOMPLETE = {
 		keymap = {
 			["<CR>"] = { "accept", "fallback" },
 			["<Tab>"] = { "select_next", "fallback" },
-			["<Down>"] = { "select_next", "fallback" },
-			["<Up>"] = { "select_prev", "fallback" },
+			["<Down>"] = { "select_next", "select_next" },
+			["<Up>"] = { "select_prev", "select_prev" },
 			["<S-Tab>"] = { "snippet_backward", "fallback" },
 			["<C-p>"] = { "select_prev", "fallback_to_mappings" },
 			["<C-n>"] = { "select_next", "fallback_to_mappings" },
 			["<C-b>"] = { "scroll_documentation_up", "fallback" },
 			["<C-f>"] = { "scroll_documentation_down", "fallback" },
 
-			-- ["<C-k>"] = { "show", "hide", "fallback" },
-            
-			["<C-k>"] = {
-				function(cmp)
-					cmp.show({ providers = { "lsp" } })
-				end,
-			},
+			["<C-k>"] = { "show", "hide", "fallback" },
 		},
 
 		cmdline = {
@@ -678,7 +759,6 @@ local LSPCONFIG = {
 				ensure_installed = {
 					"gopls",
 					"stylua",
-					"stylua",
 					"ruff",
 					"rustfmt",
 					"goimports",
@@ -698,6 +778,7 @@ local LSPCONFIG = {
 			"mason-org/mason-lspconfig.nvim",
 			opts = {
 				ensure_installed = {
+					"astro",
 					"lua_ls",
 					"clangd",
 					"vtsls",
@@ -749,6 +830,7 @@ local LSPCONFIG = {
 					references = true,
 				},
 			},
+
 			rust_analyzer = { check_on_save = false },
 			bacon_ls = {},
 			intelephense = {
@@ -762,11 +844,13 @@ local LSPCONFIG = {
 			json_ls = {},
 			terraform_ls = {},
 
-			-- web lsp
+			-- extra web lsp
 			tailwindcss = {},
 			svelte = {},
 			cssls = {},
-			emmet_language_server = {},
+			astro = {},
+			-- emmet_language_server = {}, -- this bozo is annoying, until i can prioritize vtsls over this, it will stay off
+			--
 		},
 	},
 
@@ -823,6 +907,7 @@ vim.keymap.set("n", "<C-j>", ":wincmd j<CR>", { silent = true, desc = "Move to w
 vim.keymap.set("n", "<C-h>", ":wincmd h<CR>", { silent = true, desc = "Move to window left" })
 vim.keymap.set("n", "<C-l>", ":wincmd l<CR>", { silent = true, desc = "Move to window right" })
 vim.keymap.set({ "n", "v" }, "w", "e", {})
+vim.keymap.set({ "n", "v" }, "f", "=", {})
 
 -- USER COMMANDS
 vim.api.nvim_create_user_command("ListSymbols", function()
@@ -845,6 +930,11 @@ vim.api.nvim_create_user_command("VirtualTextToggle", function()
 	local cfg = vim.diagnostic.config()
 
 	local status = (not cfg.virtual_text) and "enabled" or "disabled"
+
+	vim.diagnostic.config({
+		virtual_text = not cfg.virtual_text,
+	})
+
 	print("Diagnostic virtual text is " .. status)
 end, {})
 
@@ -870,6 +960,7 @@ require("lazy").setup({
 		TELESCOPE,
 		TREESITTER,
 		VSCODE,
+		FFF,
 		MISC,
 	},
 	install = { colorscheme = { "gruvbox" } },
