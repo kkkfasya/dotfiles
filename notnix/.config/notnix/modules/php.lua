@@ -3,7 +3,12 @@ return {
 	"php-mysqlnd",
 	"php-xml",
 	"php-json",
-	"php-gd",
 	"php-mbstring",
 	"phpMyAdmin",
+	"php-pecl-imagick",
+	"php-fpm",
+	"php-opcache",
+	"php-gd",
+	"php-curl",
+	"php-pecl-zip",
 }

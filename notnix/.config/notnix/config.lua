@@ -4,6 +4,8 @@ package.path = ("%s;%s/?.lua;%s/modules/?.lua"):format(package.path, confdir, co
 local Config = {}
 
 Config.pkgs = {
+	"tito",
+	"kdenlive",
 	"alsa-tools",
 	"pavucontrol",
 	"qpwgraph",
@@ -94,15 +96,18 @@ Config.pkgs = {
 	-- NOTE: must be put at the end otherwise wouldn't return all
 	-- iterables items because fuck you and fuck lua and fuck prabowo
 	require("util").add_module({
+		require("modules.dotnet"),
 		require("modules.php"),
 		require("modules.dnf-plugins"),
 		require("modules.cachyos"),
+		require("modules.vicinae_devel"),
 	}),
 }
 
 Config.flatpaks = {
 	-- "com.google.AndroidStudio",
 	-- "com.jetbrains.Rider",
+	"org.localsend.localsend_app",
 	"net.agalwood.Motrix",
 	"org.jousse.vincent.Pomodorolm",
 	"dev.bragefuglseth.Fretboard",
@@ -129,6 +134,9 @@ Config.repos = {
 	"pgdev/ghostty",
 	"matinlotfali/KDE-Rounded-Corners",
 	"zeno/scrcpy",
+	require("util").add_module({
+		require("modules.vicinae_repo"),
+	}),
 }
 
 Config.install = "sudo dnf install"

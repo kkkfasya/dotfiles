@@ -59,9 +59,9 @@ input {
     mouse {
         // off
         // natural-scroll
-        accel-speed 0.7
+        accel-speed 0.1
         accel-profile "flat"
-        // scroll-method "no-scroll"
+        scroll-factor 0.5
     }
 
     trackpoint {
@@ -317,7 +317,7 @@ animations {
      //off
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
-    slowdown 0.7
+    slowdown 0.6
 }
 
 // Window rules let you adjust behavior for individual windows.
@@ -359,7 +359,7 @@ window-rule {
 
 // TODO: block Whatsapp and some other app from screencast 
 window-rule {
-    match app-id=r#"^Whatsapp$"#
+    match app-id=r#"^brave-hnpfjngllnobngcgfapefoaidbinmjnm-Default$"#
     block-out-from "screencast"
 }
 
@@ -398,8 +398,8 @@ binds {
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
     // Using spawn-sh allows to pass multiple arguments together with the command.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 2.0 @DEFAULT_AUDIO_SINK@ 0.1+"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 0.05+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
     XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
 
@@ -409,8 +409,8 @@ binds {
     XF86AudioPlay allow-when-locked=true {spawn "playerctl" "play-pause"; }
      
 
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+5%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "5%-"; }
 
     Ctrl+Q repeat=false { close-window; }
     Mod+Q repeat=false { close-window; }
@@ -469,8 +469,8 @@ binds {
     // Mod+Ctrl+Page_Down { move-window-to-workspace-down; }
     // ...
 
-    Mod+Shift+Page_Down { move-workspace-down; }
-    Mod+Shift+Page_Up   { move-workspace-up; }
+    Mod+Page_Down { move-workspace-down; }
+    Mod+Page_Up   { move-workspace-up; }
     Mod+Shift+U         { move-workspace-down; }
     Mod+Shift+I         { move-workspace-up; }
 

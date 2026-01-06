@@ -524,6 +524,7 @@ local MISC = {
 		end,
 		ft = { "markdown" },
 	},
+
 	{
 		"Bekaboo/dropbar.nvim",
 		config = function()
@@ -533,6 +534,7 @@ local MISC = {
 			vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
 		end,
 	},
+
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
@@ -586,6 +588,14 @@ local MISC = {
 				desc = "Toggle Flash Search",
 			},
 		},
+	},
+
+	{
+		"ionide/Ionide-vim",
+		ft = { "fsharp", "fsharp_project" },
+		config = function()
+			vim.g["fsharp#fsi_window_command"] = "vnew"
+		end,
 	},
 }
 
@@ -708,7 +718,7 @@ local AUTOCOMPLETE = {
 		},
 
 		sources = {
-			default = { "path", "buffer" },
+			default = { "lsp", "path", "buffer" },
 			providers = {
 				lsp = {
 					name = "vtsls",
@@ -757,7 +767,6 @@ local LSPCONFIG = {
 			"WhoIsSethDaniel/mason-tool-installer",
 			opts = {
 				ensure_installed = {
-					"gopls",
 					"stylua",
 					"ruff",
 					"rustfmt",
@@ -783,7 +792,6 @@ local LSPCONFIG = {
 					"clangd",
 					"vtsls",
 					"pyright",
-					"gopls",
 					"html",
 					"cssls",
 					"emmet_language_server",
@@ -843,6 +851,7 @@ local LSPCONFIG = {
 			-- config language lsp
 			json_ls = {},
 			terraform_ls = {},
+			rpm_lsp_server = {},
 
 			-- extra web lsp
 			tailwindcss = {},
@@ -907,7 +916,6 @@ vim.keymap.set("n", "<C-j>", ":wincmd j<CR>", { silent = true, desc = "Move to w
 vim.keymap.set("n", "<C-h>", ":wincmd h<CR>", { silent = true, desc = "Move to window left" })
 vim.keymap.set("n", "<C-l>", ":wincmd l<CR>", { silent = true, desc = "Move to window right" })
 vim.keymap.set({ "n", "v" }, "w", "e", {})
-vim.keymap.set({ "n", "v" }, "f", "=", {})
 
 -- USER COMMANDS
 vim.api.nvim_create_user_command("ListSymbols", function()
@@ -968,6 +976,7 @@ require("lazy").setup({
 })
 
 -- EXTRA
+vim.g["fsharp#backend"] = "disable" -- lsp is configured by mason not ionide vim
 vim.filetype.add({
 	pattern = {
 		[".*/%.github[%w/]+workflows[%w/]+.*%.ya?ml"] = "yaml.github",
@@ -977,3 +986,22 @@ vim.filetype.add({
 vim.diagnostic.config({
 	virtual_text = false,
 })
+
+-- DEV
+-- local dev_client = vim.lsp.start({
+--     name = "LSP-learn",
+--     cmd = {"/home/nekraut/Programming/Go/LSP-learn/main"}
+-- })
+--
+-- if not dev_client then
+--     vim.notify "[DEV]: Client is not starting mannnnn"
+-- end
+--
+-- -- XXX: cant start client
+-- vim.api.nvim_create_autocmd("FileType", {
+-- 	pattern = "markdown",
+-- 	callback = function()
+--         vim.lsp.buf_attach_client(0, dev_client)
+-- 	end,
+-- })
+
