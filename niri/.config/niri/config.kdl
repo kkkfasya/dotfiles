@@ -21,7 +21,7 @@ input {
     focus-follows-mouse max-scroll-amount="90%"
     keyboard {
         xkb {
-            options "caps:swapescape"
+            options "caps:swapescape, compose:rctrl"
             // You can set rules, model, layout, variant and options.
             // For more information, see xkeyboard-config(7).
 
@@ -88,35 +88,21 @@ gestures {
 // https://yalter.github.io/niri/Configuration:-Outputs
 // Remember to uncomment the node by removing "/-"!
 output "eDP-1" {
-    // Uncomment this line to disable this output.
-    // off
-
-    // Resolution and, optionally, refresh rate of the output.
-    // The format is "<width>x<height>" or "<width>x<height>@<refresh rate>".
-    // If the refresh rate is omitted, niri will pick the highest refresh rate
-    // for the resolution.
-    // If the mode is omitted altogether or is invalid, niri will pick one automatically.
-    // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
     mode "1920x1080@60"
-
-    // You can use integer or fractional scale, for example use 1.5 for 150% scale.
     scale 1
-
-    // Transform allows to rotate the output counter-clockwise, valid values are:
-    // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
     transform "normal"
-
-    // Position of the output in the global coordinate space.
-    // This affects directional monitor actions like "focus-monitor-left", and cursor movement.
-    // The cursor can only move between directly adjacent outputs.
-    // Output scale and rotation has to be taken into account for positioning:
-    // outputs are sized in logical, or scaled, pixels.
-    // For example, a 3840×2160 output with scale 2.0 will have a logical size of 1920×1080,
-    // so to put another output directly adjacent to it on the right, set its x to 1920.
-    // If the position is unset or results in an overlap, the output is instead placed
-    // automatically.
-    position x=1280 y=0
+    position x=1920 y=0
 }
+
+// NOTE: monitor to top
+output "HDMI-A-1" {
+    mode "1920x1080@100"
+    scale 1
+    transform "normal"
+    position x=1920 y=-1080
+
+}
+
 
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
@@ -282,7 +268,6 @@ layout {
 spawn-sh-at-startup "qs -c ~/.config/quickshell/noctalia-shell/"
 spawn-sh-at-startup "xrdb -merge ~/.Xresources"
 spawn-sh-at-startup "python3 ~/.config/niri/niri_tile_to_n.py"
-spawn-sh-at-startup "niri-session-manager --save-interval 5 --spawn-timeout 1"
 
 // this is so fucking stupid but im too lazy to create systemd service
 
@@ -290,7 +275,6 @@ spawn-sh-at-startup "niri-session-manager --save-interval 5 --spawn-timeout 1"
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
 hotkey-overlay {
-    // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
     skip-at-startup
 }
 
@@ -370,6 +354,12 @@ window-rule {
     clip-to-geometry true
 }
 
+// Set the overview wallpaper on the backdrop.
+layer-rule {
+  match namespace="^noctalia-overview*"
+  place-within-backdrop true
+}
+
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
@@ -398,10 +388,10 @@ binds {
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
     // Using spawn-sh allows to pass multiple arguments together with the command.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 0.05+"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 2.0 @DEFAULT_AUDIO_SINK@ 0.05+"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
     XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_Sqs -c noctalia-shell ipc call calendar toggleOURCE@ toggle"; }
 
 
     XF86AudioNext allow-when-locked=true {spawn "playerctl" "next"; }
@@ -430,31 +420,33 @@ binds {
     Mod+Shift+L     { move-column-right; }
     Mod+Shift+J     { move-column-to-workspace-down; }
     Mod+Shift+K     { move-column-to-workspace-up; }
-    // Mod+Ctrl+J     { move-window-down; }
-    // Mod+Ctrl+K     { move-window-up; }
 
     Mod+Home { focus-column-first; }
     Mod+End  { focus-column-last; }
     Mod+Ctrl+Home { move-column-to-first; }
     Mod+Ctrl+End  { move-column-to-last; }
 
-    Mod+Ctrl+Shift+Left  { focus-monitor-left; }
-    Mod+Ctrl+Shift+Down  { focus-monitor-down; }
-    Mod+Ctrl+Shift+Up    { focus-monitor-up; }
-    Mod+Ctrl+Shift+Right { focus-monitor-right; }
 
-    // Mod+Ctrl+Left  { move-column-to-monitor-left; }
-    // Mod+Ctrl+Down  { move-column-to-monitor-down; }
-    // Mod+Ctrl+Up    { move-column-to-monitor-up; }
-    // Mod+Ctrl+Right { move-column-to-monitor-right; }
-    // Mod+Ctrl+H     { move-column-to-monitor-left; }
-    // Mod+Ctrl+J     { move-column-to-monitor-down; }
-    // Mod+Ctrl+K     { move-column-to-monitor-up; }
-    // Mod+Ctrl+L     { move-column-to-monitor-right; }
+    Mod+Ctrl+Shift+Left  { move-column-to-monitor-left; }
+    Mod+Ctrl+Shift+Down  { move-column-to-monitor-down; }
+    Mod+Ctrl+Shift+Up    { move-column-to-monitor-up; }
+    Mod+Ctrl+Shift+Right { move-column-to-monitor-right; }
 
-    // Alternatively, there are commands to move just a single window:
-    // Mod+Shift+Ctrl+Left  { move-window-to-monitor-left; }
-    // ...
+    Mod+Ctrl+J  { focus-monitor-down; }
+    Mod+Ctrl+K  { focus-monitor-up; }
+    Mod+Ctrl+H  { focus-monitor-left; }
+    Mod+Ctrl+L { focus-monitor-right; }
+
+    Mod+Ctrl+Shift+H     { move-window-to-monitor-left; }
+    Mod+Ctrl+Shift+J     { move-window-to-monitor-down; }
+    Mod+Ctrl+Shift+K     { move-window-to-monitor-up; }
+    Mod+Ctrl+Shift+L     { move-window-to-monitor-right; }
+
+    Mod+Ctrl+Left  { focus-monitor-left; }
+    Mod+Ctrl+Down  { focus-monitor-down; }
+    Mod+Ctrl+Up    { focus-monitor-up; }
+    Mod+Ctrl+Right { focus-monitor-right; }
+
 
     // And you can also move a whole workspace to another monitor:
     // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }

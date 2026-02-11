@@ -1,14 +1,13 @@
 -- WARNING: do not modify this file
 return {
-"yalter/niri",
-"errornointernet/quickshell",
 "atim/lazygit",
-"bieszczaders/kernel-cachyos-addons",
 "bieszczaders/kernel-cachyos",
-"sneexy/zen-browser",
+"bieszczaders/kernel-cachyos-addons",
 "chenxiaolong/sbctl",
-"pgdev/ghostty",
+"errornointernet/quickshell",
 "matinlotfali/KDE-Rounded-Corners",
+"pgdev/ghostty",
+"sneexy/zen-browser",
+"yalter/niri",
 "zeno/scrcpy",
-"quadratech188/cmark-gfm",
 }

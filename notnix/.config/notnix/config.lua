@@ -4,6 +4,11 @@ package.path = ("%s;%s/?.lua;%s/modules/?.lua"):format(package.path, confdir, co
 local Config = {}
 
 Config.pkgs = {
+	"chafa",
+	"telegram-desktop",
+	"pandoc",
+	"steam",
+	"uncrustify",
 	"tito",
 	"kdenlive",
 	"alsa-tools",
@@ -20,8 +25,6 @@ Config.pkgs = {
 	"brightnessctl",
 	"niri",
 	"cava",
-	"qemu",
-	"telegram-desktop",
 	"mpv",
 	"haruna",
 	"hugo",
@@ -31,7 +34,6 @@ Config.pkgs = {
 	"trivy",
 	"git-delta",
 	"snapper",
-	"kwin-effect-roundcorners",
 	"btrfs-assistant",
 	"zoxide",
 	"pnpm",
@@ -39,7 +41,7 @@ Config.pkgs = {
 	"ruff",
 	"pdfarranger",
 	"distrobox",
-	"git", -- git is not preinstalled in fedora lmaoo
+	"git",
 	"bat",
 	"pigz",
 	"g++",
@@ -84,9 +86,6 @@ Config.pkgs = {
 	"golang",
 	"code",
 
-	-- optional
-	"sherlock-project",
-
 	"kvantum",
 	"kruler",
 
@@ -100,13 +99,14 @@ Config.pkgs = {
 		require("modules.php"),
 		require("modules.dnf-plugins"),
 		require("modules.cachyos"),
-		require("modules.vicinae_devel"),
+		require("modules.qemu"),
 	}),
 }
 
 Config.flatpaks = {
 	-- "com.google.AndroidStudio",
 	-- "com.jetbrains.Rider",
+    "com.dec05eba.gpu_screen_recorder",
 	"org.localsend.localsend_app",
 	"net.agalwood.Motrix",
 	"org.jousse.vincent.Pomodorolm",
@@ -121,6 +121,7 @@ Config.flatpaks = {
 	"fm.reaper.Reaper",
 	"us.zoom.Zoom",
 	"com.brave.Browser",
+	"org.onlyoffice.desktopeditors",
 }
 
 Config.repos = {
@@ -134,9 +135,6 @@ Config.repos = {
 	"pgdev/ghostty",
 	"matinlotfali/KDE-Rounded-Corners",
 	"zeno/scrcpy",
-	require("util").add_module({
-		require("modules.vicinae_repo"),
-	}),
 }
 
 Config.install = "sudo dnf install"

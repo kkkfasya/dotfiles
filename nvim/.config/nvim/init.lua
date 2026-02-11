@@ -166,15 +166,16 @@ local FORMATTER = {
 		require("conform").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
-				python = { "ruff" }, -- WARNING: doesnt work
+				python = { "ruff" }, -- WARNING: dont know if it works
 				rust = { "rustfmt" },
 				go = { "goimports", "gofmt" },
-				javascript = { "prettier" },
-				typescript = { "prettier" },
-				tsx = { "biome", "prettier" },
-				svelte = { "biome", "prettier" },
-				css = { "biome", "prettier" },
-				html = { "biome", "prettier" },
+				javascript = { "oxfmt" },
+				typescript = { "oxfmt" },
+				tsx = { "oxfmt", "prettier" },
+				svelte = { "oxfmt", "prettier" },
+				astro = { "oxfmt", "prettier" },
+				css = { "oxfmt", "prettier" },
+				html = { "oxfmt", "prettier" },
 				sql = { "sql-formatter" },
 				md = { "mdformat" },
 				terraform = { "terraform_fmt" },
@@ -284,12 +285,16 @@ local NVIMTREE = {
 			vim.keymap.del("n", "o", { buffer = bufnr })
 			vim.keymap.del("n", "d", { buffer = bufnr })
 			vim.keymap.del("n", "Y", { buffer = bufnr })
+			vim.keymap.del("n", "s", { buffer = bufnr })
+			vim.keymap.del("n", "S", { buffer = bufnr })
+			vim.keymap.del("n", "f", { buffer = bufnr })
 
 			vim.keymap.set("n", "K", nvimtree.node.show_info_popup, opts("Info"))
 			vim.keymap.set("n", "r", nvimtree.fs.rename_full, opts("Rename"))
 			vim.keymap.set("n", "o", nvimtree.tree.change_root_to_node, opts("CD"))
 			vim.keymap.set("n", "d", nvimtree.fs.trash, opts("Trash file"))
 			vim.keymap.set("n", "Y", nvimtree.fs.copy.absolute_path, opts("Info"))
+			vim.keymap.set("n", "f", nvimtree.tree.search_node, opts("Info"))
 		end
 
 		require("nvim-tree").setup({
@@ -405,7 +410,7 @@ local MISC = {
 			},
 		},
 		keys = function()
-			vim.keymap.set("n", "<leader>", "<cmd>Neogit<CR>", { noremap = true, silent = true })
+			vim.keymap.set("n", "<leader>n", "<cmd>Neogit<CR>", { noremap = true, silent = true })
 		end,
 	},
 	{
@@ -450,6 +455,9 @@ local MISC = {
 		"ej-shafran/compile-mode.nvim",
 		lazy = true,
 		cmd = { "Compile", "Recompile" },
+		dependencies = {
+			{ "m00qek/baleia.nvim", tag = "v1.3.0" },
+		},
 		keys = function()
 			vim.keymap.set("n", "<leader>C", ":w | :Compile<CR>", { noremap = true })
 			vim.keymap.set("n", "<leader>cc", ":w | :Recompile<CR>", { noremap = true })
@@ -597,6 +605,13 @@ local MISC = {
 			vim.g["fsharp#fsi_window_command"] = "vnew"
 		end,
 	},
+	{
+		"folke/zen-mode.nvim",
+		opts = {},
+
+		lazy = true,
+		cmd = { "ZenMode" },
+	},
 }
 
 local VSCODE = {
@@ -684,6 +699,15 @@ local AUTOCOMPLETE = {
 		fuzzy = {
 			implementation = "prefer_rust",
 			sorts = {
+				function(a, b)
+					if (a.client_name == nil or b.client_name == nil) or (a.client_name == b.client_name) then
+						return
+					end
+					return b.client_name == "emmet_language_server"
+				end,
+				-- default sorts
+				"score",
+				"sort_text",
 				"exact",
 				"score",
 				"sort_text",
@@ -718,15 +742,19 @@ local AUTOCOMPLETE = {
 		},
 
 		sources = {
-			default = { "lsp", "path", "buffer" },
 			providers = {
-				lsp = {
-					name = "vtsls",
-					module = "blink.cmp.sources.lsp",
-					min_keyword_length = 1,
-					score_offset = 10,
+				buffer = {
+					opts = {
+						get_bufnrs = function()
+							return vim.tbl_filter(function(bufnr)
+								return vim.bo[bufnr].buftype == ""
+							end, vim.api.nvim_list_bufs())
+						end,
+					},
 				},
 			},
+			-- default = { "path", "buffer", },
+			default = { "lsp", "path", "buffer", },
 		},
 
 		signature = { enabled = true },
@@ -858,7 +886,9 @@ local LSPCONFIG = {
 			svelte = {},
 			cssls = {},
 			astro = {},
-			-- emmet_language_server = {}, -- this bozo is annoying, until i can prioritize vtsls over this, it will stay off
+			emmet_language_server = {
+                filetypes = { "html", "css", "php"}
+            },
 			--
 		},
 	},
@@ -1004,4 +1034,3 @@ vim.diagnostic.config({
 --         vim.lsp.buf_attach_client(0, dev_client)
 -- 	end,
 -- })
-

@@ -11,4 +11,5 @@ return {
 	"php-gd",
 	"php-curl",
 	"php-pecl-zip",
+    "composer",
 }

@@ -1,0 +1,4 @@
+return {
+    "qemu",
+    "virt-manager",
+}

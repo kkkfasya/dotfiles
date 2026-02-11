@@ -37,7 +37,8 @@ set -U fish_prompt_pwd_dir_length 0
 zoxide init fish | source
 
 alias sdn='shutdown now'
-alias pkg='nvim ~/.config/notnix/config.lua'
+alias ka='killall'
+alias pkg='cd ~/.config/notnix/ && nvim ./config.lua && cd -'
 alias t='tmux attach || tmux'
 alias tks='tmux kill-server'
 alias l='ls -alFh'
@@ -45,6 +46,7 @@ alias cpudebug='sudo auto-cpufreq --debug'
 alias lks='nvim $HOME/NOTES/done.md'
 alias sudo='sudo '
 alias ffd='zi'
+alias bctl='brightnessctl '
 
 alias gls='git ls-files'
 alias ga='git add .'
@@ -59,7 +61,7 @@ alias icat='kitten icat'
 alias ez='nvim ~/.zshrc'
 alias ef='nvim ~/.config/fish/config.fish'
 alias enc='nvim ~/.config/niri/config.kdl'
-alias fm='nautilus'
+alias fm='dolphin . & '
 alias cat='bat'
 alias nsuspend="qs -c noctalia-shell ipc call sessionMenu lockAndSuspend"
 
@@ -98,14 +100,39 @@ bind \cF complete-and-search
 bind shift-tab forward-bigword
 bind ctrl-f complete-and-search
 
-
 # FUNCTIONS
 #function ffd --description "fuzzy find directory from home"
 #    /bin/cd  "(fd -t d . $HOME | fzf)"
 #end
 
+function set_external_monitor_brightness -a b --description "self explanatory" 
+    ddcutil setvcp 10 $b
+end
+
+function detect_pm_search
+    # TIL in fish you can only return status code (int) and not string
+    # the substitution is echo hmmm
+    if command -q apt
+        echo "apt search"
+    else if command -q dnf
+        echo "dnf search"
+    else if command -q pacman
+        echo "pacman -Ss"
+    else if command -q zypper
+        echo "zypper search"
+    else if command -q emerge
+        echo "emerge -s"
+    else
+        return 1
+    end
+end
+
 function q --description "Run command quietly"
-    command $argv> /dev/null 2> /tmp/quiet.log &
+    command $argv >/dev/null 2>/tmp/quiet.log &
+end
+
+function quiet --description "Run command quietly"
+    q $argv
 end
 
 function gcl -a repo --description "git clone --depth 1"
@@ -113,8 +140,8 @@ function gcl -a repo --description "git clone --depth 1"
 end
 
 function sshgh --description "add ssh key for github"
-   eval (ssh-agent -c) 
-   ssh-add ~/.ssh/kkkfasya
+    eval (ssh-agent -c)
+    ssh-add ~/.ssh/kkkfasya
 end
 
 function bonsai -a text --description "Display bonsai, with my preference"
@@ -134,25 +161,26 @@ function @docker_stop_and_kill_all
     sudo docker kill $(sudo docker ps -a -q)
 end
 
-function note 
-    doctoc "$HOME/NOTES/notes.md"
-    nvim "$HOME/NOTES/notes.md"
+function note
+    cd "$HOME/NOTES/"
+    doctoc notes.md
+    nvim notes.md && cd -
 end
 
-function utbk 
+function utbk
     doctoc "$HOME/NOTES/utbk-note.md"
     nvim "$HOME/NOTES/utbk-note.md"
 end
 
 function @note
     doctoc "$HOME/NOTES/notes.md"
-    markdown-it "$HOME/NOTES/notes.md" > "/tmp/notes.html"
+    markdown-it "$HOME/NOTES/notes.md" >"/tmp/notes.html"
     xdg-open "/tmp/notes.html"
 end
 
 function @utbk
     doctoc "$HOME/NOTES/utbk-note.md"
-    markdown-it "$HOME/NOTES/utbk-note.md" > "/tmp/utbk.html"
+    markdown-it "$HOME/NOTES/utbk-note.md" >"/tmp/utbk.html"
     xdg-open "/tmp/utbk.html"
 end
 
@@ -160,10 +188,9 @@ function gl --description "pretty git log"
     git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
 end
 
-function gwip --description "commit with 'work in progress' message" 
+function gwip --description "commit with 'work in progress' message"
     git commit -m "work in progress"
 end
-
 
 function tnew -a session_name --description "new Tmux session with name"
     tmux new -s "$session_name"
@@ -194,15 +221,15 @@ end
 
 function bind_bang
     switch (commandline --current-token)[-1]
-    case "!"
-        # Without the `--`, the functionality can break when completing
-        # flags used in the history (since, in certain edge cases
-        # `commandline` will assume that *it* should try to interpret
-        # the flag)
-        commandline --current-token -- $history[1]
-        commandline --function repaint
-    case "*"
-        commandline --insert !
+        case "!"
+            # Without the `--`, the functionality can break when completing
+            # flags used in the history (since, in certain edge cases
+            # `commandline` will assume that *it* should try to interpret
+            # the flag)
+            commandline --current-token -- $history[1]
+            commandline --function repaint
+        case "*"
+            commandline --insert !
     end
 end
 
@@ -233,22 +260,21 @@ function @qrcode --description 'Generate a QR code; use -p or --png for PNG outp
 end
 
 function @url_short --description 'Shorten a URL'
-   curl -F"shorten=$url" https://envs.sh
+    curl -F"shorten=$url" https://envs.sh
 end
-
 
 # MISC
 set -g fish_greeting
 set fish_cursor_default block
 
 if status is-interactive
-    fastfetch
-    # Commands to run in interactive sessions can go here
+    fastfetch  --logo ./Documents/ascii-art.png --logo-type kitty-icat --logo-width 60 --logo-height 50
+    builtin history merge
 end
 
 # pnpm
 set -gx PNPM_HOME "$HOME/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
+    set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
