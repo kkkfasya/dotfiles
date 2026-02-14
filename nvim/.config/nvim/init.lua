@@ -268,54 +268,95 @@ local FFF = {
 	},
 }
 
-local NVIMTREE = {
-	"nvim-tree/nvim-tree.lua",
-	lazy = true,
-	dependencies = { "nvim-tree/nvim-web-devicons" },
-	config = function()
-		local function nvimtree_on_attach(bufnr)
-			local nvimtree = require("nvim-tree.api")
-			local function opts(desc)
-				return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+local FILESYSTEM = {
+	{
+		"stevearc/oil.nvim",
+		opts = {
+			delete_to_trash = true,
+			skip_confirm_for_simple_edits = true,
+			watch_for_changes = true,
+			keymaps = {
+				["g?"] = { "actions.show_help", mode = "n" },
+				["<CR>"] = "actions.select",
+				["v"] = { "actions.select", opts = { vertical = true } },
+				["h"] = { "actions.select", opts = { horizontal = true } },
+				["P"] = "actions.preview",
+				["q"] = { "actions.close", mode = "n" },
+				["r"] = "actions.refresh",
+				["-"] = { "actions.parent", mode = "n" },
+				["_"] = { "actions.open_cwd", mode = "n" },
+				-- ["o"] = { "actions.cd", mode = "n" },
+				["gs"] = { "actions.change_sort", mode = "n" },
+				["gx"] = "actions.open_external",
+				["g."] = { "actions.toggle_hidden", mode = "n" },
+				["t"] = { "actions.toggle_trash", mode = "n" },
+			},
+            view_options = {
+                show_hidden = true
+            }
+		},
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+
+		lazy = false,
+		keys = function()
+			vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+		end,
+	},
+	{
+		"nvim-tree/nvim-tree.lua",
+		lazy = true,
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			local function nvimtree_on_attach(bufnr)
+				local nvimtree = require("nvim-tree.api")
+				local function opts(desc)
+					return {
+						desc = "nvim-tree: " .. desc,
+						buffer = bufnr,
+						noremap = true,
+						silent = true,
+						nowait = true,
+					}
+				end
+				nvimtree.config.mappings.default_on_attach(bufnr)
+				vim.keymap.del("n", "K", { buffer = bufnr })
+				vim.keymap.del("n", "r", { buffer = bufnr })
+				vim.keymap.del("n", "<C-e>", { buffer = bufnr })
+				vim.keymap.del("n", "o", { buffer = bufnr })
+				vim.keymap.del("n", "d", { buffer = bufnr })
+				vim.keymap.del("n", "Y", { buffer = bufnr })
+				vim.keymap.del("n", "s", { buffer = bufnr })
+				vim.keymap.del("n", "S", { buffer = bufnr })
+				vim.keymap.del("n", "f", { buffer = bufnr })
+
+				vim.keymap.set("n", "K", nvimtree.node.show_info_popup, opts("Info"))
+				vim.keymap.set("n", "r", nvimtree.fs.rename_full, opts("Rename"))
+				vim.keymap.set("n", "o", nvimtree.tree.change_root_to_node, opts("CD"))
+				vim.keymap.set("n", "d", nvimtree.fs.trash, opts("Trash file"))
+				vim.keymap.set("n", "Y", nvimtree.fs.copy.absolute_path, opts("Info"))
+				vim.keymap.set("n", "f", nvimtree.tree.search_node, opts("Info"))
 			end
-			nvimtree.config.mappings.default_on_attach(bufnr)
-			vim.keymap.del("n", "K", { buffer = bufnr })
-			vim.keymap.del("n", "r", { buffer = bufnr })
-			vim.keymap.del("n", "<C-e>", { buffer = bufnr })
-			vim.keymap.del("n", "o", { buffer = bufnr })
-			vim.keymap.del("n", "d", { buffer = bufnr })
-			vim.keymap.del("n", "Y", { buffer = bufnr })
-			vim.keymap.del("n", "s", { buffer = bufnr })
-			vim.keymap.del("n", "S", { buffer = bufnr })
-			vim.keymap.del("n", "f", { buffer = bufnr })
 
-			vim.keymap.set("n", "K", nvimtree.node.show_info_popup, opts("Info"))
-			vim.keymap.set("n", "r", nvimtree.fs.rename_full, opts("Rename"))
-			vim.keymap.set("n", "o", nvimtree.tree.change_root_to_node, opts("CD"))
-			vim.keymap.set("n", "d", nvimtree.fs.trash, opts("Trash file"))
-			vim.keymap.set("n", "Y", nvimtree.fs.copy.absolute_path, opts("Info"))
-			vim.keymap.set("n", "f", nvimtree.tree.search_node, opts("Info"))
-		end
-
-		require("nvim-tree").setup({
-			on_attach = nvimtree_on_attach,
-			sort = {
-				sorter = "case_sensitive",
-			},
-			view = {
-				width = 27,
-			},
-			filters = {
-				dotfiles = true,
-				custom = { "^\\.git" },
-				exclude = { ".gitignore", ".github" },
-			},
-		})
-	end,
-	cmd = { "NvimTreeOpen" },
-	keys = function()
-		vim.keymap.set("n", "<leader>e", ":NvimTreeOpen<CR>", { noremap = true, silent = true })
-	end,
+			require("nvim-tree").setup({
+				on_attach = nvimtree_on_attach,
+				sort = {
+					sorter = "case_sensitive",
+				},
+				view = {
+					width = 27,
+				},
+				filters = {
+					dotfiles = true,
+					custom = { "^\\.git" },
+					exclude = { ".gitignore", ".github" },
+				},
+			})
+		end,
+		cmd = { "NvimTreeOpen" },
+		keys = function()
+			vim.keymap.set("n", "<leader>e", ":NvimTreeOpen<CR>", { noremap = true, silent = true })
+		end,
+	},
 }
 
 local TREESITTER = {
@@ -612,6 +653,10 @@ local MISC = {
 		lazy = true,
 		cmd = { "ZenMode" },
 	},
+	{
+		"dariuscorvus/tree-sitter-language-injection.nvim",
+		opts = {}, -- calls setup()
+	},
 }
 
 local VSCODE = {
@@ -754,7 +799,7 @@ local AUTOCOMPLETE = {
 				},
 			},
 			-- default = { "path", "buffer", },
-			default = { "lsp", "path", "buffer", },
+			default = { "lsp", "path", "buffer" },
 		},
 
 		signature = { enabled = true },
@@ -816,6 +861,7 @@ local LSPCONFIG = {
 			opts = {
 				ensure_installed = {
 					"astro",
+					"gopls",
 					"lua_ls",
 					"clangd",
 					"vtsls",
@@ -887,8 +933,8 @@ local LSPCONFIG = {
 			cssls = {},
 			astro = {},
 			emmet_language_server = {
-                filetypes = { "html", "css", "php"}
-            },
+				filetypes = { "html", "css", "php" },
+			},
 			--
 		},
 	},
@@ -991,7 +1037,7 @@ require("lazy").setup({
 	spec = {
 		COLORSCHEME,
 		FORMATTER,
-		NVIMTREE,
+		FILESYSTEM,
 		GITSIGNS,
 		LSPCONFIG,
 		AUTOCOMPLETE,

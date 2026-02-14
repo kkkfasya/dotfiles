@@ -82,8 +82,6 @@ Config.pkgs = {
 
 	"docker",
 	"docker-compose",
-
-	"golang",
 	"code",
 
 	"kvantum",
@@ -106,7 +104,6 @@ Config.pkgs = {
 Config.flatpaks = {
 	-- "com.google.AndroidStudio",
 	-- "com.jetbrains.Rider",
-    "com.dec05eba.gpu_screen_recorder",
 	"org.localsend.localsend_app",
 	"net.agalwood.Motrix",
 	"org.jousse.vincent.Pomodorolm",

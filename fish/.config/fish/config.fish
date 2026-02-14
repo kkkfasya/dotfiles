@@ -38,7 +38,7 @@ zoxide init fish | source
 
 alias sdn='shutdown now'
 alias ka='killall'
-alias pkg='cd ~/.config/notnix/ && nvim ./config.lua && cd -'
+alias pkg='cd ~/.config/notnix/ && nvim ./config.lua; cd - && notnix'
 alias t='tmux attach || tmux'
 alias tks='tmux kill-server'
 alias l='ls -alFh'

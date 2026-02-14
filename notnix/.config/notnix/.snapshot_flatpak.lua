@@ -1,7 +1,6 @@
 -- WARNING: do not modify this file
 return {
 "com.brave.Browser",
-"com.dec05eba.gpu_screen_recorder",
 "com.github.tchx84.Flatseal",
 "com.google.Chrome",
 "com.spotify.Client",

@@ -19,7 +19,7 @@ from collections import deque
 # %% Args
 
 # Set built-in defaults (helpful for debugging)
-default_N = 1
+default_N = 2
 default_delay_ms = 2500 if perf_counter() < 60 else 0
 default_maximize_solos = True
 default_maximize_solo_on_close = True

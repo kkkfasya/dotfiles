@@ -36,7 +36,6 @@ return {
 "git",
 "git-delta",
 "gitui",
-"golang",
 "haruna",
 "hugo",
 "hwinfo",
