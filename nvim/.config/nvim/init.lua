@@ -107,14 +107,22 @@ vim.api.nvim_create_augroup("autosave", { clear = true })
 vim.api.nvim_create_autocmd("FocusLost", {
 	group = "autosave",
 	pattern = "*",
-	command = "wall!",
+	callback = function()
+		if vim.bo.buftype == "" and vim.bo.modified then
+			vim.cmd("wall!")
+		end
+	end,
 	desc = "Save all buffers on focus lost",
 })
 
 vim.api.nvim_create_autocmd("BufLeave", {
 	group = "autosave",
 	pattern = "*",
-	command = "wall!",
+	callback = function()
+		if vim.bo.buftype == "" and vim.bo.modified then
+			vim.cmd("wall!")
+		end
+	end,
 	desc = "Save all buffers on buffer leave",
 })
 
@@ -250,8 +258,8 @@ local FFF = {
 	-- build = "nix run .#release",
 	opts = {
 		debug = {
-			enabled = false, -- we expect your collaboration at least during the beta
-			show_scores = false, -- to help us optimize the scoring system, feel free to share your scores!
+			enabled = false,
+			show_scores = false,
 		},
 		prompt = "> ",
 	},
@@ -291,9 +299,9 @@ local FILESYSTEM = {
 				["g."] = { "actions.toggle_hidden", mode = "n" },
 				["t"] = { "actions.toggle_trash", mode = "n" },
 			},
-            view_options = {
-                show_hidden = true
-            }
+			view_options = {
+				show_hidden = true,
+			},
 		},
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 
