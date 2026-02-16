@@ -139,11 +139,6 @@ function gcl -a repo --description "git clone --depth 1"
     git clone $repo --depth 1 $argv[2..-1]
 end
 
-function sshgh --description "add ssh key for github"
-    eval (ssh-agent -c)
-    ssh-add ~/.ssh/kkkfasya
-end
-
 function bonsai -a text --description "Display bonsai, with my preference"
     cbonsai -S -t 0.125 -m $text
 end
