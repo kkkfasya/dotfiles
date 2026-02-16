@@ -1,4 +1,4 @@
--- TODO: finish
+-- TODO: finish, test
 -- barebones neovim config with some plugins, aims to be as light as possible while still being nice to use 
 -- requires no external plugins manager, and use no LSP
 --[[ 
