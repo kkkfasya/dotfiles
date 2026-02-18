@@ -1,4 +1,4 @@
--- WARNING: do not modify this file
+-- WARNING: file created by notnix, do not modify this file manually
 return {
 "alsa-tools",
 "audacity",
@@ -91,7 +91,6 @@ return {
 "snapper",
 "steam",
 "telegram-desktop",
-"tito",
 "tmux",
 "tor",
 "torbrowser-launcher",

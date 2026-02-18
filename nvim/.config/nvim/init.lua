@@ -957,6 +957,18 @@ local LSPCONFIG = {
 	-- so i can set it up the normal way
 	keys = function()
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
+
+		vim.keymap.set("n", "gv", function()
+			local wins = vim.api.nvim_tabpage_list_wins(0)
+			if #wins == 1 then
+				vim.cmd("vsplit")
+				vim.cmd("wincmd l") -- always jump to right split
+			else
+				vim.cmd("wincmd l") -- always jump to right split
+			end
+			vim.lsp.buf.definition()
+		end, { silent = true })
+
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 		vim.keymap.set("n", "E", vim.diagnostic.open_float, {})
@@ -1069,6 +1081,7 @@ vim.filetype.add({
 
 vim.diagnostic.config({
 	virtual_text = false,
+	underline = true, -- also turns off DiagnosticUnnecessary
 })
 
 -- DEV

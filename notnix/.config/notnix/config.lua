@@ -9,7 +9,6 @@ Config.pkgs = {
 	"pandoc",
 	"steam",
 	"uncrustify",
-	"tito",
 	"kdenlive",
 	"alsa-tools",
 	"pavucontrol",
