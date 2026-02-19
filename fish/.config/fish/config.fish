@@ -18,6 +18,7 @@ set -gx NVM_DIR $HOME/.nvm
 set -gx FZF_DEFAULT_OPTS "--tmux center --info=inline --margin=1 --padding=1"
 set -gx DESKTOP_ENTRY "~/.local/share/applications/"
 set -gx BAT_THEME gruvbox-dark
+set -gx LEDGER_FILE "~/FINANCE/data.journal"
 
 # Remove all dup path, yes i know it's preferred to use fish_add_path but fuck it
 set -gx PATH (printf "%s\n" $PATH | sort -u)

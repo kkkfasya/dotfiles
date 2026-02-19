@@ -4,6 +4,7 @@ package.path = ("%s;%s/?.lua;%s/modules/?.lua"):format(package.path, confdir, co
 local Config = {}
 
 Config.pkgs = {
+	"hledger",
 	"chafa",
 	"telegram-desktop",
 	"pandoc",

@@ -1,4 +1,4 @@
--- WARNING: file created by notnix, do not modify this file manually
+-- WARNING: do not modify this file
 return {
 "alsa-tools",
 "audacity",
@@ -37,6 +37,7 @@ return {
 "git-delta",
 "gitui",
 "haruna",
+"hledger",
 "hugo",
 "hwinfo",
 "kdenlive",

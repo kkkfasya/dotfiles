@@ -392,6 +392,8 @@ local TREESITTER = {
 
 				"make",
 				"cmake",
+
+				"ledger",
 			},
 			sync_install = false,
 			auto_install = false,
