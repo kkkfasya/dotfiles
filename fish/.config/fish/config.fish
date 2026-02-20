@@ -264,7 +264,7 @@ set -g fish_greeting
 set fish_cursor_default block
 
 if status is-interactive
-    fastfetch  --logo ./Documents/ascii-art.png --logo-type kitty-icat --logo-width 60 --logo-height 50
+    fastfetch  --logo ~/Documents/ascii-art.png --logo-type kitty-icat --logo-width 60 --logo-height 50
     builtin history merge
 end
 

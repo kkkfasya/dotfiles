@@ -174,7 +174,7 @@ local FORMATTER = {
 		require("conform").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
-				python = { "ruff" }, -- WARNING: dont know if it works
+				python = { "ruff_format" }, -- WARNING: dont know if it works
 				rust = { "rustfmt" },
 				go = { "goimports", "gofmt" },
 				javascript = { "oxfmt" },
