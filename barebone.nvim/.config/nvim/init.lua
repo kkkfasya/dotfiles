@@ -56,7 +56,7 @@ for key, value in pairs(options) do
 end
 
 vim.g.mapleader = " "
-vim.opt.undodir = os.getenv("HOME") .. "/.nvim_undodir/"
+vim.opt.undodir = os.getenv("HOME") .. "/.local/state/.nvim_undodir/"
 vim.opt.clipboard:append("unnamedplus")
 
 vim.cmd([[aunmenu PopUp.How-to\ disable\ mouse]])
@@ -65,12 +65,12 @@ vim.cmd([[aunmenu PopUp.-1-]])
 -- Highlight copied text
 vim.api.nvim_create_augroup("highlight_yank", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-	group = "highlight_yank",
-	pattern = "*",
-	callback = function()
-		vim.hl.on_yank({ higroup = "IncSearch", timeout = 100 })
-	end,
-	desc = "Highlight yanked text",
+    group = "highlight_yank",
+    pattern = "*",
+    callback = function()
+        vim.hl.on_yank({ higroup = "IncSearch", timeout = 100 })
+    end,
+    desc = "Highlight yanked text",
 })
 
 -- Dynamic relative number
@@ -120,277 +120,299 @@ vim.api.nvim_create_autocmd("BufLeave", {
 })
 
 local FILESYSTEM = {
-	{
-		"stevearc/oil.nvim",
-		opts = {
-			delete_to_trash = true,
-			skip_confirm_for_simple_edits = true,
-			watch_for_changes = true,
-			keymaps = {
-				["g?"] = { "actions.show_help", mode = "n" },
-				["<CR>"] = "actions.select",
-				["v"] = { "actions.select", opts = { vertical = true } },
-				["h"] = { "actions.select", opts = { horizontal = true } },
-				["P"] = "actions.preview",
-				["q"] = { "actions.close", mode = "n" },
-				["r"] = "actions.refresh",
-				["-"] = { "actions.parent", mode = "n" },
-				["_"] = { "actions.open_cwd", mode = "n" },
-				-- ["o"] = { "actions.cd", mode = "n" },
-				["gs"] = { "actions.change_sort", mode = "n" },
-				["gx"] = "actions.open_external",
-				["g."] = { "actions.toggle_hidden", mode = "n" },
-				["t"] = { "actions.toggle_trash", mode = "n" },
-			},
-			view_options = {
-				show_hidden = true,
-			},
-		},
-		dependencies = { "nvim-tree/nvim-web-devicons" },
+    {
+        "stevearc/oil.nvim",
+        opts = {
+            delete_to_trash = true,
+            skip_confirm_for_simple_edits = true,
+            watch_for_changes = true,
+            keymaps = {
+                ["g?"] = { "actions.show_help", mode = "n" },
+                ["<CR>"] = "actions.select",
+                ["v"] = { "actions.select", opts = { vertical = true } },
+                ["h"] = { "actions.select", opts = { horizontal = true } },
+                ["P"] = "actions.preview",
+                ["q"] = { "actions.close", mode = "n" },
+                ["r"] = "actions.refresh",
+                ["-"] = { "actions.parent", mode = "n" },
+                ["_"] = { "actions.open_cwd", mode = "n" },
+                -- ["o"] = { "actions.cd", mode = "n" },
+                ["gs"] = { "actions.change_sort", mode = "n" },
+                ["gx"] = "actions.open_external",
+                ["g."] = { "actions.toggle_hidden", mode = "n" },
+                ["t"] = { "actions.toggle_trash", mode = "n" },
+            },
+            view_options = {
+                show_hidden = true,
+            },
+        },
+        dependencies = { "nvim-tree/nvim-web-devicons" },
 
-		lazy = false,
-		keys = function()
-			vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-		end,
-	},
-	{
-		"nvim-tree/nvim-tree.lua",
-		lazy = true,
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			local function nvimtree_on_attach(bufnr)
-				local nvimtree = require("nvim-tree.api")
-				local function opts(desc)
-					return {
-						desc = "nvim-tree: " .. desc,
-						buffer = bufnr,
-						noremap = true,
-						silent = true,
-						nowait = true,
-					}
-				end
-				nvimtree.config.mappings.default_on_attach(bufnr)
-				vim.keymap.del("n", "K", { buffer = bufnr })
-				vim.keymap.del("n", "r", { buffer = bufnr })
-				vim.keymap.del("n", "<C-e>", { buffer = bufnr })
-				vim.keymap.del("n", "o", { buffer = bufnr })
-				vim.keymap.del("n", "d", { buffer = bufnr })
-				vim.keymap.del("n", "Y", { buffer = bufnr })
-				vim.keymap.del("n", "s", { buffer = bufnr })
-				vim.keymap.del("n", "S", { buffer = bufnr })
-				vim.keymap.del("n", "f", { buffer = bufnr })
+        lazy = false,
+        keys = function()
+            vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+        end,
+    },
+    {
+        "nvim-tree/nvim-tree.lua",
+        lazy = true,
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+            local function nvimtree_on_attach(bufnr)
+                local nvimtree = require("nvim-tree.api")
+                local function opts(desc)
+                    return {
+                        desc = "nvim-tree: " .. desc,
+                        buffer = bufnr,
+                        noremap = true,
+                        silent = true,
+                        nowait = true,
+                    }
+                end
+                nvimtree.config.mappings.default_on_attach(bufnr)
+                vim.keymap.del("n", "K", { buffer = bufnr })
+                vim.keymap.del("n", "r", { buffer = bufnr })
+                vim.keymap.del("n", "<C-e>", { buffer = bufnr })
+                vim.keymap.del("n", "o", { buffer = bufnr })
+                vim.keymap.del("n", "d", { buffer = bufnr })
+                vim.keymap.del("n", "Y", { buffer = bufnr })
+                vim.keymap.del("n", "s", { buffer = bufnr })
+                vim.keymap.del("n", "S", { buffer = bufnr })
+                vim.keymap.del("n", "f", { buffer = bufnr })
 
-				vim.keymap.set("n", "K", nvimtree.node.show_info_popup, opts("Info"))
-				vim.keymap.set("n", "r", nvimtree.fs.rename_full, opts("Rename"))
-				vim.keymap.set("n", "o", nvimtree.tree.change_root_to_node, opts("CD"))
-				vim.keymap.set("n", "d", nvimtree.fs.trash, opts("Trash file"))
-				vim.keymap.set("n", "Y", nvimtree.fs.copy.absolute_path, opts("Info"))
-				vim.keymap.set("n", "f", nvimtree.tree.search_node, opts("Info"))
-			end
+                vim.keymap.set("n", "K", nvimtree.node.show_info_popup, opts("Info"))
+                vim.keymap.set("n", "r", nvimtree.fs.rename_full, opts("Rename"))
+                vim.keymap.set("n", "o", nvimtree.tree.change_root_to_node, opts("CD"))
+                vim.keymap.set("n", "d", nvimtree.fs.trash, opts("Trash file"))
+                vim.keymap.set("n", "Y", nvimtree.fs.copy.absolute_path, opts("Info"))
+                vim.keymap.set("n", "f", nvimtree.tree.search_node, opts("Info"))
+            end
 
-			require("nvim-tree").setup({
-				on_attach = nvimtree_on_attach,
-				sort = {
-					sorter = "case_sensitive",
-				},
-				view = {
-					width = 27,
-				},
-				filters = {
-					dotfiles = true,
-					custom = { "^\\.git" },
-					exclude = { ".gitignore", ".github" },
-				},
-			})
-		end,
-		cmd = { "NvimTreeOpen" },
-		keys = function()
-			vim.keymap.set("n", "<leader>e", ":NvimTreeOpen<CR>", { noremap = true, silent = true })
-		end,
-	},
+            require("nvim-tree").setup({
+                on_attach = nvimtree_on_attach,
+                sort = {
+                    sorter = "case_sensitive",
+                },
+                view = {
+                    width = 27,
+                },
+                filters = {
+                    dotfiles = true,
+                    custom = { "^\\.git" },
+                    exclude = { ".gitignore", ".github" },
+                },
+            })
+        end,
+        cmd = { "NvimTreeOpen" },
+        keys = function()
+            vim.keymap.set("n", "<leader>e", ":NvimTreeOpen<CR>", { noremap = true, silent = true })
+        end,
+    },
 }
 
 local COLORSCHEME = {
-	"ellisonleao/gruvbox.nvim",
-	lazy = false,
-	priority = 1000,
-	config = function()
-		require("gruvbox").setup({
-			terminal_colors = true,
-			underline = false,
-			bold = false,
-			italic = {
-				strings = false,
-			},
-			inverse = true, -- invert background for search, diffs, statuslines and errors
-			contrast = "hard",
-			palette_overrides = {},
-			overrides = {
-				["@function"] = { fg = "#ff9900" },
-				["@function.method"] = { fg = "#ff9900" },
-				["@function.call"] = { fg = "#ff9900" },
-				["@constant.macro"] = { fg = "#fabd2f" },
-				["@property"] = { fg = "#ebdbb2" },
-				["DiagnosticUnnecessary"] = { fg = "#ebdbb2" },
-			},
-			dim_inactive = false,
-			transparent_mode = false,
-		})
+    "ellisonleao/gruvbox.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+        require("gruvbox").setup({
+            terminal_colors = true,
+            underline = false,
+            bold = false,
+            italic = {
+                strings = false,
+            },
+            inverse = true, -- invert background for search, diffs, statuslines and errors
+            contrast = "hard",
+            palette_overrides = {},
+            overrides = {
+                ["@function"] = { fg = "#ff9900" },
+                ["@function.method"] = { fg = "#ff9900" },
+                ["@function.call"] = { fg = "#ff9900" },
+                ["@constant.macro"] = { fg = "#fabd2f" },
+                ["@property"] = { fg = "#ebdbb2" },
+                ["DiagnosticUnnecessary"] = { fg = "#ebdbb2" },
+            },
+            dim_inactive = false,
+            transparent_mode = false,
+        })
 
-		vim.cmd([[colorscheme gruvbox]])
-	end,
+        vim.cmd([[colorscheme gruvbox]])
+    end,
 }
 
 local AUTOCOMPLETE = {
-	"Saghen/blink.cmp",
-	version = "1.*",
-	event = { "BufReadPost", "CmdlineEnter" },
-	dependencies = {
-		{ "rafamadriz/friendly-snippets" },
-	},
-	opts = {
-		fuzzy = {
-			implementation = "prefer_rust",
-			sorts = {
-				function(a, b)
-					if (a.client_name == nil or b.client_name == nil) or (a.client_name == b.client_name) then
-						return
-					end
-					return b.client_name == "emmet_language_server"
-				end,
-				-- default sorts
-				"score",
-				"sort_text",
-				"exact",
-				"score",
-				"sort_text",
-			},
-		},
-
-		completion = {
-			keyword = { range = "full" },
-
-			-- trigger = {
-			-- 	show_on_trigger_character = true,
-			-- 	show_on_blocked_trigger_characters = { " ", "\n", "\t" },
-			-- },
-
-			accept = { auto_brackets = { enabled = true } },
-			list = { selection = { preselect = true, auto_insert = true } },
-
-			menu = {
-				auto_show = true,
-				draw = {
-					columns = {
-						{ "label", "label_description", gap = 1 },
-						{ "kind_icon", "kind" },
-					},
-					treesitter = { "lsp" },
-				},
-			},
-
-			documentation = { auto_show = true, auto_show_delay_ms = 100 },
-
-			ghost_text = { enabled = true },
-		},
-
-		sources = {
-			providers = {
-				buffer = {
-					opts = {
-						get_bufnrs = function()
-							return vim.tbl_filter(function(bufnr)
-								return vim.bo[bufnr].buftype == ""
-							end, vim.api.nvim_list_bufs())
-						end,
-					},
-				},
-			},
-			-- default = { "path", "buffer", },
-			default = { "path", "buffer" },
-		},
-
-		signature = { enabled = true },
-
-		keymap = {
-			["<CR>"] = { "accept", "fallback" },
-			["<Tab>"] = { "select_next", "fallback" },
-			["<Down>"] = { "select_next", "select_next" },
-			["<Up>"] = { "select_prev", "select_prev" },
-			["<S-Tab>"] = { "snippet_backward", "fallback" },
-			["<C-p>"] = { "select_prev", "fallback_to_mappings" },
-			["<C-n>"] = { "select_next", "fallback_to_mappings" },
-			["<C-b>"] = { "scroll_documentation_up", "fallback" },
-			["<C-f>"] = { "scroll_documentation_down", "fallback" },
-
-			["<C-k>"] = { "show", "hide", "fallback" },
-		},
-
-		cmdline = {
-			keymap = {
-				["<Tab>"] = { "show", "accept" },
-				["<Down>"] = { "select_next", "fallback" },
-				["<Up>"] = { "select_prev", "fallback" },
-			},
-			completion = { menu = { auto_show = true } },
-		},
-	},
-}
-
-require("lazy").setup({
-    rocks = {
-        enabled = false,
+    "Saghen/blink.cmp",
+    version = "1.*",
+    event = { "BufReadPost", "CmdlineEnter" },
+    dependencies = {
+        { "rafamadriz/friendly-snippets" },
     },
+    opts = {
+        fuzzy = {
+            implementation = "prefer_rust",
+            sorts = {
+                function(a, b)
+                    if (a.client_name == nil or b.client_name == nil) or (a.client_name == b.client_name) then
+                        return
+                    end
+                    return b.client_name == "emmet_language_server"
+                end,
+                -- default sorts
+                "score",
+                "sort_text",
+                "exact",
+                "score",
+                "sort_text",
+            },
+        },
 
-    spec = {
-        { "binhtran432k/dracula.nvim", lazy = true, event = "CmdlineEnter" },
-        FILESYSTEM,
-        COLORSCHEME,
-        AUTOCOMPLETE,
+        completion = {
+            keyword = { range = "full" },
 
-	{
-		"windwp/nvim-autopairs",
-		lazy = true,
-		event = "InsertEnter",
-		opts = { enable_check_bracket_line = false },
-	},
+            -- trigger = {
+                -- 	show_on_trigger_character = true,
+                -- 	show_on_blocked_trigger_characters = { " ", "\n", "\t" },
+                -- },
 
-	{
-		"folke/todo-comments.nvim",
-		event = "BufReadPost",
-		opts = { highlight = { multiline = false } },
-	},
+                accept = { auto_brackets = { enabled = true } },
+                list = { selection = { preselect = true, auto_insert = true } },
 
-	{
-		"nvim-lualine/lualine.nvim",
-		lazy = false,
-		opts = { theme = "auto" },
-		config = function(_, opts)
-			require("lualine").setup({
-				options = opts,
-			})
-		end,
-	},
+                menu = {
+                    auto_show = true,
+                    draw = {
+                        columns = {
+                            { "label", "label_description", gap = 1 },
+                            { "kind_icon", "kind" },
+                        },
+                        treesitter = { "lsp" },
+                    },
+                },
 
-	{
-		"folke/snacks.nvim",
-		priority = 1000,
-		opts = {
-			quickfil = { enabled = true },
-			image = { enabled = true },
-			indent = {
-				priority = 1,
-				enabled = true,
-				char = "│",
-				only_scope = false,
-				only_current = false,
-				hl = "SnacksIndent",
-				animate = { enabled = false }, -- fuck aniamation bro
-			},
-		},
-	},
+                documentation = { auto_show = true, auto_show_delay_ms = 100 },
 
-    },
-    install = { colorscheme = { "gruvbox" } },
-    checker = { enabled = false },
-})
+                ghost_text = { enabled = true },
+            },
+
+            sources = {
+                providers = {
+                    buffer = {
+                        opts = {
+                            get_bufnrs = function()
+                                return vim.tbl_filter(function(bufnr)
+                                    return vim.bo[bufnr].buftype == ""
+                                end, vim.api.nvim_list_bufs())
+                            end,
+                        },
+                    },
+                },
+                -- default = { "path", "buffer", },
+                default = { "path", "buffer" },
+            },
+
+            signature = { enabled = true },
+
+            keymap = {
+                ["<CR>"] = { "accept", "fallback" },
+                ["<Tab>"] = { "select_next", "fallback" },
+                ["<Down>"] = { "select_next", "select_next" },
+                ["<Up>"] = { "select_prev", "select_prev" },
+                ["<S-Tab>"] = { "snippet_backward", "fallback" },
+                ["<C-p>"] = { "select_prev", "fallback_to_mappings" },
+                ["<C-n>"] = { "select_next", "fallback_to_mappings" },
+                ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+                ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+
+                ["<C-k>"] = { "show", "hide", "fallback" },
+            },
+
+            cmdline = {
+                keymap = {
+                    ["<Tab>"] = { "show", "accept" },
+                    ["<Down>"] = { "select_next", "fallback" },
+                    ["<Up>"] = { "select_prev", "fallback" },
+                },
+                completion = { menu = { auto_show = true } },
+            },
+        },
+    }
+
+    require("lazy").setup({
+        rocks = {
+            enabled = false,
+        },
+
+        spec = {
+            { "binhtran432k/dracula.nvim", lazy = true, event = "CmdlineEnter" },
+            FILESYSTEM,
+            COLORSCHEME,
+            AUTOCOMPLETE,
+
+            {
+                "windwp/nvim-autopairs",
+                lazy = true,
+                event = "InsertEnter",
+                opts = { enable_check_bracket_line = false },
+            },
+
+            {
+                "folke/todo-comments.nvim",
+                event = "BufReadPost",
+                opts = { highlight = { multiline = false } },
+            },
+
+            {
+                "nvim-lualine/lualine.nvim",
+                lazy = false,
+                opts = { theme = "auto" },
+                config = function(_, opts)
+                    require("lualine").setup({
+                        options = opts,
+                    })
+                end,
+            },
+
+            {
+                "folke/snacks.nvim",
+                priority = 1000,
+                opts = {
+                    quickfil = { enabled = true },
+                    image = { enabled = true },
+                    indent = {
+                        priority = 1,
+                        enabled = true,
+                        char = "│",
+                        only_scope = false,
+                        only_current = false,
+                        hl = "SnacksIndent",
+                        animate = { enabled = false }, -- fuck aniamation bro
+                    },
+                },
+            },
+
+        },
+        install = { colorscheme = { "gruvbox" } },
+        checker = { enabled = false },
+    })
+
+vim.keymap.set("n", "F", function()
+    local view = vim.fn.winsaveview()
+    vim.cmd("normal! ggVG=")
+    vim.fn.winrestview(view)
+end, { desc = "Format file like VG=", silent = true })
+
+-- Format only the selected lines (visual mode)
+vim.keymap.set("v", "F",  function()
+    local view = vim.fn.winsaveview()
+    local start_line = vim.fn.line("v")
+    local end_line   = vim.fn.line(".")
+
+    if start_line > end_line then
+        start_line, end_line = end_line, start_line
+    end
+
+    -- Apply = only to the range
+    vim.cmd(start_line .. "," .. end_line .. "normal! =")
+
+    vim.fn.winrestview(view)
+end)

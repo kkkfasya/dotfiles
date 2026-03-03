@@ -7,6 +7,7 @@ return {
 "errornointernet/quickshell",
 "matinlotfali/KDE-Rounded-Corners",
 "pgdev/ghostty",
+"scottames/vicinae",
 "sneexy/zen-browser",
 "yalter/niri",
 "zeno/scrcpy",

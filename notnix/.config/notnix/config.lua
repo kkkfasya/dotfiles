@@ -5,9 +5,9 @@ local Config = {}
 
 Config.pkgs = {
 	"hledger",
+    "vicinae",
 	"chafa",
 	"telegram-desktop",
-	"pandoc",
 	"steam",
 	"uncrustify",
 	"kdenlive",
@@ -132,6 +132,7 @@ Config.repos = {
 	"pgdev/ghostty",
 	"matinlotfali/KDE-Rounded-Corners",
 	"zeno/scrcpy",
+	"scottames/vicinae",
 }
 
 Config.install = "sudo dnf install"

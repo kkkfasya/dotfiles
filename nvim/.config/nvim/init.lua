@@ -42,7 +42,7 @@ for key, value in pairs(options) do
 end
 
 vim.g.mapleader = " "
-vim.opt.undodir = os.getenv("HOME") .. "/.nvim_undodir/"
+vim.opt.undodir = os.getenv("HOME") .. "/.local/state/.nvim_undodir/"
 vim.opt.clipboard:append("unnamedplus")
 vim.cmd([[filetype plugin on]]) -- this somehow fix the bug where neovim cant detect filetype for me
 
@@ -667,6 +667,25 @@ local MISC = {
 		"dariuscorvus/tree-sitter-language-injection.nvim",
 		opts = {}, -- calls setup()
 	},
+	{
+		"karb94/neoscroll.nvim",
+		opts = { mappings = {} },
+		config = function()
+			neoscroll = require("neoscroll")
+			local keymap = {
+				["<C-S-K>"] = function()
+					neoscroll.ctrl_u({ duration = 70 })
+				end,
+				["<C-S-J>"] = function()
+					neoscroll.ctrl_d({ duration = 70 })
+				end,
+			}
+			local modes = { "n", "v", "x" }
+			for key, func in pairs(keymap) do
+				vim.keymap.set(modes, key, func)
+			end
+		end,
+	},
 }
 
 local VSCODE = {
@@ -964,9 +983,9 @@ local LSPCONFIG = {
 			local wins = vim.api.nvim_tabpage_list_wins(0)
 			if #wins == 1 then
 				vim.cmd("vsplit")
-				vim.cmd("wincmd l") -- always jump to right split
+				vim.cmd("wincmd l")
 			else
-				vim.cmd("wincmd l") -- always jump to right split
+				vim.cmd("wincmd l")
 			end
 			vim.lsp.buf.definition()
 		end, { silent = true })
