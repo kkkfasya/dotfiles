@@ -5,7 +5,7 @@ local Config = {}
 
 Config.pkgs = {
 	"hledger",
-    "vicinae",
+	"vicinae",
 	"chafa",
 	"telegram-desktop",
 	"steam",
@@ -21,7 +21,6 @@ Config.pkgs = {
 	"difftastic",
 	"wev",
 	"wlsunset",
-	"quickshell",
 	"brightnessctl",
 	"niri",
 	"cava",
@@ -67,7 +66,7 @@ Config.pkgs = {
 	"ocrmypdf",
 	"fish",
 	"nvim",
-	"zen-browser",
+		"zen-browser",
 	"gitui",
 	"torbrowser-launcher",
 	"tor",
@@ -116,9 +115,9 @@ Config.flatpaks = {
 	"dev.vencord.Vesktop",
 	"com.google.Chrome",
 	"fm.reaper.Reaper",
-	"us.zoom.Zoom",
 	"com.brave.Browser",
 	"org.onlyoffice.desktopeditors",
+    "us.zoom.Zoom",
 }
 
 Config.repos = {

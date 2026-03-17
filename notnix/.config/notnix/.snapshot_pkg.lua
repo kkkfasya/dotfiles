@@ -81,7 +81,6 @@ return {
 "qrencode",
 "qt5ct",
 "qt6ct",
-"quickshell",
 "ripgrep",
 "ruff",
 "rustup",

@@ -110,6 +110,10 @@ function set_external_monitor_brightness -a b --description "self explanatory"
     ddcutil setvcp 10 $b
 end
 
+function @mkdir_date
+
+end
+
 function detect_pm_search
     # TIL in fish you can only return status code (int) and not string
     # the substitution is echo hmmm

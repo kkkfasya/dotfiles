@@ -276,8 +276,12 @@ spawn-sh-at-startup "xrdb -merge ~/.Xresources"
 spawn-sh-at-startup "python3 ~/.config/niri/niri_tile_to_n.py"
 spawn-at-startup "vicinae" "server"
 
-// this is so fucking stupid but im too lazy to create systemd service
-
+// HACK: below is a hack for that enables OBS to record screen with pipewire
+// without it i have to kill niri and start it again
+// must've been because i use niri on top of fedora KDE
+spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri"
+spawn-sh-at-startup "systemctl --user stop xdg-desktop-portal xdg-desktop-portal-kde xdg-desktop-portal-gnome xdg-desktop-portal-wlr"
+spawn-sh-at-startup "/usr/libexec/xdg-desktop-portal-gnome && /usr/libexec/xdg-desktop-portal"
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
