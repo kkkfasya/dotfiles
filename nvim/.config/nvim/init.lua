@@ -187,6 +187,7 @@ local FORMATTER = {
 				sql = { "sql-formatter" },
 				md = { "mdformat" },
 				terraform = { "terraform_fmt" },
+				nix = { "alejandra" },
 			},
 		})
 	end,
@@ -877,6 +878,7 @@ local LSPCONFIG = {
 					"prettier",
 					"sql-formatter",
 					"mdformat",
+					"alejandra",
 					"marksman",
 				},
 				integrations = {
@@ -944,6 +946,7 @@ local LSPCONFIG = {
 
 			rust_analyzer = { check_on_save = false },
 			bacon_ls = {},
+			nil_ls = {},
 			intelephense = {
 				check_on_save = false,
 				root_dir = function(_)
