@@ -1,14 +1,14 @@
--- WARNING: file created by notnix, do not modify this file manually
+-- WARNING: do not modify this file
 return {
-    "yalter/niri",
-    "errornointernet/quickshell",
-    "atim/lazygit",
-    "bieszczaders/kernel-cachyos-addons",
-    "bieszczaders/kernel-cachyos",
-    "sneexy/zen-browser",
-    "chenxiaolong/sbctl",
-    "pgdev/ghostty",
-    "matinlotfali/KDE-Rounded-Corners",
-    "zeno/scrcpy",
-    "scottames/vicinae",
+"atim/lazygit",
+"bieszczaders/kernel-cachyos",
+"bieszczaders/kernel-cachyos-addons",
+"chenxiaolong/sbctl",
+"errornointernet/quickshell",
+"imput/helium",
+"matinlotfali/KDE-Rounded-Corners",
+"scottames/vicinae",
+"sneexy/zen-browser",
+"yalter/niri",
+"zeno/scrcpy",
 }

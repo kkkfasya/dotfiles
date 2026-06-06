@@ -1,5 +1,6 @@
 -- WARNING: do not modify this file
 return {
+"com.bilingify.readest",
 "com.brave.Browser",
 "com.github.tchx84.Flatseal",
 "com.google.Chrome",
@@ -7,6 +8,7 @@ return {
 "dev.bragefuglseth.Fretboard",
 "dev.vencord.Vesktop",
 "fm.reaper.Reaper",
+"hu.irl.cameractrls",
 "io.gitlab.theevilskeleton.Upscaler",
 "net.agalwood.Motrix",
 "org.gnome.World.PikaBackup",

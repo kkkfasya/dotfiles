@@ -4,6 +4,8 @@ package.path = ("%s;%s/?.lua;%s/modules/?.lua"):format(package.path, confdir, co
 local Config = {}
 
 Config.pkgs = {
+	"helium",
+	"antigravity",
 	"hledger",
 	"vicinae",
 	"chafa",
@@ -26,7 +28,6 @@ Config.pkgs = {
 	"cava",
 	"mpv",
 	"haruna",
-	"hugo",
 	"scrcpy",
 	"easyeffects",
 	"audacity",
@@ -66,7 +67,7 @@ Config.pkgs = {
 	"ocrmypdf",
 	"fish",
 	"nvim",
-		"zen-browser",
+	"zen-browser",
 	"gitui",
 	"torbrowser-launcher",
 	"tor",
@@ -95,7 +96,6 @@ Config.pkgs = {
 		require("modules.dotnet"),
 		require("modules.php"),
 		require("modules.dnf-plugins"),
-		require("modules.cachyos"),
 		require("modules.qemu"),
 	}),
 }
@@ -103,6 +103,8 @@ Config.pkgs = {
 Config.flatpaks = {
 	-- "com.google.AndroidStudio",
 	-- "com.jetbrains.Rider",
+    "com.bilingify.readest",
+	"hu.irl.cameractrls",
 	"org.localsend.localsend_app",
 	"net.agalwood.Motrix",
 	"org.jousse.vincent.Pomodorolm",
@@ -117,7 +119,7 @@ Config.flatpaks = {
 	"fm.reaper.Reaper",
 	"com.brave.Browser",
 	"org.onlyoffice.desktopeditors",
-    "us.zoom.Zoom",
+	"us.zoom.Zoom",
 }
 
 Config.repos = {
@@ -128,10 +130,10 @@ Config.repos = {
 	"bieszczaders/kernel-cachyos",
 	"sneexy/zen-browser",
 	"chenxiaolong/sbctl",
-	"pgdev/ghostty",
 	"matinlotfali/KDE-Rounded-Corners",
 	"zeno/scrcpy",
 	"scottames/vicinae",
+    "imput/helium",
 }
 
 Config.install = "sudo dnf install"

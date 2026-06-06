@@ -114,6 +114,14 @@ function @mkdir_date
 
 end
 
+function @push_note
+    cd ~/NOTES/
+    git add .
+    git commit -m "note"
+    git push
+    cd -
+end
+
 function detect_pm_search
     # TIL in fish you can only return status code (int) and not string
     # the substitution is echo hmmm

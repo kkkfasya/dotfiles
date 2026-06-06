@@ -49,7 +49,6 @@ vim.cmd([[filetype plugin on]]) -- this somehow fix the bug where neovim cant de
 -- for nvimtree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.g.compile_mode = { baleia_setup = true }
 
 vim.cmd([[aunmenu PopUp.How-to\ disable\ mouse]])
 vim.cmd([[aunmenu PopUp.-1-]])
@@ -287,8 +286,8 @@ local FILESYSTEM = {
 			keymaps = {
 				["g?"] = { "actions.show_help", mode = "n" },
 				["<CR>"] = "actions.select",
-				["v"] = { "actions.select", opts = { vertical = true } },
-				["h"] = { "actions.select", opts = { horizontal = true } },
+				["<C-v>"] = { "actions.select", opts = { vertical = true } },
+				["<C-h>"] = { "actions.select", opts = { horizontal = true } },
 				["P"] = "actions.preview",
 				["q"] = { "actions.close", mode = "n" },
 				["r"] = "actions.refresh",
@@ -367,47 +366,79 @@ local FILESYSTEM = {
 		end,
 	},
 }
-
 local TREESITTER = {
 	"nvim-treesitter/nvim-treesitter",
-	event = { "BufReadPost", "BufNewFile", "CmdlineEnter" },
-	cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+	lazy = false,
+	branch = "main",
+	build = ":TSUpdate",
 	config = function()
-		require("nvim-treesitter.configs").setup({
-			ensure_installed = {
-				"c",
-				"lua",
-				"python",
-				"javascript",
-				"typescript",
-				"php",
-				"go",
-				"html",
-				"css",
-
-				"tsx",
-				"svelte",
-
-				"hcl",
-				"terraform",
-
-				"make",
-				"cmake",
-
-				"ledger",
+		-- Custom registrations
+		vim.filetype.add({
+			extension = {
+				csproj = "xml",
+				esproj = "xml",
+				keymap = "c",
+				mdx = "markdown",
+				uproject = "json",
+				wsdl = "xml",
 			},
-			sync_install = false,
-			auto_install = false,
-			highlight = {
-				enable = true,
-				additional_vim_regex_highlighting = false,
-				priority = 200, -- Increase priority (default is ~100)
-			},
-			indent = { enable = true },
+		})
+
+		-- Treesitter directory
+		local treesitter_dir = vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/"
+
+		-- local parsers = {
+		-- 	"c",
+		-- 	"cpp",
+		-- 	"css",
+		-- 	"html",
+		-- 	"javascript",
+		-- 	"typescript",
+		-- 	"go",
+		-- 	"rust",
+		-- 	"python",
+		-- 	"nix",
+		-- }
+
+		--Collect all available parsers
+		local parsers = {}
+		for name, type in vim.fs.dir(treesitter_dir .. "runtime/queries") do
+			if type == "directory" then
+				table.insert(parsers, name)
+			end
+		end
+
+		-- Install file type parsers
+		require("nvim-treesitter").install(parsers)
+
+		-- Register known file types
+		dofile(treesitter_dir .. "plugin/filetypes.lua")
+
+		-- Get file types
+		local file_types = vim.iter(parsers)
+			:map(function(parser)
+				return vim.treesitter.language.get_filetypes(parser)
+			end)
+			:flatten()
+			:totable()
+
+		-- Auto-run
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = file_types,
+			callback = function(args)
+				-- Highlights
+				vim.treesitter.start()
+
+				-- Folds
+				-- vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+				-- vim.wo[0][0].foldmethod = "expr"
+
+				-- Indentation
+				vim.bo[args.buf].indentexpr = 'v:lua.require"nvim-treesitter".indentexpr()'
+			end,
 		})
 	end,
 }
-
 local MISC = {
 	-- extra colorscheme
 	{ "talha-akram/noctis.nvim", lazy = true, event = "CmdlineEnter" },
@@ -505,11 +536,20 @@ local MISC = {
 	},
 	{
 		"ej-shafran/compile-mode.nvim",
+		version = "^5.0.0",
 		lazy = true,
 		cmd = { "Compile", "Recompile" },
 		dependencies = {
-			{ "m00qek/baleia.nvim", tag = "v1.3.0" },
+			"nvim-lua/plenary.nvim",
+			{ "m00qek/baleia.nvim" },
 		},
+		config = function()
+			---@type CompileModeOpts
+			vim.g.compile_mode = {
+				input_word_completion = true,
+				-- baleia_setup = true,
+			}
+		end,
 		keys = function()
 			vim.keymap.set("n", "<leader>C", ":w | :Compile<CR>", { noremap = true })
 			vim.keymap.set("n", "<leader>cc", ":w | :Recompile<CR>", { noremap = true })
@@ -576,13 +616,17 @@ local MISC = {
 	},
 
 	{
-		"iamcco/markdown-preview.nvim",
-		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-		build = "cd app && npm install",
-		init = function()
-			vim.g.mkdp_filetypes = { "markdown" }
+		"selimacerbas/markdown-preview.nvim",
+		dependencies = { "selimacerbas/live-server.nvim" },
+		config = function()
+			require("markdown_preview").setup({
+				-- all optional; sane defaults shown
+				instance_mode = "takeover", -- "takeover" (one tab) or "multi" (tab per instance)
+				port = 0, -- 0 = auto (8421 for takeover, OS-assigned for multi)
+				open_browser = true,
+				debounce_ms = 300,
+			})
 		end,
-		ft = { "markdown" },
 	},
 
 	{
@@ -878,7 +922,6 @@ local LSPCONFIG = {
 					"prettier",
 					"sql-formatter",
 					"mdformat",
-					"alejandra",
 					"marksman",
 				},
 				integrations = {
