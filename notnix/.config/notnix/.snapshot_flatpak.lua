@@ -10,7 +10,6 @@ return {
 "fm.reaper.Reaper",
 "hu.irl.cameractrls",
 "io.gitlab.theevilskeleton.Upscaler",
-"net.agalwood.Motrix",
 "org.gnome.World.PikaBackup",
 "org.jousse.vincent.Pomodorolm",
 "org.localsend.localsend_app",

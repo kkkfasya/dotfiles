@@ -173,7 +173,7 @@ local FORMATTER = {
 		require("conform").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
-				python = { "ruff_format" }, -- WARNING: dont know if it works
+				python = { "ruff_format" },
 				rust = { "rustfmt" },
 				go = { "goimports", "gofmt" },
 				javascript = { "oxfmt" },
@@ -195,60 +195,6 @@ local FORMATTER = {
 	end,
 }
 
-local TELESCOPE = {
-	"nvim-telescope/telescope.nvim",
-	branch = "0.1.x",
-	dependencies = { "nvim-lua/plenary.nvim", "natecraddock/telescope-zf-native.nvim" },
-	lazy = true,
-	opts = {
-		--		defaults = {
-		--			layout_config = {
-		--				height = 0.5,
-		--				preview_cutoff = 200,
-		--				prompt_position = "bottom",
-		--				width = 0.5,
-		--			},
-		--		},
-
-		pickers = {
-			find_files = {
-				hidden = true,
-				no_ignore = true,
-				file_ignore_patterns = {
-					".vscode/",
-					".astro/",
-					".mypy_cache/",
-					"node_modules/",
-					".terraform/",
-					".git/",
-					".venv/",
-					".ruff_cache/",
-					".pytest_cache/",
-					".__pycache__/",
-					".svelte-kit/",
-					"dist/",
-					"build/",
-					"target/",
-				},
-			},
-		},
-	},
-
-	keys = function()
-		local telescope = require("telescope.builtin")
-		-- vim.keymap.set("n", "<leader>p", telescope.find_files, {})
-
-		vim.keymap.set("n", "<leader>f", function()
-			telescope.grep_string({ search = vim.fn.input("grep > ") })
-		end)
-		vim.keymap.set("n", "gr", telescope.lsp_references, {})
-		vim.keymap.set("n", "<leader>bs", telescope.buffers, {})
-		vim.keymap.set("n", "<leader>sw", telescope.git_branches, {})
-
-		require("telescope").load_extension("zf-native")
-	end,
-}
-
 local FFF = {
 	"dmtrKovalenko/fff.nvim",
 	build = function()
@@ -267,11 +213,18 @@ local FFF = {
 
 	keys = {
 		{
-			"<leader>p", -- try it if you didn't it is a banger keybinding for a picker
+			"<leader>p",
 			function()
 				require("fff").find_files()
 			end,
 			desc = "FFFind files",
+		},
+		{
+			"<leader>f",
+			function()
+				require("fff").live_grep()
+			end,
+			desc = "LiFFFE grep",
 		},
 	},
 }
@@ -473,12 +426,11 @@ local MISC = {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"sindrets/diffview.nvim",
-			"nvim-telescope/telescope.nvim",
 		},
 		lazy = true,
 		cmd = { "Neogit" },
 		opts = {
-			integrations = { diffview = true, telescope = true },
+			integrations = { diffview = true },
 			graph_style = "kitty",
 			process_spinner = true,
 			mappings = {
@@ -523,16 +475,6 @@ local MISC = {
 		"folke/todo-comments.nvim",
 		event = "BufReadPost",
 		opts = { highlight = { multiline = false } },
-	},
-
-	{
-		"famiu/bufdelete.nvim",
-		lazy = true,
-		cmd = { "Bdelete" },
-		keys = function()
-			-- TODO: add keymap to delete all buffer, <leader>qa
-			vim.keymap.set("n", "<leader>qq", "<cmd>Bdelete<CR>", { noremap = true, silent = true })
-		end,
 	},
 	{
 		"ej-shafran/compile-mode.nvim",
@@ -593,24 +535,6 @@ local MISC = {
 			},
 			toggler = {
 				line = "<C-_>",
-			},
-		},
-	},
-
-	{
-		"folke/snacks.nvim",
-		priority = 1000,
-		opts = {
-			quickfile = { enabled = true },
-			image = { enabled = true },
-			indent = {
-				priority = 1,
-				enabled = true,
-				char = "│",
-				only_scope = false,
-				only_current = false,
-				hl = "SnacksIndent",
-				animate = { enabled = false }, -- fuck aniamation bro
 			},
 		},
 	},
@@ -701,13 +625,13 @@ local MISC = {
 			vim.g["fsharp#fsi_window_command"] = "vnew"
 		end,
 	},
-	{
-		"folke/zen-mode.nvim",
-		opts = {},
-
-		lazy = true,
-		cmd = { "ZenMode" },
-	},
+	-- {
+	-- 	"folke/zen-mode.nvim",
+	-- 	opts = {},
+	--
+	-- 	lazy = true,
+	-- 	cmd = { "ZenMode" },
+	-- },
 	{
 		"dariuscorvus/tree-sitter-language-injection.nvim",
 		opts = {}, -- calls setup()
@@ -903,6 +827,46 @@ local AUTOCOMPLETE = {
 	},
 }
 
+-- best nvim plugin OAT shoutout to folke
+local SNACKS = {
+	"folke/snacks.nvim",
+	priority = 1000,
+	lazy = false,
+	opts = {
+		quickfile = { enabled = true },
+		image = { enabled = true },
+		indent = {
+			priority = 1,
+			enabled = true,
+			char = "│",
+			only_scope = false,
+			only_current = false,
+			hl = "SnacksIndent",
+			animate = { enabled = false }, -- fuck aniamation bro
+		},
+	},
+    -- stylua: ignore
+    keys = {
+        -- git
+        { "<leader>sw", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
+        { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
+        { "<leader>gS", function() Snacks.picker.git_stash() end, desc = "Git Stash" },
+        { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
+        { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
+        { "<leader>ls", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+
+        { "<leader>ds", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
+
+        { "<leader>bs", function() Snacks.picker.buffers() end, desc = "Buffers" },
+
+        -- others
+        { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
+        { "<leader>qq", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
+        { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+        { "<leader>cs", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
+    },
+}
+
 local LSPCONFIG = {
 	"neovim/nvim-lspconfig",
 	lazy = true,
@@ -916,7 +880,6 @@ local LSPCONFIG = {
 				ensure_installed = {
 					"stylua",
 					"ruff",
-					"rustfmt",
 					"goimports",
 					"prettier",
 					"prettier",
@@ -939,7 +902,6 @@ local LSPCONFIG = {
 					"lua_ls",
 					"clangd",
 					"vtsls",
-					"pyright",
 					"html",
 					"cssls",
 					"emmet_language_server",
@@ -959,10 +921,13 @@ local LSPCONFIG = {
 			lua_ls = {},
 			gopls = {},
 			clangd = {},
-			pyright = {
+			ty = {
 				root_dir = function(_)
 					return vim.loop.cwd()
 				end,
+				completions = {
+					autoImport = false,
+				},
 			},
 			vtsls = {
 				settings = {
@@ -1081,9 +1046,10 @@ vim.keymap.set("n", "<C-l>", ":wincmd l<CR>", { silent = true, desc = "Move to w
 vim.keymap.set({ "n", "v" }, "w", "e", {})
 
 -- USER COMMANDS
-vim.api.nvim_create_user_command("ListSymbols", function()
-	vim.cmd(":lua require'telescope.builtin'.treesitter{}")
-end, {})
+-- NOTE: change
+-- vim.api.nvim_create_user_command("ListSymbols", function()
+-- 	vim.cmd(":lua require'telescope.builtin'.treesitter{}")
+-- end, {})
 
 vim.api.nvim_create_user_command("Format", function(args)
 	local range = nil
@@ -1128,10 +1094,10 @@ require("lazy").setup({
 		GITSIGNS,
 		LSPCONFIG,
 		AUTOCOMPLETE,
-		TELESCOPE,
 		TREESITTER,
 		VSCODE,
 		FFF,
+		SNACKS,
 		MISC,
 	},
 	install = { colorscheme = { "gruvbox" } },

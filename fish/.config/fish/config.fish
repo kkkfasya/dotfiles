@@ -54,8 +54,8 @@ alias gs='git status'
 
 alias spkg='sudo dnf search '
 alias :q='exit'
-alias wcc='warp-cli connect'
-alias wdc='warp-cli disconnect'
+alias wcc="wg-quick up ~/wgcf-profile.conf"
+alias wdc="wg-quick down ~/wgcf-profile.conf"
 alias ll='ls -alFh'
 alias icat='kitten icat'
 alias ez='nvim ~/.zshrc'

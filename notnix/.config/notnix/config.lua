@@ -4,6 +4,10 @@ package.path = ("%s;%s/?.lua;%s/modules/?.lua"):format(package.path, confdir, co
 local Config = {}
 
 Config.pkgs = {
+	"nodejs24",
+	"wireguard-tools",
+	"rustfmt",
+	"inkscape",
 	"helium",
 	"antigravity",
 	"hledger",
@@ -103,10 +107,9 @@ Config.pkgs = {
 Config.flatpaks = {
 	-- "com.google.AndroidStudio",
 	-- "com.jetbrains.Rider",
-    "com.bilingify.readest",
+	"com.bilingify.readest",
 	"hu.irl.cameractrls",
 	"org.localsend.localsend_app",
-	"net.agalwood.Motrix",
 	"org.jousse.vincent.Pomodorolm",
 	"dev.bragefuglseth.Fretboard",
 	"com.github.tchx84.Flatseal",
@@ -133,7 +136,7 @@ Config.repos = {
 	"matinlotfali/KDE-Rounded-Corners",
 	"zeno/scrcpy",
 	"scottames/vicinae",
-    "imput/helium",
+	"imput/helium",
 }
 
 Config.install = "sudo dnf install"
