@@ -503,7 +503,11 @@ local MISC = {
 		lazy = true,
 		opts = {
 			post_open_hook = function(buf, win)
-				vim.keymap.set("n", "q", "<cmd>lua require('goto-preview').close_all_win()<CR>", { noremap = true })
+				vim.keymap.set("n", "q", function()
+					vim.api.nvim_win_close(win, true)
+				end, { buffer = buf, silent = true, nowait = true })
+
+				vim.keymap.set("n", "Q", "<cmd>lua require('goto-preview').close_all_win()<CR>", { noremap = true })
 			end,
 		},
 		keys = function()
