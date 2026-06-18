@@ -200,8 +200,7 @@ local FFF = {
 	build = function()
 		require("fff.download").download_or_build_binary()
 	end,
-	-- if you are using nixos
-	-- build = "nix run .#release",
+	lazy = false,
 	opts = {
 		debug = {
 			enabled = false,
@@ -209,7 +208,6 @@ local FFF = {
 		},
 		prompt = "> ",
 	},
-	lazy = false,
 
 	keys = {
 		{
@@ -239,8 +237,8 @@ local FILESYSTEM = {
 			keymaps = {
 				["g?"] = { "actions.show_help", mode = "n" },
 				["<CR>"] = "actions.select",
-				["<C-v>"] = { "actions.select", opts = { vertical = true } },
-				["<C-h>"] = { "actions.select", opts = { horizontal = true } },
+				-- ["<C-v>"] = { "actions.select", opts = { vertical = true } },
+				-- ["<C-h>"] = { "actions.select", opts = { horizontal = true } },
 				["P"] = "actions.preview",
 				["q"] = { "actions.close", mode = "n" },
 				["r"] = "actions.refresh",
@@ -251,6 +249,9 @@ local FILESYSTEM = {
 				["gx"] = "actions.open_external",
 				["g."] = { "actions.toggle_hidden", mode = "n" },
 				["t"] = { "actions.toggle_trash", mode = "n" },
+			},
+			float = {
+				preview_split = "right",
 			},
 			view_options = {
 				show_hidden = true,
@@ -319,6 +320,7 @@ local FILESYSTEM = {
 		end,
 	},
 }
+
 local TREESITTER = {
 	"nvim-treesitter/nvim-treesitter",
 	lazy = false,
@@ -337,21 +339,7 @@ local TREESITTER = {
 			},
 		})
 
-		-- Treesitter directory
 		local treesitter_dir = vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/"
-
-		-- local parsers = {
-		-- 	"c",
-		-- 	"cpp",
-		-- 	"css",
-		-- 	"html",
-		-- 	"javascript",
-		-- 	"typescript",
-		-- 	"go",
-		-- 	"rust",
-		-- 	"python",
-		-- 	"nix",
-		-- }
 
 		--Collect all available parsers
 		local parsers = {}
@@ -361,10 +349,8 @@ local TREESITTER = {
 			end
 		end
 
-		-- Install file type parsers
 		require("nvim-treesitter").install(parsers)
 
-		-- Register known file types
 		dofile(treesitter_dir .. "plugin/filetypes.lua")
 
 		-- Get file types
@@ -629,13 +615,19 @@ local MISC = {
 			vim.g["fsharp#fsi_window_command"] = "vnew"
 		end,
 	},
-	-- {
-	-- 	"folke/zen-mode.nvim",
-	-- 	opts = {},
-	--
-	-- 	lazy = true,
-	-- 	cmd = { "ZenMode" },
-	-- },
+	{
+		"folke/zen-mode.nvim",
+		opts = {
+			plugins = {
+				enabled = true,
+				tmux = { enabled = true },
+				todo = { enabled = false },
+			},
+		},
+
+		lazy = true,
+		cmd = { "ZenMode" },
+	},
 	{
 		"dariuscorvus/tree-sitter-language-injection.nvim",
 		opts = {}, -- calls setup()
@@ -849,6 +841,7 @@ local SNACKS = {
 			animate = { enabled = false }, -- fuck aniamation bro
 		},
 	},
+
     -- stylua: ignore
     keys = {
         -- git
@@ -864,7 +857,6 @@ local SNACKS = {
         { "<leader>bs", function() Snacks.picker.buffers() end, desc = "Buffers" },
 
         -- others
-        { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
         { "<leader>qq", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
         { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
         { "<leader>cs", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
@@ -1033,7 +1025,7 @@ local LSPCONFIG = {
 --     end,
 -- })
 
--- General Mappings
+-- GENERAL MAPPINGS
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<C-Left>", ":vertical resize +3<CR>", { silent = true, desc = "Increase window width" })
 vim.keymap.set("n", "<C-Right>", ":vertical resize -3<CR>", { silent = true, desc = "Decrease window width" })
@@ -1050,11 +1042,6 @@ vim.keymap.set("n", "<C-l>", ":wincmd l<CR>", { silent = true, desc = "Move to w
 vim.keymap.set({ "n", "v" }, "w", "e", {})
 
 -- USER COMMANDS
--- NOTE: change
--- vim.api.nvim_create_user_command("ListSymbols", function()
--- 	vim.cmd(":lua require'telescope.builtin'.treesitter{}")
--- end, {})
-
 vim.api.nvim_create_user_command("Format", function(args)
 	local range = nil
 	if args.count ~= -1 then
