@@ -4,6 +4,7 @@ package.path = ("%s;%s/?.lua;%s/modules/?.lua"):format(package.path, confdir, co
 local Config = {}
 
 Config.pkgs = {
+	"redis",
 	"nodejs24",
 	"wireguard-tools",
 	"rustfmt",
@@ -126,6 +127,7 @@ Config.flatpaks = {
 }
 
 Config.repos = {
+	"codifryed/CoolerControl",
 	"yalter/niri",
 	"errornointernet/quickshell",
 	"atim/lazygit",

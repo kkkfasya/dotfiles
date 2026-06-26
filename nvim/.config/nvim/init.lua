@@ -175,7 +175,8 @@ local FORMATTER = {
 				lua = { "stylua" },
 				python = { "ruff_format" },
 				rust = { "rustfmt" },
-				go = { "goimports", "gofmt" },
+				-- go = { "goimport", "gofmt" },
+				go = { "gofmt" },
 				javascript = { "oxfmt" },
 				typescript = { "oxfmt" },
 				tsx = { "oxfmt", "prettier" },
@@ -191,7 +192,7 @@ local FORMATTER = {
 		})
 	end,
 	keys = function()
-		vim.keymap.set("n", "F", ":Format<CR>", { noremap = true })
+		vim.keymap.set("n", "F", ":Format<CR>", { noremap = true, silent = true })
 	end,
 }
 
@@ -378,6 +379,123 @@ local TREESITTER = {
 		})
 	end,
 }
+
+-- copied from: https://github.com/tobinjt/dotfiles/blob/master/.config/nvim/lua/plugins/debugging.lua
+local DEBUGGER = {
+	{
+		"mfussenegger/nvim-dap",
+		lazy = true,
+		-- Copied from LazyVim/lua/lazyvim/plugins/extras/dap/core.lua and
+		-- modified.
+		keys = {
+			{
+				"<leader>db",
+				function()
+					require("dap").toggle_breakpoint()
+				end,
+				desc = "Toggle Breakpoint",
+			},
+
+			{
+				"<leader>dc",
+				function()
+					require("dap").continue()
+				end,
+				desc = "Continue",
+			},
+
+			{
+				"<leader>dC",
+				function()
+					require("dap").run_to_cursor()
+				end,
+				desc = "Run to Cursor",
+			},
+
+			{
+				"<leader>dT",
+				function()
+					require("dap").terminate()
+				end,
+				desc = "Terminate",
+			},
+			-- Consider the mappings at
+			-- https://github.com/mfussenegger/nvim-dap-python?tab=readme-ov-file#mappings
+			{
+				"<leader>dt",
+				function()
+					if vim.bo[0].filetype == "go" then
+						require("dap-go").debug_test()
+					elseif vim.bo[0].filetype == "python" then
+						require("dap-python").test_method()
+					else
+						vim.print("No test support for " .. vim.bo[0].filetype)
+					end
+				end,
+				desc = "Debug the test method above the cursor",
+			},
+		},
+	},
+	{
+		"rcarriga/nvim-dap-ui",
+		config = true,
+		keys = {
+			{
+				"<leader>ds",
+				function()
+					require("dapui").toggle({})
+				end,
+				desc = "Dap UI",
+			},
+		},
+		dependencies = {
+			{
+				"jay-babu/mason-nvim-dap.nvim",
+				opts = {
+					-- This line is essential to making automatic installation work
+					-- :exploding-brain
+					handlers = {},
+					automatic_installation = false,
+					-- DAP servers: these will be installed by mason-tool-installer.nvim
+					-- for consistency.
+					ensure_installed = {},
+				},
+				dependencies = {
+					"mfussenegger/nvim-dap",
+					"mason-org/mason.nvim",
+				},
+			},
+			{
+				"leoluz/nvim-dap-go",
+				config = true,
+				dependencies = {
+					"mfussenegger/nvim-dap",
+				},
+			},
+			{
+				"mfussenegger/nvim-dap-python",
+				lazy = true,
+				config = function()
+					require("dap-python").setup("python3")
+				end,
+				dependencies = {
+					"mfussenegger/nvim-dap",
+				},
+			},
+			{
+				"nvim-neotest/nvim-nio",
+			},
+			{
+				"theHamsta/nvim-dap-virtual-text",
+				config = true,
+				dependencies = {
+					"mfussenegger/nvim-dap",
+				},
+			},
+		},
+	},
+}
+
 local MISC = {
 	-- extra colorscheme
 	{ "talha-akram/noctis.nvim", lazy = true, event = "CmdlineEnter" },
@@ -651,6 +769,21 @@ local MISC = {
 			end
 		end,
 	},
+	{
+		"rachartier/tiny-cmdline.nvim",
+		init = function()
+			require("vim._core.ui2").enable({})
+			vim.o.cmdheight = 0
+			require("tiny-cmdline").setup({
+				position = {
+					y = "30%", -- vertical:   "0%" = top,  "50%" = center, "100%" = bottom
+				},
+
+				native_types = {},
+				on_reposition = require("tiny-cmdline").adapters.blink,
+			})
+		end,
+	},
 }
 
 local VSCODE = {
@@ -792,8 +925,21 @@ local AUTOCOMPLETE = {
 					},
 				},
 			},
+
 			-- default = { "path", "buffer", },
-			default = { "lsp", "path", "buffer" },
+			-- default = { "lsp", "path", "buffer", "snippets" },
+			default = function(ctx)
+				local success, node = pcall(vim.treesitter.get_node)
+				if
+					success
+					and node
+					and vim.tbl_contains({ "comment", "line_comment", "block_comment" }, node:type())
+				then
+					return { "buffer" }
+				else
+					return { "lsp", "path", "snippets", "buffer" }
+				end
+			end,
 		},
 
 		signature = { enabled = true },
@@ -831,6 +977,7 @@ local SNACKS = {
 	opts = {
 		quickfile = { enabled = true },
 		image = { enabled = true },
+		-- input = {},
 		indent = {
 			priority = 1,
 			enabled = true,
@@ -852,7 +999,7 @@ local SNACKS = {
         { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
         { "<leader>ls", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
 
-        { "<leader>ds", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
+        { "<leader>xs", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
 
         { "<leader>bs", function() Snacks.picker.buffers() end, desc = "Buffers" },
 
@@ -1032,7 +1179,7 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize -3<CR>", { silent = true, des
 vim.keymap.set("n", "<C-Up>", ":horizontal resize +3<CR>", { silent = true, desc = "Increase window width" })
 vim.keymap.set("n", "<C-Down>", ":horizontal resize -3<CR>", { silent = true, desc = "Decrease window width" })
 
-vim.keymap.set("n", "<leader>bb", ":b#<CR>", {})
+vim.keymap.set("n", "<leader>bb", ":b#<CR>", { silent = true })
 vim.keymap.set("n", "<leader>bn", ":bn<CR>", {})
 
 vim.keymap.set("n", "<C-k>", ":wincmd k<CR>", { silent = true, desc = "Move to window above" })
@@ -1089,6 +1236,7 @@ require("lazy").setup({
 		VSCODE,
 		FFF,
 		SNACKS,
+		DEBUGGER,
 		MISC,
 	},
 	install = { colorscheme = { "gruvbox" } },
@@ -1107,21 +1255,3 @@ vim.diagnostic.config({
 	virtual_text = false,
 	underline = true, -- also turns off DiagnosticUnnecessary
 })
-
--- DEV
--- local dev_client = vim.lsp.start({
---     name = "LSP-learn",
---     cmd = {"/home/nekraut/Programming/Go/LSP-learn/main"}
--- })
---
--- if not dev_client then
---     vim.notify "[DEV]: Client is not starting mannnnn"
--- end
---
--- -- XXX: cant start client
--- vim.api.nvim_create_autocmd("FileType", {
--- 	pattern = "markdown",
--- 	callback = function()
---         vim.lsp.buf_attach_client(0, dev_client)
--- 	end,
--- })

@@ -82,6 +82,7 @@ return {
 "qrencode",
 "qt5ct",
 "qt6ct",
+"redis",
 "ripgrep",
 "ruff",
 "rustfmt",
