@@ -524,7 +524,7 @@ local MISC = {
 
 	{ "mg979/vim-visual-multi", lazy = true, event = { "BufReadPost", "BufNewFile" } },
 	{ "akinsho/bufferline.nvim", lazy = true, opts = {}, event = "BufReadPost" },
-	{ "kkkfasya/timelapse.nvim", lazy = true, cmd = { "Timelapse" } }, -- my own plugin!!!
+	{ "kkkfasya/timelapse.nvim", lazy = true, cmd = { "Timelapse", "FTimelapse" } }, -- my own plugin!!!
 	{
 		"NeogitOrg/neogit",
 		dependencies = {
@@ -877,10 +877,8 @@ local AUTOCOMPLETE = {
 					end
 					return b.client_name == "emmet_language_server"
 				end,
-				-- default sorts
-				"score",
-				"sort_text",
 				"exact",
+				-- default sorts
 				"score",
 				"sort_text",
 			},
@@ -936,6 +934,8 @@ local AUTOCOMPLETE = {
 					and vim.tbl_contains({ "comment", "line_comment", "block_comment" }, node:type())
 				then
 					return { "buffer" }
+				elseif success and node and vim.tbl_contains({ "string" }, node:type()) then
+					return { "lsp", "path", "buffer" }
 				else
 					return { "lsp", "path", "snippets", "buffer" }
 				end
@@ -1133,16 +1133,7 @@ local LSPCONFIG = {
 	keys = function()
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 
-		vim.keymap.set("n", "gv", function()
-			local wins = vim.api.nvim_tabpage_list_wins(0)
-			if #wins == 1 then
-				vim.cmd("vsplit")
-				vim.cmd("wincmd l")
-			else
-				vim.cmd("wincmd l")
-			end
-			vim.lsp.buf.definition()
-		end, { silent = true })
+		vim.keymap.set("n", "gv", ":vsplit<CR>gd", { silent = true })
 
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
