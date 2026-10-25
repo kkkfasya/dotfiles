@@ -4,8 +4,20 @@ package.path = ("%s;%s/?.lua;%s/modules/?.lua"):format(package.path, confdir, co
 local Config = {}
 
 Config.pkgs = {
-	"redis",
+	-- what the fuck are these name bro, linux dev shouldn't name software
+	"grim",
+	"slurp",
+
+	"nix",
+	"zsync",
+
+	"rclone",
+	"noctalia",
+
+	"sshfs",
+	"golang",
 	"nodejs24",
+	"code",
 	"wireguard-tools",
 	"rustfmt",
 	"inkscape",
@@ -30,6 +42,7 @@ Config.pkgs = {
 	"wlsunset",
 	"brightnessctl",
 	"niri",
+    "wl-mirror",
 	"cava",
 	"mpv",
 	"haruna",
@@ -85,15 +98,14 @@ Config.pkgs = {
 	"uv",
 	"flameshot",
 
+	"podman",
+	"podman-compose",
+
 	"docker",
 	"docker-compose",
-	"code",
 
 	"kvantum",
 	"kruler",
-
-	"postgresql",
-	"postgresql-contrib",
 
 	-- NOTE: must be put at the end otherwise wouldn't return all
 	-- iterables items because fuck you and fuck lua and fuck prabowo
@@ -102,13 +114,18 @@ Config.pkgs = {
 		require("modules.php"),
 		require("modules.dnf-plugins"),
 		require("modules.qemu"),
+		require("modules.db"),
+		require("modules.cyber"),
 	}),
 }
 
 Config.flatpaks = {
 	-- "com.google.AndroidStudio",
 	-- "com.jetbrains.Rider",
-	"com.bilingify.readest",
+    "org.zotero.Zotero",
+	"dev.zed.Zed",
+	"md.obsidian.Obsidian",
+	"com.strlen.TreeSheets",
 	"hu.irl.cameractrls",
 	"org.localsend.localsend_app",
 	"org.jousse.vincent.Pomodorolm",
@@ -121,18 +138,15 @@ Config.flatpaks = {
 	"dev.vencord.Vesktop",
 	"com.google.Chrome",
 	"fm.reaper.Reaper",
-	"com.brave.Browser",
 	"org.onlyoffice.desktopeditors",
 	"us.zoom.Zoom",
+    "com.bilingify.readest",
 }
 
 Config.repos = {
-	"codifryed/CoolerControl",
 	"yalter/niri",
 	"errornointernet/quickshell",
 	"atim/lazygit",
-	"bieszczaders/kernel-cachyos-addons",
-	"bieszczaders/kernel-cachyos",
 	"sneexy/zen-browser",
 	"chenxiaolong/sbctl",
 	"matinlotfali/KDE-Rounded-Corners",

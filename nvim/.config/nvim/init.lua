@@ -30,6 +30,7 @@ local options = {
 	autowriteall = true,
 	termguicolors = true,
 	splitbelow = true,
+	splitright = true,
 	scrolloff = 7,
 	mouse = "a",
 	encoding = "UTF-8",
@@ -47,8 +48,8 @@ vim.opt.clipboard:append("unnamedplus")
 vim.cmd([[filetype plugin on]]) -- this somehow fix the bug where neovim cant detect filetype for me
 
 -- for nvimtree
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+-- vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
 
 vim.cmd([[aunmenu PopUp.How-to\ disable\ mouse]])
 vim.cmd([[aunmenu PopUp.-1-]])
@@ -184,7 +185,7 @@ local FORMATTER = {
 				astro = { "oxfmt", "prettier" },
 				css = { "oxfmt", "prettier" },
 				html = { "oxfmt", "prettier" },
-				sql = { "sql-formatter" },
+				sql = { "sqlfmt" },
 				md = { "mdformat" },
 				terraform = { "terraform_fmt" },
 				nix = { "alejandra" },
@@ -497,6 +498,8 @@ local DEBUGGER = {
 }
 
 local MISC = {
+	{ "godlygeek/tabular" },
+
 	-- extra colorscheme
 	{ "talha-akram/noctis.nvim", lazy = true, event = "CmdlineEnter" },
 	{ "binhtran432k/dracula.nvim", lazy = true, event = "CmdlineEnter" },
@@ -1105,6 +1108,8 @@ local LSPCONFIG = {
 				end,
 			},
 
+			solidity_ls = {},
+
 			-- config language lsp
 			json_ls = {},
 			terraform_ls = {},
@@ -1131,9 +1136,9 @@ local LSPCONFIG = {
 	-- im not very fond of the way lazy setup lazy-keymap but thankfully folke allows function
 	-- so i can set it up the normal way
 	keys = function()
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { silent = true })
 
-		vim.keymap.set("n", "gv", ":vsplit<CR>gd", { silent = true })
+		vim.keymap.set("n", "gv", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>", { silent = true })
 
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
@@ -1171,7 +1176,6 @@ vim.keymap.set("n", "<C-Up>", ":horizontal resize +3<CR>", { silent = true, desc
 vim.keymap.set("n", "<C-Down>", ":horizontal resize -3<CR>", { silent = true, desc = "Decrease window width" })
 
 vim.keymap.set("n", "<leader>bb", ":b#<CR>", { silent = true })
-vim.keymap.set("n", "<leader>bn", ":bn<CR>", {})
 
 vim.keymap.set("n", "<C-k>", ":wincmd k<CR>", { silent = true, desc = "Move to window above" })
 vim.keymap.set("n", "<C-j>", ":wincmd j<CR>", { silent = true, desc = "Move to window below" })

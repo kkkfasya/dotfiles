@@ -3,9 +3,9 @@ set -gx PATH $HOME/usr/local/go/bin $PATH # GOROOT i assume?
 set -gx PATH $HOME/.local/bin $PATH
 set -gx PATH $HOME/.cargo/bin $PATH
 set -gx PATH $HOME/.bun/bin $PATH
-set -gx PATH $HOME/.local/share/pnpm $PATH
 set -gx PATH $HOME/.local/bin/flutter-dev/bin $PATH
 set -gx PATH $HOME/.local/bin/phpenv/bin $PATH
+set -gx PATH $HOME/.local/share/pnpm $PATH
 
 set -gx GOPATH $HOME/.local/go
 set -gx GOBIN $GOPATH/bin
@@ -38,6 +38,7 @@ set -U fish_prompt_pwd_dir_length 0
 zoxide init fish | source
 
 alias sdn='shutdown now'
+alias py="python3"
 alias ka='killall'
 alias pkg='cd ~/.config/notnix/ && nvim ./config.lua; cd - && notnix'
 alias t='tmux attach || tmux'
@@ -105,6 +106,29 @@ bind ctrl-f complete-and-search
 #function ffd --description "fuzzy find directory from home"
 #    /bin/cd  "(fd -t d . $HOME | fzf)"
 #end
+
+function @rename_netacad_file
+    for f in *---*.pkt*
+        mv $f (string replace -r '^([\d.]+)-.*?---(.*?\.pkt).*$' '$1--$2' $f)
+    end
+end
+
+function @bisync_drive_obsidian
+    rclone bisync "gdrive:Obsidian Vault" "$HOME/Documents/Obsidian Vault" --compare size,modtime,checksum --drive-acknowledge-abuse --drive-skip-gdocs --drive-skip-shortcuts --drive-skip-dangling-shortcuts --metadata --progress --verbose --log-file "$HOME/.local/state/rclone.log"
+end
+
+function @rebisync_drive_obsidian
+    rclone bisync "gdrive:Obsidian Vault" "$HOME/Documents/Obsidian Vault" --resync --compare size,modtime,checksum --drive-acknowledge-abuse --drive-skip-gdocs --drive-skip-shortcuts --drive-skip-dangling-shortcuts --metadata --progress --verbose --log-file "$HOME/.local/state/rclone.log"
+end
+
+function @bisync_drive_books 
+    rclone bisync "$HOME/Documents/Books" "gdrive:Books" --compare size,modtime,checksum --drive-acknowledge-abuse --drive-skip-gdocs --drive-skip-shortcuts --drive-skip-dangling-shortcuts --metadata --verbose --create-empty-src-dirs --resilient --log-file "$HOME/.local/state/rclone.log" --conflict-resolve path1 --progress
+end
+
+function @rebisync_drive_books 
+    rclone bisync "$HOME/Documents/Books" "gdrive:Books" --compare size,modtime,checksum --drive-acknowledge-abuse --drive-skip-gdocs --drive-skip-shortcuts --drive-skip-dangling-shortcuts --metadata --verbose --create-empty-src-dirs --resilient --log-file "$HOME/.local/state/rclone.log" --conflict-resolve path1 --resync --progress
+end
+
 
 function set_external_monitor_brightness -a b --description "self explanatory" 
     ddcutil setvcp 10 $b
@@ -277,12 +301,13 @@ set fish_cursor_default block
 
 if status is-interactive
     fastfetch  --logo ~/Documents/ascii-art.png --logo-type kitty-icat --logo-width 60 --logo-height 50
+    # fastfetch
     builtin history merge
 end
 
 # pnpm
-set -gx PNPM_HOME "$HOME/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-    set -gx PATH "$PNPM_HOME" $PATH
+set -gx PNPM_HOME "/home/nekraut/.local/share/pnpm"
+if not string match -q -- "$PNPM_HOME/bin" $PATH
+  set -gx PATH "$PNPM_HOME/bin" $PATH
 end
 # pnpm end
